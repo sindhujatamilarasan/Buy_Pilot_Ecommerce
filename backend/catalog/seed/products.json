@@ -1,0 +1,4338 @@
+{
+  "categories": [
+    {
+      "name": "Men's Clothing",
+      "slug": "mens-clothing"
+    },
+    {
+      "name": "Women's Clothing",
+      "slug": "womens-clothing"
+    },
+    {
+      "name": "Footwear",
+      "slug": "footwear"
+    },
+    {
+      "name": "Electronics",
+      "slug": "electronics"
+    },
+    {
+      "name": "Home & Kitchen",
+      "slug": "home-kitchen"
+    },
+    {
+      "name": "Books",
+      "slug": "books"
+    },
+    {
+      "name": "Beauty & Care",
+      "slug": "beauty-care"
+    },
+    {
+      "name": "Sports & Fitness",
+      "slug": "sports-fitness"
+    }
+  ],
+  "products": [
+    {
+      "category": "beauty-care",
+      "name": "Comfort Aloe Vera Gel",
+      "slug": "comfort-aloe-vera-gel-1",
+      "description": "Comfort Aloe Vera Gel – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 4.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-aloe-vera-gel-1-1/600/600",
+        "https://picsum.photos/seed/comfort-aloe-vera-gel-1-2/600/600",
+        "https://picsum.photos/seed/comfort-aloe-vera-gel-1-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "COMFORT-ALOE-STD-200ml-1",
+          "price": 949,
+          "stock": 10
+        },
+        {
+          "size": "100ml",
+          "color": null,
+          "sku": "COMFORT-ALOE-STD-100ml-1",
+          "price": 899,
+          "stock": 2
+        },
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "COMFORT-ALOE-STD-50ml-1",
+          "price": 899,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Pro Beard Oil",
+      "slug": "pro-beard-oil-2",
+      "description": "Pro Beard Oil – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 3.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-beard-oil-2-1/600/600",
+        "https://picsum.photos/seed/pro-beard-oil-2-2/600/600",
+        "https://picsum.photos/seed/pro-beard-oil-2-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "PRO-BEARD-OI-STD-50ml-2",
+          "price": 1189,
+          "stock": 1
+        },
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "PRO-BEARD-OI-STD-200ml-2",
+          "price": 1239,
+          "stock": 0
+        },
+        {
+          "size": "100ml",
+          "color": null,
+          "sku": "PRO-BEARD-OI-STD-100ml-2",
+          "price": 1189,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Everyday Body Lotion",
+      "slug": "everyday-body-lotion-3",
+      "description": "Everyday Body Lotion – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 4.6,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-body-lotion-3-1/600/600",
+        "https://picsum.photos/seed/everyday-body-lotion-3-2/600/600",
+        "https://picsum.photos/seed/everyday-body-lotion-3-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "100ml",
+          "color": null,
+          "sku": "EVERYDAY-BOD-STD-100ml-3",
+          "price": 1179,
+          "stock": 0
+        },
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "EVERYDAY-BOD-STD-200ml-3",
+          "price": 1229,
+          "stock": 1
+        },
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "EVERYDAY-BOD-STD-50ml-3",
+          "price": 1179,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Eco Face Serum",
+      "slug": "eco-face-serum-4",
+      "description": "Eco Face Serum – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 4.1,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-face-serum-4-1/600/600",
+        "https://picsum.photos/seed/eco-face-serum-4-2/600/600",
+        "https://picsum.photos/seed/eco-face-serum-4-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "100ml",
+          "color": null,
+          "sku": "ECO-FACE-SER-STD-100ml-4",
+          "price": 379,
+          "stock": 10
+        },
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "ECO-FACE-SER-STD-50ml-4",
+          "price": 379,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Classic Face Wash",
+      "slug": "classic-face-wash-5",
+      "description": "Classic Face Wash – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 4.1,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/classic-face-wash-5-1/600/600",
+        "https://picsum.photos/seed/classic-face-wash-5-2/600/600",
+        "https://picsum.photos/seed/classic-face-wash-5-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "100ml",
+          "color": null,
+          "sku": "CLASSIC-FACE-STD-100ml-5",
+          "price": 859,
+          "stock": 0
+        },
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "CLASSIC-FACE-STD-50ml-5",
+          "price": 859,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Classic Hair Oil",
+      "slug": "classic-hair-oil-6",
+      "description": "Classic Hair Oil – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 4.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/classic-hair-oil-6-1/600/600",
+        "https://picsum.photos/seed/classic-hair-oil-6-2/600/600",
+        "https://picsum.photos/seed/classic-hair-oil-6-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "CLASSIC-HAIR-STD-50ml-6",
+          "price": 1019,
+          "stock": 1
+        },
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "CLASSIC-HAIR-STD-200ml-6",
+          "price": 1069,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Everyday Hand Cream",
+      "slug": "everyday-hand-cream-7",
+      "description": "Everyday Hand Cream – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 4.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-hand-cream-7-1/600/600",
+        "https://picsum.photos/seed/everyday-hand-cream-7-2/600/600",
+        "https://picsum.photos/seed/everyday-hand-cream-7-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "100ml",
+          "color": null,
+          "sku": "EVERYDAY-HAN-STD-100ml-7",
+          "price": 419,
+          "stock": 5
+        },
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "EVERYDAY-HAN-STD-200ml-7",
+          "price": 469,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Urban Herbal Shampoo",
+      "slug": "urban-herbal-shampoo-8",
+      "description": "Urban Herbal Shampoo – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 3.2,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-herbal-shampoo-8-1/600/600",
+        "https://picsum.photos/seed/urban-herbal-shampoo-8-2/600/600",
+        "https://picsum.photos/seed/urban-herbal-shampoo-8-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "URBAN-HERBAL-STD-50ml-8",
+          "price": 1049,
+          "stock": 1
+        },
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "URBAN-HERBAL-STD-200ml-8",
+          "price": 1099,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Comfort Kajal",
+      "slug": "comfort-kajal-9",
+      "description": "Comfort Kajal – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 3.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-kajal-9-1/600/600",
+        "https://picsum.photos/seed/comfort-kajal-9-2/600/600",
+        "https://picsum.photos/seed/comfort-kajal-9-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "COMFORT-KAJA-STD-50ml-9",
+          "price": 659,
+          "stock": 0
+        },
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "COMFORT-KAJA-STD-200ml-9",
+          "price": 709,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Comfort Lip Balm",
+      "slug": "comfort-lip-balm-10",
+      "description": "Comfort Lip Balm – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 4.6,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-lip-balm-10-1/600/600",
+        "https://picsum.photos/seed/comfort-lip-balm-10-2/600/600",
+        "https://picsum.photos/seed/comfort-lip-balm-10-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "COMFORT-LIP--STD-200ml-10",
+          "price": 859,
+          "stock": 40
+        },
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "COMFORT-LIP--STD-50ml-10",
+          "price": 809,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Urban Perfume",
+      "slug": "urban-perfume-11",
+      "description": "Urban Perfume – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 3.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-perfume-11-1/600/600",
+        "https://picsum.photos/seed/urban-perfume-11-2/600/600",
+        "https://picsum.photos/seed/urban-perfume-11-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "100ml",
+          "color": null,
+          "sku": "URBAN-PERFUM-STD-100ml-11",
+          "price": 579,
+          "stock": 40
+        },
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "URBAN-PERFUM-STD-200ml-11",
+          "price": 629,
+          "stock": 0
+        },
+        {
+          "size": "50ml",
+          "color": null,
+          "sku": "URBAN-PERFUM-STD-50ml-11",
+          "price": 579,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "beauty-care",
+      "name": "Eco Sunscreen SPF 50",
+      "slug": "eco-sunscreen-spf-50-12",
+      "description": "Eco Sunscreen SPF 50 – good quality, great value. A customer favourite in beauty & care.",
+      "rating": 3.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-sunscreen-spf-50-12-1/600/600",
+        "https://picsum.photos/seed/eco-sunscreen-spf-50-12-2/600/600",
+        "https://picsum.photos/seed/eco-sunscreen-spf-50-12-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "200ml",
+          "color": null,
+          "sku": "ECO-SUNSCREE-STD-200ml-12",
+          "price": 419,
+          "stock": 2
+        },
+        {
+          "size": "100ml",
+          "color": null,
+          "sku": "ECO-SUNSCREE-STD-100ml-12",
+          "price": 369,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Smart Atomic Habits Workbook",
+      "slug": "smart-atomic-habits-workbook-13",
+      "description": "Smart Atomic Habits Workbook – good quality, great value. A customer favourite in books.",
+      "rating": 3.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/smart-atomic-habits-workbook-13-1/600/600",
+        "https://picsum.photos/seed/smart-atomic-habits-workbook-13-2/600/600",
+        "https://picsum.photos/seed/smart-atomic-habits-workbook-13-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "SMART-ATOMIC-STD-STD-13",
+          "price": 459,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Premium Cooking at Home",
+      "slug": "premium-cooking-at-home-14",
+      "description": "Premium Cooking at Home – good quality, great value. A customer favourite in books.",
+      "rating": 4.1,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-cooking-at-home-14-1/600/600",
+        "https://picsum.photos/seed/premium-cooking-at-home-14-2/600/600",
+        "https://picsum.photos/seed/premium-cooking-at-home-14-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "PREMIUM-COOK-STD-STD-14",
+          "price": 259,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Comfort Data Structures Made Easy",
+      "slug": "comfort-data-structures-made-easy-15",
+      "description": "Comfort Data Structures Made Easy – good quality, great value. A customer favourite in books.",
+      "rating": 3.2,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-data-structures-made-easy-15-1/600/600",
+        "https://picsum.photos/seed/comfort-data-structures-made-easy-15-2/600/600",
+        "https://picsum.photos/seed/comfort-data-structures-made-easy-15-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "COMFORT-DATA-STD-STD-15",
+          "price": 659,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Urban Indian History Simplified",
+      "slug": "urban-indian-history-simplified-16",
+      "description": "Urban Indian History Simplified – good quality, great value. A customer favourite in books.",
+      "rating": 4.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-indian-history-simplified-16-1/600/600",
+        "https://picsum.photos/seed/urban-indian-history-simplified-16-2/600/600",
+        "https://picsum.photos/seed/urban-indian-history-simplified-16-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "URBAN-INDIAN-STD-STD-16",
+          "price": 479,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Smart Kids Story Collection",
+      "slug": "smart-kids-story-collection-17",
+      "description": "Smart Kids Story Collection – good quality, great value. A customer favourite in books.",
+      "rating": 4.9,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/smart-kids-story-collection-17-1/600/600",
+        "https://picsum.photos/seed/smart-kids-story-collection-17-2/600/600",
+        "https://picsum.photos/seed/smart-kids-story-collection-17-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "SMART-KIDS-S-STD-STD-17",
+          "price": 339,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Premium Learn Python the Easy Way",
+      "slug": "premium-learn-python-the-easy-way-18",
+      "description": "Premium Learn Python the Easy Way – good quality, great value. A customer favourite in books.",
+      "rating": 4.1,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-learn-python-the-easy-way-18-1/600/600",
+        "https://picsum.photos/seed/premium-learn-python-the-easy-way-18-2/600/600",
+        "https://picsum.photos/seed/premium-learn-python-the-easy-way-18-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "PREMIUM-LEAR-STD-STD-18",
+          "price": 549,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Everyday Personal Finance 101",
+      "slug": "everyday-personal-finance-101-19",
+      "description": "Everyday Personal Finance 101 – good quality, great value. A customer favourite in books.",
+      "rating": 3.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-personal-finance-101-19-1/600/600",
+        "https://picsum.photos/seed/everyday-personal-finance-101-19-2/600/600",
+        "https://picsum.photos/seed/everyday-personal-finance-101-19-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "EVERYDAY-PER-STD-STD-19",
+          "price": 219,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Classic Poems of the Monsoon",
+      "slug": "classic-poems-of-the-monsoon-20",
+      "description": "Classic Poems of the Monsoon – good quality, great value. A customer favourite in books.",
+      "rating": 4.2,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/classic-poems-of-the-monsoon-20-1/600/600",
+        "https://picsum.photos/seed/classic-poems-of-the-monsoon-20-2/600/600",
+        "https://picsum.photos/seed/classic-poems-of-the-monsoon-20-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "CLASSIC-POEM-STD-STD-20",
+          "price": 449,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Premium React for Beginners",
+      "slug": "premium-react-for-beginners-21",
+      "description": "Premium React for Beginners – good quality, great value. A customer favourite in books.",
+      "rating": 3.6,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-react-for-beginners-21-1/600/600",
+        "https://picsum.photos/seed/premium-react-for-beginners-21-2/600/600",
+        "https://picsum.photos/seed/premium-react-for-beginners-21-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "PREMIUM-REAC-STD-STD-21",
+          "price": 249,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Eco Startup Stories",
+      "slug": "eco-startup-stories-22",
+      "description": "Eco Startup Stories – good quality, great value. A customer favourite in books.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-startup-stories-22-1/600/600",
+        "https://picsum.photos/seed/eco-startup-stories-22-2/600/600",
+        "https://picsum.photos/seed/eco-startup-stories-22-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "ECO-STARTUP--STD-STD-22",
+          "price": 449,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Pro Tamil Short Stories",
+      "slug": "pro-tamil-short-stories-23",
+      "description": "Pro Tamil Short Stories – good quality, great value. A customer favourite in books.",
+      "rating": 4.0,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-tamil-short-stories-23-1/600/600",
+        "https://picsum.photos/seed/pro-tamil-short-stories-23-2/600/600",
+        "https://picsum.photos/seed/pro-tamil-short-stories-23-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "PRO-TAMIL-SH-STD-STD-23",
+          "price": 729,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "category": "books",
+      "name": "Classic The Clean Coder Notes",
+      "slug": "classic-the-clean-coder-notes-24",
+      "description": "Classic The Clean Coder Notes – good quality, great value. A customer favourite in books.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/classic-the-clean-coder-notes-24-1/600/600",
+        "https://picsum.photos/seed/classic-the-clean-coder-notes-24-2/600/600",
+        "https://picsum.photos/seed/classic-the-clean-coder-notes-24-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": null,
+          "sku": "CLASSIC-THE--STD-STD-24",
+          "price": 239,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Eco Bluetooth Speaker",
+      "slug": "eco-bluetooth-speaker-25",
+      "description": "Eco Bluetooth Speaker – good quality, great value. A customer favourite in electronics.",
+      "rating": 3.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-bluetooth-speaker-25-1/600/600",
+        "https://picsum.photos/seed/eco-bluetooth-speaker-25-2/600/600",
+        "https://picsum.photos/seed/eco-bluetooth-speaker-25-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "White",
+          "sku": "ECO-BLUETOOT-WHITE-STD-25",
+          "price": 999,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Pro Fitness Band",
+      "slug": "pro-fitness-band-26",
+      "description": "Pro Fitness Band – good quality, great value. A customer favourite in electronics.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-fitness-band-26-1/600/600",
+        "https://picsum.photos/seed/pro-fitness-band-26-2/600/600",
+        "https://picsum.photos/seed/pro-fitness-band-26-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "PRO-FITNESS--BLUE-STD-26",
+          "price": 6559,
+          "stock": 1
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "PRO-FITNESS--BLACK-STD-26",
+          "price": 6559,
+          "stock": 2
+        },
+        {
+          "size": null,
+          "color": "White",
+          "sku": "PRO-FITNESS--WHITE-STD-26",
+          "price": 6559,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Classic Laptop Cooling Pad",
+      "slug": "classic-laptop-cooling-pad-27",
+      "description": "Classic Laptop Cooling Pad – good quality, great value. A customer favourite in electronics.",
+      "rating": 4.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/classic-laptop-cooling-pad-27-1/600/600",
+        "https://picsum.photos/seed/classic-laptop-cooling-pad-27-2/600/600",
+        "https://picsum.photos/seed/classic-laptop-cooling-pad-27-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "White",
+          "sku": "CLASSIC-LAPT-WHITE-STD-27",
+          "price": 5959,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Eco Mechanical Keyboard",
+      "slug": "eco-mechanical-keyboard-28",
+      "description": "Eco Mechanical Keyboard – good quality, great value. A customer favourite in electronics.",
+      "rating": 4.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-mechanical-keyboard-28-1/600/600",
+        "https://picsum.photos/seed/eco-mechanical-keyboard-28-2/600/600",
+        "https://picsum.photos/seed/eco-mechanical-keyboard-28-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "ECO-MECHANIC-BLUE-STD-28",
+          "price": 2379,
+          "stock": 10
+        },
+        {
+          "size": null,
+          "color": "White",
+          "sku": "ECO-MECHANIC-WHITE-STD-28",
+          "price": 2379,
+          "stock": 0
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "ECO-MECHANIC-BLACK-STD-28",
+          "price": 2379,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Pro Neckband Headphones",
+      "slug": "pro-neckband-headphones-29",
+      "description": "Pro Neckband Headphones – good quality, great value. A customer favourite in electronics.",
+      "rating": 4.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-neckband-headphones-29-1/600/600",
+        "https://picsum.photos/seed/pro-neckband-headphones-29-2/600/600",
+        "https://picsum.photos/seed/pro-neckband-headphones-29-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "White",
+          "sku": "PRO-NECKBAND-WHITE-STD-29",
+          "price": 749,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Pro Phone Stand",
+      "slug": "pro-phone-stand-30",
+      "description": "Pro Phone Stand – good quality, great value. A customer favourite in electronics.",
+      "rating": 4.2,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-phone-stand-30-1/600/600",
+        "https://picsum.photos/seed/pro-phone-stand-30-2/600/600",
+        "https://picsum.photos/seed/pro-phone-stand-30-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "White",
+          "sku": "PRO-PHONE-ST-WHITE-STD-30",
+          "price": 1949,
+          "stock": 1
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "PRO-PHONE-ST-BLUE-STD-30",
+          "price": 1949,
+          "stock": 1
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "PRO-PHONE-ST-BLACK-STD-30",
+          "price": 1949,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Eco Portable SSD 512GB",
+      "slug": "eco-portable-ssd-512gb-31",
+      "description": "Eco Portable SSD 512GB – good quality, great value. A customer favourite in electronics.",
+      "rating": 4.8,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-portable-ssd-512gb-31-1/600/600",
+        "https://picsum.photos/seed/eco-portable-ssd-512gb-31-2/600/600",
+        "https://picsum.photos/seed/eco-portable-ssd-512gb-31-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "ECO-PORTABLE-BLACK-STD-31",
+          "price": 6259,
+          "stock": 0
+        },
+        {
+          "size": null,
+          "color": "White",
+          "sku": "ECO-PORTABLE-WHITE-STD-31",
+          "price": 6259,
+          "stock": 10
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "ECO-PORTABLE-BLUE-STD-31",
+          "price": 6259,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Premium Power Bank 10000mAh",
+      "slug": "premium-power-bank-10000mah-32",
+      "description": "Premium Power Bank 10000mAh – good quality, great value. A customer favourite in electronics.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-power-bank-10000mah-32-1/600/600",
+        "https://picsum.photos/seed/premium-power-bank-10000mah-32-2/600/600",
+        "https://picsum.photos/seed/premium-power-bank-10000mah-32-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "PREMIUM-POWE-BLUE-STD-32",
+          "price": 3959,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Eco Smart Watch",
+      "slug": "eco-smart-watch-33",
+      "description": "Eco Smart Watch – good quality, great value. A customer favourite in electronics.",
+      "rating": 5.0,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-smart-watch-33-1/600/600",
+        "https://picsum.photos/seed/eco-smart-watch-33-2/600/600",
+        "https://picsum.photos/seed/eco-smart-watch-33-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "ECO-SMART-WA-BLUE-STD-33",
+          "price": 6029,
+          "stock": 5
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "ECO-SMART-WA-BLACK-STD-33",
+          "price": 6029,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Everyday USB-C Charger",
+      "slug": "everyday-usb-c-charger-34",
+      "description": "Everyday USB-C Charger – good quality, great value. A customer favourite in electronics.",
+      "rating": 4.6,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-usb-c-charger-34-1/600/600",
+        "https://picsum.photos/seed/everyday-usb-c-charger-34-2/600/600",
+        "https://picsum.photos/seed/everyday-usb-c-charger-34-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "EVERYDAY-USB-BLACK-STD-34",
+          "price": 4519,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Urban Webcam HD",
+      "slug": "urban-webcam-hd-35",
+      "description": "Urban Webcam HD – good quality, great value. A customer favourite in electronics.",
+      "rating": 4.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-webcam-hd-35-1/600/600",
+        "https://picsum.photos/seed/urban-webcam-hd-35-2/600/600",
+        "https://picsum.photos/seed/urban-webcam-hd-35-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "URBAN-WEBCAM-BLACK-STD-35",
+          "price": 2839,
+          "stock": 25
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "URBAN-WEBCAM-BLUE-STD-35",
+          "price": 2839,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Comfort Wireless Earbuds",
+      "slug": "comfort-wireless-earbuds-36",
+      "description": "Comfort Wireless Earbuds – good quality, great value. A customer favourite in electronics.",
+      "rating": 3.2,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-wireless-earbuds-36-1/600/600",
+        "https://picsum.photos/seed/comfort-wireless-earbuds-36-2/600/600",
+        "https://picsum.photos/seed/comfort-wireless-earbuds-36-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "White",
+          "sku": "COMFORT-WIRE-WHITE-STD-36",
+          "price": 2339,
+          "stock": 5
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "COMFORT-WIRE-BLUE-STD-36",
+          "price": 2339,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "electronics",
+      "name": "Comfort Wireless Mouse",
+      "slug": "comfort-wireless-mouse-37",
+      "description": "Comfort Wireless Mouse – good quality, great value. A customer favourite in electronics.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-wireless-mouse-37-1/600/600",
+        "https://picsum.photos/seed/comfort-wireless-mouse-37-2/600/600",
+        "https://picsum.photos/seed/comfort-wireless-mouse-37-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "White",
+          "sku": "COMFORT-WIRE-WHITE-STD-37",
+          "price": 4379,
+          "stock": 10
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "COMFORT-WIRE-BLACK-STD-37",
+          "price": 4379,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Urban Ankle Boots",
+      "slug": "urban-ankle-boots-38",
+      "description": "Urban Ankle Boots – good quality, great value. A customer favourite in footwear.",
+      "rating": 3.9,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-ankle-boots-38-1/600/600",
+        "https://picsum.photos/seed/urban-ankle-boots-38-2/600/600",
+        "https://picsum.photos/seed/urban-ankle-boots-38-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "7",
+          "color": "Brown",
+          "sku": "URBAN-ANKLE--BROWN-7-38",
+          "price": 3769,
+          "stock": 25
+        },
+        {
+          "size": "8",
+          "color": "Brown",
+          "sku": "URBAN-ANKLE--BROWN-8-38",
+          "price": 3769,
+          "stock": 15
+        },
+        {
+          "size": "6",
+          "color": "Brown",
+          "sku": "URBAN-ANKLE--BROWN-6-38",
+          "price": 3769,
+          "stock": 15
+        },
+        {
+          "size": "9",
+          "color": "Brown",
+          "sku": "URBAN-ANKLE--BROWN-9-38",
+          "price": 3769,
+          "stock": 25
+        },
+        {
+          "size": "7",
+          "color": "Black",
+          "sku": "URBAN-ANKLE--BLACK-7-38",
+          "price": 3769,
+          "stock": 1
+        },
+        {
+          "size": "8",
+          "color": "Black",
+          "sku": "URBAN-ANKLE--BLACK-8-38",
+          "price": 3769,
+          "stock": 25
+        },
+        {
+          "size": "6",
+          "color": "Black",
+          "sku": "URBAN-ANKLE--BLACK-6-38",
+          "price": 3769,
+          "stock": 5
+        },
+        {
+          "size": "9",
+          "color": "Black",
+          "sku": "URBAN-ANKLE--BLACK-9-38",
+          "price": 3769,
+          "stock": 10
+        },
+        {
+          "size": "7",
+          "color": "White",
+          "sku": "URBAN-ANKLE--WHITE-7-38",
+          "price": 3769,
+          "stock": 0
+        },
+        {
+          "size": "8",
+          "color": "White",
+          "sku": "URBAN-ANKLE--WHITE-8-38",
+          "price": 3769,
+          "stock": 25
+        },
+        {
+          "size": "6",
+          "color": "White",
+          "sku": "URBAN-ANKLE--WHITE-6-38",
+          "price": 3769,
+          "stock": 0
+        },
+        {
+          "size": "9",
+          "color": "White",
+          "sku": "URBAN-ANKLE--WHITE-9-38",
+          "price": 3769,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Classic Canvas Sneakers",
+      "slug": "classic-canvas-sneakers-39",
+      "description": "Classic Canvas Sneakers – good quality, great value. A customer favourite in footwear.",
+      "rating": 4.2,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/classic-canvas-sneakers-39-1/600/600",
+        "https://picsum.photos/seed/classic-canvas-sneakers-39-2/600/600",
+        "https://picsum.photos/seed/classic-canvas-sneakers-39-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "8",
+          "color": "White",
+          "sku": "CLASSIC-CANV-WHITE-8-39",
+          "price": 3699,
+          "stock": 25
+        },
+        {
+          "size": "10",
+          "color": "White",
+          "sku": "CLASSIC-CANV-WHITE-10-39",
+          "price": 3749,
+          "stock": 15
+        },
+        {
+          "size": "8",
+          "color": "Brown",
+          "sku": "CLASSIC-CANV-BROWN-8-39",
+          "price": 3699,
+          "stock": 25
+        },
+        {
+          "size": "10",
+          "color": "Brown",
+          "sku": "CLASSIC-CANV-BROWN-10-39",
+          "price": 3749,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Comfort Flip Flops",
+      "slug": "comfort-flip-flops-40",
+      "description": "Comfort Flip Flops – good quality, great value. A customer favourite in footwear.",
+      "rating": 4.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-flip-flops-40-1/600/600",
+        "https://picsum.photos/seed/comfort-flip-flops-40-2/600/600",
+        "https://picsum.photos/seed/comfort-flip-flops-40-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "10",
+          "color": "Brown",
+          "sku": "COMFORT-FLIP-BROWN-10-40",
+          "price": 2499,
+          "stock": 25
+        },
+        {
+          "size": "6",
+          "color": "Brown",
+          "sku": "COMFORT-FLIP-BROWN-6-40",
+          "price": 2449,
+          "stock": 15
+        },
+        {
+          "size": "7",
+          "color": "Brown",
+          "sku": "COMFORT-FLIP-BROWN-7-40",
+          "price": 2449,
+          "stock": 40
+        },
+        {
+          "size": "8",
+          "color": "Brown",
+          "sku": "COMFORT-FLIP-BROWN-8-40",
+          "price": 2449,
+          "stock": 40
+        },
+        {
+          "size": "9",
+          "color": "Brown",
+          "sku": "COMFORT-FLIP-BROWN-9-40",
+          "price": 2449,
+          "stock": 40
+        },
+        {
+          "size": "10",
+          "color": "Black",
+          "sku": "COMFORT-FLIP-BLACK-10-40",
+          "price": 2499,
+          "stock": 5
+        },
+        {
+          "size": "6",
+          "color": "Black",
+          "sku": "COMFORT-FLIP-BLACK-6-40",
+          "price": 2449,
+          "stock": 40
+        },
+        {
+          "size": "7",
+          "color": "Black",
+          "sku": "COMFORT-FLIP-BLACK-7-40",
+          "price": 2449,
+          "stock": 2
+        },
+        {
+          "size": "8",
+          "color": "Black",
+          "sku": "COMFORT-FLIP-BLACK-8-40",
+          "price": 2449,
+          "stock": 1
+        },
+        {
+          "size": "9",
+          "color": "Black",
+          "sku": "COMFORT-FLIP-BLACK-9-40",
+          "price": 2449,
+          "stock": 10
+        },
+        {
+          "size": "10",
+          "color": "White",
+          "sku": "COMFORT-FLIP-WHITE-10-40",
+          "price": 2499,
+          "stock": 15
+        },
+        {
+          "size": "6",
+          "color": "White",
+          "sku": "COMFORT-FLIP-WHITE-6-40",
+          "price": 2449,
+          "stock": 1
+        },
+        {
+          "size": "7",
+          "color": "White",
+          "sku": "COMFORT-FLIP-WHITE-7-40",
+          "price": 2449,
+          "stock": 5
+        },
+        {
+          "size": "8",
+          "color": "White",
+          "sku": "COMFORT-FLIP-WHITE-8-40",
+          "price": 2449,
+          "stock": 10
+        },
+        {
+          "size": "9",
+          "color": "White",
+          "sku": "COMFORT-FLIP-WHITE-9-40",
+          "price": 2449,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Everyday Formal Shoes",
+      "slug": "everyday-formal-shoes-41",
+      "description": "Everyday Formal Shoes – good quality, great value. A customer favourite in footwear.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-formal-shoes-41-1/600/600",
+        "https://picsum.photos/seed/everyday-formal-shoes-41-2/600/600",
+        "https://picsum.photos/seed/everyday-formal-shoes-41-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "10",
+          "color": "Black",
+          "sku": "EVERYDAY-FOR-BLACK-10-41",
+          "price": 469,
+          "stock": 25
+        },
+        {
+          "size": "6",
+          "color": "Black",
+          "sku": "EVERYDAY-FOR-BLACK-6-41",
+          "price": 419,
+          "stock": 40
+        },
+        {
+          "size": "7",
+          "color": "Black",
+          "sku": "EVERYDAY-FOR-BLACK-7-41",
+          "price": 419,
+          "stock": 25
+        },
+        {
+          "size": "8",
+          "color": "Black",
+          "sku": "EVERYDAY-FOR-BLACK-8-41",
+          "price": 419,
+          "stock": 5
+        },
+        {
+          "size": "9",
+          "color": "Black",
+          "sku": "EVERYDAY-FOR-BLACK-9-41",
+          "price": 419,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Premium Heels",
+      "slug": "premium-heels-42",
+      "description": "Premium Heels – good quality, great value. A customer favourite in footwear.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-heels-42-1/600/600",
+        "https://picsum.photos/seed/premium-heels-42-2/600/600",
+        "https://picsum.photos/seed/premium-heels-42-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "7",
+          "color": "Brown",
+          "sku": "PREMIUM-HEEL-BROWN-7-42",
+          "price": 4869,
+          "stock": 5
+        },
+        {
+          "size": "9",
+          "color": "Brown",
+          "sku": "PREMIUM-HEEL-BROWN-9-42",
+          "price": 4869,
+          "stock": 1
+        },
+        {
+          "size": "6",
+          "color": "Brown",
+          "sku": "PREMIUM-HEEL-BROWN-6-42",
+          "price": 4869,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Smart Kolhapuri Chappals",
+      "slug": "smart-kolhapuri-chappals-43",
+      "description": "Smart Kolhapuri Chappals – good quality, great value. A customer favourite in footwear.",
+      "rating": 3.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/smart-kolhapuri-chappals-43-1/600/600",
+        "https://picsum.photos/seed/smart-kolhapuri-chappals-43-2/600/600",
+        "https://picsum.photos/seed/smart-kolhapuri-chappals-43-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "10",
+          "color": "White",
+          "sku": "SMART-KOLHAP-WHITE-10-43",
+          "price": 3759,
+          "stock": 10
+        },
+        {
+          "size": "9",
+          "color": "White",
+          "sku": "SMART-KOLHAP-WHITE-9-43",
+          "price": 3709,
+          "stock": 5
+        },
+        {
+          "size": "6",
+          "color": "White",
+          "sku": "SMART-KOLHAP-WHITE-6-43",
+          "price": 3709,
+          "stock": 10
+        },
+        {
+          "size": "7",
+          "color": "White",
+          "sku": "SMART-KOLHAP-WHITE-7-43",
+          "price": 3709,
+          "stock": 40
+        },
+        {
+          "size": "8",
+          "color": "White",
+          "sku": "SMART-KOLHAP-WHITE-8-43",
+          "price": 3709,
+          "stock": 5
+        },
+        {
+          "size": "10",
+          "color": "Brown",
+          "sku": "SMART-KOLHAP-BROWN-10-43",
+          "price": 3759,
+          "stock": 10
+        },
+        {
+          "size": "9",
+          "color": "Brown",
+          "sku": "SMART-KOLHAP-BROWN-9-43",
+          "price": 3709,
+          "stock": 40
+        },
+        {
+          "size": "6",
+          "color": "Brown",
+          "sku": "SMART-KOLHAP-BROWN-6-43",
+          "price": 3709,
+          "stock": 1
+        },
+        {
+          "size": "7",
+          "color": "Brown",
+          "sku": "SMART-KOLHAP-BROWN-7-43",
+          "price": 3709,
+          "stock": 10
+        },
+        {
+          "size": "8",
+          "color": "Brown",
+          "sku": "SMART-KOLHAP-BROWN-8-43",
+          "price": 3709,
+          "stock": 5
+        },
+        {
+          "size": "10",
+          "color": "Black",
+          "sku": "SMART-KOLHAP-BLACK-10-43",
+          "price": 3759,
+          "stock": 10
+        },
+        {
+          "size": "9",
+          "color": "Black",
+          "sku": "SMART-KOLHAP-BLACK-9-43",
+          "price": 3709,
+          "stock": 15
+        },
+        {
+          "size": "6",
+          "color": "Black",
+          "sku": "SMART-KOLHAP-BLACK-6-43",
+          "price": 3709,
+          "stock": 15
+        },
+        {
+          "size": "7",
+          "color": "Black",
+          "sku": "SMART-KOLHAP-BLACK-7-43",
+          "price": 3709,
+          "stock": 1
+        },
+        {
+          "size": "8",
+          "color": "Black",
+          "sku": "SMART-KOLHAP-BLACK-8-43",
+          "price": 3709,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Urban Leather Sandals",
+      "slug": "urban-leather-sandals-44",
+      "description": "Urban Leather Sandals – good quality, great value. A customer favourite in footwear.",
+      "rating": 3.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-leather-sandals-44-1/600/600",
+        "https://picsum.photos/seed/urban-leather-sandals-44-2/600/600",
+        "https://picsum.photos/seed/urban-leather-sandals-44-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "6",
+          "color": "White",
+          "sku": "URBAN-LEATHE-WHITE-6-44",
+          "price": 3849,
+          "stock": 15
+        },
+        {
+          "size": "9",
+          "color": "White",
+          "sku": "URBAN-LEATHE-WHITE-9-44",
+          "price": 3849,
+          "stock": 40
+        },
+        {
+          "size": "7",
+          "color": "White",
+          "sku": "URBAN-LEATHE-WHITE-7-44",
+          "price": 3849,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Urban Loafers",
+      "slug": "urban-loafers-45",
+      "description": "Urban Loafers – good quality, great value. A customer favourite in footwear.",
+      "rating": 4.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-loafers-45-1/600/600",
+        "https://picsum.photos/seed/urban-loafers-45-2/600/600",
+        "https://picsum.photos/seed/urban-loafers-45-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "6",
+          "color": "White",
+          "sku": "URBAN-LOAFER-WHITE-6-45",
+          "price": 2289,
+          "stock": 5
+        },
+        {
+          "size": "8",
+          "color": "White",
+          "sku": "URBAN-LOAFER-WHITE-8-45",
+          "price": 2289,
+          "stock": 40
+        },
+        {
+          "size": "7",
+          "color": "White",
+          "sku": "URBAN-LOAFER-WHITE-7-45",
+          "price": 2289,
+          "stock": 5
+        },
+        {
+          "size": "9",
+          "color": "White",
+          "sku": "URBAN-LOAFER-WHITE-9-45",
+          "price": 2289,
+          "stock": 10
+        },
+        {
+          "size": "10",
+          "color": "White",
+          "sku": "URBAN-LOAFER-WHITE-10-45",
+          "price": 2339,
+          "stock": 25
+        },
+        {
+          "size": "6",
+          "color": "Black",
+          "sku": "URBAN-LOAFER-BLACK-6-45",
+          "price": 2289,
+          "stock": 40
+        },
+        {
+          "size": "8",
+          "color": "Black",
+          "sku": "URBAN-LOAFER-BLACK-8-45",
+          "price": 2289,
+          "stock": 0
+        },
+        {
+          "size": "7",
+          "color": "Black",
+          "sku": "URBAN-LOAFER-BLACK-7-45",
+          "price": 2289,
+          "stock": 25
+        },
+        {
+          "size": "9",
+          "color": "Black",
+          "sku": "URBAN-LOAFER-BLACK-9-45",
+          "price": 2289,
+          "stock": 15
+        },
+        {
+          "size": "10",
+          "color": "Black",
+          "sku": "URBAN-LOAFER-BLACK-10-45",
+          "price": 2339,
+          "stock": 25
+        },
+        {
+          "size": "6",
+          "color": "Brown",
+          "sku": "URBAN-LOAFER-BROWN-6-45",
+          "price": 2289,
+          "stock": 2
+        },
+        {
+          "size": "8",
+          "color": "Brown",
+          "sku": "URBAN-LOAFER-BROWN-8-45",
+          "price": 2289,
+          "stock": 40
+        },
+        {
+          "size": "7",
+          "color": "Brown",
+          "sku": "URBAN-LOAFER-BROWN-7-45",
+          "price": 2289,
+          "stock": 2
+        },
+        {
+          "size": "9",
+          "color": "Brown",
+          "sku": "URBAN-LOAFER-BROWN-9-45",
+          "price": 2289,
+          "stock": 0
+        },
+        {
+          "size": "10",
+          "color": "Brown",
+          "sku": "URBAN-LOAFER-BROWN-10-45",
+          "price": 2339,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Premium Running Shoes",
+      "slug": "premium-running-shoes-46",
+      "description": "Premium Running Shoes – good quality, great value. A customer favourite in footwear.",
+      "rating": 4.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-running-shoes-46-1/600/600",
+        "https://picsum.photos/seed/premium-running-shoes-46-2/600/600",
+        "https://picsum.photos/seed/premium-running-shoes-46-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "6",
+          "color": "Brown",
+          "sku": "PREMIUM-RUNN-BROWN-6-46",
+          "price": 719,
+          "stock": 15
+        },
+        {
+          "size": "8",
+          "color": "Brown",
+          "sku": "PREMIUM-RUNN-BROWN-8-46",
+          "price": 719,
+          "stock": 5
+        },
+        {
+          "size": "7",
+          "color": "Brown",
+          "sku": "PREMIUM-RUNN-BROWN-7-46",
+          "price": 719,
+          "stock": 40
+        },
+        {
+          "size": "6",
+          "color": "Black",
+          "sku": "PREMIUM-RUNN-BLACK-6-46",
+          "price": 719,
+          "stock": 15
+        },
+        {
+          "size": "8",
+          "color": "Black",
+          "sku": "PREMIUM-RUNN-BLACK-8-46",
+          "price": 719,
+          "stock": 15
+        },
+        {
+          "size": "7",
+          "color": "Black",
+          "sku": "PREMIUM-RUNN-BLACK-7-46",
+          "price": 719,
+          "stock": 25
+        },
+        {
+          "size": "6",
+          "color": "White",
+          "sku": "PREMIUM-RUNN-WHITE-6-46",
+          "price": 719,
+          "stock": 10
+        },
+        {
+          "size": "8",
+          "color": "White",
+          "sku": "PREMIUM-RUNN-WHITE-8-46",
+          "price": 719,
+          "stock": 25
+        },
+        {
+          "size": "7",
+          "color": "White",
+          "sku": "PREMIUM-RUNN-WHITE-7-46",
+          "price": 719,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Smart Slip-On Shoes",
+      "slug": "smart-slip-on-shoes-47",
+      "description": "Smart Slip-On Shoes – good quality, great value. A customer favourite in footwear.",
+      "rating": 4.0,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/smart-slip-on-shoes-47-1/600/600",
+        "https://picsum.photos/seed/smart-slip-on-shoes-47-2/600/600",
+        "https://picsum.photos/seed/smart-slip-on-shoes-47-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "6",
+          "color": "White",
+          "sku": "SMART-SLIP-O-WHITE-6-47",
+          "price": 389,
+          "stock": 5
+        },
+        {
+          "size": "10",
+          "color": "White",
+          "sku": "SMART-SLIP-O-WHITE-10-47",
+          "price": 439,
+          "stock": 5
+        },
+        {
+          "size": "9",
+          "color": "White",
+          "sku": "SMART-SLIP-O-WHITE-9-47",
+          "price": 389,
+          "stock": 0
+        },
+        {
+          "size": "6",
+          "color": "Black",
+          "sku": "SMART-SLIP-O-BLACK-6-47",
+          "price": 389,
+          "stock": 2
+        },
+        {
+          "size": "10",
+          "color": "Black",
+          "sku": "SMART-SLIP-O-BLACK-10-47",
+          "price": 439,
+          "stock": 5
+        },
+        {
+          "size": "9",
+          "color": "Black",
+          "sku": "SMART-SLIP-O-BLACK-9-47",
+          "price": 389,
+          "stock": 2
+        },
+        {
+          "size": "6",
+          "color": "Brown",
+          "sku": "SMART-SLIP-O-BROWN-6-47",
+          "price": 389,
+          "stock": 40
+        },
+        {
+          "size": "10",
+          "color": "Brown",
+          "sku": "SMART-SLIP-O-BROWN-10-47",
+          "price": 439,
+          "stock": 1
+        },
+        {
+          "size": "9",
+          "color": "Brown",
+          "sku": "SMART-SLIP-O-BROWN-9-47",
+          "price": 389,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Pro Sports Shoes",
+      "slug": "pro-sports-shoes-48",
+      "description": "Pro Sports Shoes – good quality, great value. A customer favourite in footwear.",
+      "rating": 4.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-sports-shoes-48-1/600/600",
+        "https://picsum.photos/seed/pro-sports-shoes-48-2/600/600",
+        "https://picsum.photos/seed/pro-sports-shoes-48-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "8",
+          "color": "Black",
+          "sku": "PRO-SPORTS-S-BLACK-8-48",
+          "price": 4219,
+          "stock": 0
+        },
+        {
+          "size": "6",
+          "color": "Black",
+          "sku": "PRO-SPORTS-S-BLACK-6-48",
+          "price": 4219,
+          "stock": 10
+        },
+        {
+          "size": "10",
+          "color": "Black",
+          "sku": "PRO-SPORTS-S-BLACK-10-48",
+          "price": 4269,
+          "stock": 25
+        },
+        {
+          "size": "8",
+          "color": "White",
+          "sku": "PRO-SPORTS-S-WHITE-8-48",
+          "price": 4219,
+          "stock": 25
+        },
+        {
+          "size": "6",
+          "color": "White",
+          "sku": "PRO-SPORTS-S-WHITE-6-48",
+          "price": 4219,
+          "stock": 5
+        },
+        {
+          "size": "10",
+          "color": "White",
+          "sku": "PRO-SPORTS-S-WHITE-10-48",
+          "price": 4269,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "footwear",
+      "name": "Comfort Trekking Shoes",
+      "slug": "comfort-trekking-shoes-49",
+      "description": "Comfort Trekking Shoes – good quality, great value. A customer favourite in footwear.",
+      "rating": 4.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-trekking-shoes-49-1/600/600",
+        "https://picsum.photos/seed/comfort-trekking-shoes-49-2/600/600",
+        "https://picsum.photos/seed/comfort-trekking-shoes-49-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "10",
+          "color": "Brown",
+          "sku": "COMFORT-TREK-BROWN-10-49",
+          "price": 869,
+          "stock": 1
+        },
+        {
+          "size": "9",
+          "color": "Brown",
+          "sku": "COMFORT-TREK-BROWN-9-49",
+          "price": 819,
+          "stock": 15
+        },
+        {
+          "size": "8",
+          "color": "Brown",
+          "sku": "COMFORT-TREK-BROWN-8-49",
+          "price": 819,
+          "stock": 0
+        },
+        {
+          "size": "7",
+          "color": "Brown",
+          "sku": "COMFORT-TREK-BROWN-7-49",
+          "price": 819,
+          "stock": 25
+        },
+        {
+          "size": "10",
+          "color": "Black",
+          "sku": "COMFORT-TREK-BLACK-10-49",
+          "price": 869,
+          "stock": 40
+        },
+        {
+          "size": "9",
+          "color": "Black",
+          "sku": "COMFORT-TREK-BLACK-9-49",
+          "price": 819,
+          "stock": 1
+        },
+        {
+          "size": "8",
+          "color": "Black",
+          "sku": "COMFORT-TREK-BLACK-8-49",
+          "price": 819,
+          "stock": 25
+        },
+        {
+          "size": "7",
+          "color": "Black",
+          "sku": "COMFORT-TREK-BLACK-7-49",
+          "price": 819,
+          "stock": 15
+        },
+        {
+          "size": "10",
+          "color": "White",
+          "sku": "COMFORT-TREK-WHITE-10-49",
+          "price": 869,
+          "stock": 40
+        },
+        {
+          "size": "9",
+          "color": "White",
+          "sku": "COMFORT-TREK-WHITE-9-49",
+          "price": 819,
+          "stock": 2
+        },
+        {
+          "size": "8",
+          "color": "White",
+          "sku": "COMFORT-TREK-WHITE-8-49",
+          "price": 819,
+          "stock": 25
+        },
+        {
+          "size": "7",
+          "color": "White",
+          "sku": "COMFORT-TREK-WHITE-7-49",
+          "price": 819,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Pro Bedsheet Set",
+      "slug": "pro-bedsheet-set-50",
+      "description": "Pro Bedsheet Set – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 4.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-bedsheet-set-50-1/600/600",
+        "https://picsum.photos/seed/pro-bedsheet-set-50-2/600/600",
+        "https://picsum.photos/seed/pro-bedsheet-set-50-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "PRO-BEDSHEET-RED-STD-50",
+          "price": 3299,
+          "stock": 10
+        },
+        {
+          "size": null,
+          "color": "Green",
+          "sku": "PRO-BEDSHEET-GREEN-STD-50",
+          "price": 3299,
+          "stock": 15
+        },
+        {
+          "size": null,
+          "color": "Grey",
+          "sku": "PRO-BEDSHEET-GREY-STD-50",
+          "price": 3299,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Classic Coffee Mug",
+      "slug": "classic-coffee-mug-51",
+      "description": "Classic Coffee Mug – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 3.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/classic-coffee-mug-51-1/600/600",
+        "https://picsum.photos/seed/classic-coffee-mug-51-2/600/600",
+        "https://picsum.photos/seed/classic-coffee-mug-51-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Grey",
+          "sku": "CLASSIC-COFF-GREY-STD-51",
+          "price": 1569,
+          "stock": 25
+        },
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "CLASSIC-COFF-RED-STD-51",
+          "price": 1569,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Eco Cushion Cover",
+      "slug": "eco-cushion-cover-52",
+      "description": "Eco Cushion Cover – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 3.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-cushion-cover-52-1/600/600",
+        "https://picsum.photos/seed/eco-cushion-cover-52-2/600/600",
+        "https://picsum.photos/seed/eco-cushion-cover-52-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Grey",
+          "sku": "ECO-CUSHION--GREY-STD-52",
+          "price": 1079,
+          "stock": 10
+        },
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "ECO-CUSHION--RED-STD-52",
+          "price": 1079,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Pro Dinner Set",
+      "slug": "pro-dinner-set-53",
+      "description": "Pro Dinner Set – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-dinner-set-53-1/600/600",
+        "https://picsum.photos/seed/pro-dinner-set-53-2/600/600",
+        "https://picsum.photos/seed/pro-dinner-set-53-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Green",
+          "sku": "PRO-DINNER-S-GREEN-STD-53",
+          "price": 2989,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Urban Door Mat",
+      "slug": "urban-door-mat-54",
+      "description": "Urban Door Mat – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 3.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-door-mat-54-1/600/600",
+        "https://picsum.photos/seed/urban-door-mat-54-2/600/600",
+        "https://picsum.photos/seed/urban-door-mat-54-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Grey",
+          "sku": "URBAN-DOOR-M-GREY-STD-54",
+          "price": 2649,
+          "stock": 40
+        },
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "URBAN-DOOR-M-RED-STD-54",
+          "price": 2649,
+          "stock": 0
+        },
+        {
+          "size": null,
+          "color": "Green",
+          "sku": "URBAN-DOOR-M-GREEN-STD-54",
+          "price": 2649,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Urban Glass Jar Set",
+      "slug": "urban-glass-jar-set-55",
+      "description": "Urban Glass Jar Set – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 4.0,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-glass-jar-set-55-1/600/600",
+        "https://picsum.photos/seed/urban-glass-jar-set-55-2/600/600",
+        "https://picsum.photos/seed/urban-glass-jar-set-55-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Green",
+          "sku": "URBAN-GLASS--GREEN-STD-55",
+          "price": 1389,
+          "stock": 40
+        },
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "URBAN-GLASS--RED-STD-55",
+          "price": 1389,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Eco Lunch Box",
+      "slug": "eco-lunch-box-56",
+      "description": "Eco Lunch Box – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 4.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-lunch-box-56-1/600/600",
+        "https://picsum.photos/seed/eco-lunch-box-56-2/600/600",
+        "https://picsum.photos/seed/eco-lunch-box-56-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "ECO-LUNCH-BO-RED-STD-56",
+          "price": 1949,
+          "stock": 10
+        },
+        {
+          "size": null,
+          "color": "Green",
+          "sku": "ECO-LUNCH-BO-GREEN-STD-56",
+          "price": 1949,
+          "stock": 5
+        },
+        {
+          "size": null,
+          "color": "Grey",
+          "sku": "ECO-LUNCH-BO-GREY-STD-56",
+          "price": 1949,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Eco Non-Stick Pan",
+      "slug": "eco-non-stick-pan-57",
+      "description": "Eco Non-Stick Pan – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 4.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-non-stick-pan-57-1/600/600",
+        "https://picsum.photos/seed/eco-non-stick-pan-57-2/600/600",
+        "https://picsum.photos/seed/eco-non-stick-pan-57-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Green",
+          "sku": "ECO-NON-STIC-GREEN-STD-57",
+          "price": 759,
+          "stock": 5
+        },
+        {
+          "size": null,
+          "color": "Grey",
+          "sku": "ECO-NON-STIC-GREY-STD-57",
+          "price": 759,
+          "stock": 40
+        },
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "ECO-NON-STIC-RED-STD-57",
+          "price": 759,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Pro Pressure Cooker",
+      "slug": "pro-pressure-cooker-58",
+      "description": "Pro Pressure Cooker – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 3.8,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-pressure-cooker-58-1/600/600",
+        "https://picsum.photos/seed/pro-pressure-cooker-58-2/600/600",
+        "https://picsum.photos/seed/pro-pressure-cooker-58-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "PRO-PRESSURE-RED-STD-58",
+          "price": 659,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Pro Steel Water Bottle",
+      "slug": "pro-steel-water-bottle-59",
+      "description": "Pro Steel Water Bottle – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 4.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-steel-water-bottle-59-1/600/600",
+        "https://picsum.photos/seed/pro-steel-water-bottle-59-2/600/600",
+        "https://picsum.photos/seed/pro-steel-water-bottle-59-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Green",
+          "sku": "PRO-STEEL-WA-GREEN-STD-59",
+          "price": 219,
+          "stock": 0
+        },
+        {
+          "size": null,
+          "color": "Grey",
+          "sku": "PRO-STEEL-WA-GREY-STD-59",
+          "price": 219,
+          "stock": 0
+        },
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "PRO-STEEL-WA-RED-STD-59",
+          "price": 219,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Everyday Storage Box",
+      "slug": "everyday-storage-box-60",
+      "description": "Everyday Storage Box – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 4.1,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-storage-box-60-1/600/600",
+        "https://picsum.photos/seed/everyday-storage-box-60-2/600/600",
+        "https://picsum.photos/seed/everyday-storage-box-60-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Grey",
+          "sku": "EVERYDAY-STO-GREY-STD-60",
+          "price": 3409,
+          "stock": 10
+        },
+        {
+          "size": null,
+          "color": "Green",
+          "sku": "EVERYDAY-STO-GREEN-STD-60",
+          "price": 3409,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Eco Table Lamp",
+      "slug": "eco-table-lamp-61",
+      "description": "Eco Table Lamp – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-table-lamp-61-1/600/600",
+        "https://picsum.photos/seed/eco-table-lamp-61-2/600/600",
+        "https://picsum.photos/seed/eco-table-lamp-61-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Red",
+          "sku": "ECO-TABLE-LA-RED-STD-61",
+          "price": 1089,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "home-kitchen",
+      "name": "Classic Wall Clock",
+      "slug": "classic-wall-clock-62",
+      "description": "Classic Wall Clock – good quality, great value. A customer favourite in home & kitchen.",
+      "rating": 4.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/classic-wall-clock-62-1/600/600",
+        "https://picsum.photos/seed/classic-wall-clock-62-2/600/600",
+        "https://picsum.photos/seed/classic-wall-clock-62-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Grey",
+          "sku": "CLASSIC-WALL-GREY-STD-62",
+          "price": 2199,
+          "stock": 2
+        },
+        {
+          "size": null,
+          "color": "Green",
+          "sku": "CLASSIC-WALL-GREEN-STD-62",
+          "price": 2199,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Pro Cargo Shorts",
+      "slug": "pro-cargo-shorts-63",
+      "description": "Pro Cargo Shorts – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 3.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-cargo-shorts-63-1/600/600",
+        "https://picsum.photos/seed/pro-cargo-shorts-63-2/600/600",
+        "https://picsum.photos/seed/pro-cargo-shorts-63-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "XL",
+          "color": "Black",
+          "sku": "PRO-CARGO-SH-BLACK-XL-63",
+          "price": 659,
+          "stock": 40
+        },
+        {
+          "size": "L",
+          "color": "Black",
+          "sku": "PRO-CARGO-SH-BLACK-L-63",
+          "price": 609,
+          "stock": 40
+        },
+        {
+          "size": "S",
+          "color": "Black",
+          "sku": "PRO-CARGO-SH-BLACK-S-63",
+          "price": 609,
+          "stock": 10
+        },
+        {
+          "size": "M",
+          "color": "Black",
+          "sku": "PRO-CARGO-SH-BLACK-M-63",
+          "price": 609,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Premium Casual Shirt",
+      "slug": "premium-casual-shirt-64",
+      "description": "Premium Casual Shirt – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 3.6,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-casual-shirt-64-1/600/600",
+        "https://picsum.photos/seed/premium-casual-shirt-64-2/600/600",
+        "https://picsum.photos/seed/premium-casual-shirt-64-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "S",
+          "color": "Black",
+          "sku": "PREMIUM-CASU-BLACK-S-64",
+          "price": 1959,
+          "stock": 2
+        },
+        {
+          "size": "XL",
+          "color": "Black",
+          "sku": "PREMIUM-CASU-BLACK-XL-64",
+          "price": 2009,
+          "stock": 1
+        },
+        {
+          "size": "L",
+          "color": "Black",
+          "sku": "PREMIUM-CASU-BLACK-L-64",
+          "price": 1959,
+          "stock": 2
+        },
+        {
+          "size": "S",
+          "color": "Olive",
+          "sku": "PREMIUM-CASU-OLIVE-S-64",
+          "price": 1959,
+          "stock": 0
+        },
+        {
+          "size": "XL",
+          "color": "Olive",
+          "sku": "PREMIUM-CASU-OLIVE-XL-64",
+          "price": 2009,
+          "stock": 25
+        },
+        {
+          "size": "L",
+          "color": "Olive",
+          "sku": "PREMIUM-CASU-OLIVE-L-64",
+          "price": 1959,
+          "stock": 40
+        },
+        {
+          "size": "S",
+          "color": "Navy",
+          "sku": "PREMIUM-CASU-NAVY-S-64",
+          "price": 1959,
+          "stock": 40
+        },
+        {
+          "size": "XL",
+          "color": "Navy",
+          "sku": "PREMIUM-CASU-NAVY-XL-64",
+          "price": 2009,
+          "stock": 10
+        },
+        {
+          "size": "L",
+          "color": "Navy",
+          "sku": "PREMIUM-CASU-NAVY-L-64",
+          "price": 1959,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Pro Chino Pants",
+      "slug": "pro-chino-pants-65",
+      "description": "Pro Chino Pants – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-chino-pants-65-1/600/600",
+        "https://picsum.photos/seed/pro-chino-pants-65-2/600/600",
+        "https://picsum.photos/seed/pro-chino-pants-65-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "L",
+          "color": "Black",
+          "sku": "PRO-CHINO-PA-BLACK-L-65",
+          "price": 2189,
+          "stock": 5
+        },
+        {
+          "size": "XL",
+          "color": "Black",
+          "sku": "PRO-CHINO-PA-BLACK-XL-65",
+          "price": 2239,
+          "stock": 25
+        },
+        {
+          "size": "L",
+          "color": "Navy",
+          "sku": "PRO-CHINO-PA-NAVY-L-65",
+          "price": 2189,
+          "stock": 1
+        },
+        {
+          "size": "XL",
+          "color": "Navy",
+          "sku": "PRO-CHINO-PA-NAVY-XL-65",
+          "price": 2239,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Pro Cotton T-Shirt",
+      "slug": "pro-cotton-t-shirt-66",
+      "description": "Pro Cotton T-Shirt – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-cotton-t-shirt-66-1/600/600",
+        "https://picsum.photos/seed/pro-cotton-t-shirt-66-2/600/600",
+        "https://picsum.photos/seed/pro-cotton-t-shirt-66-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "L",
+          "color": "Black",
+          "sku": "PRO-COTTON-T-BLACK-L-66",
+          "price": 759,
+          "stock": 10
+        },
+        {
+          "size": "XL",
+          "color": "Black",
+          "sku": "PRO-COTTON-T-BLACK-XL-66",
+          "price": 809,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Pro Denim Jacket",
+      "slug": "pro-denim-jacket-67",
+      "description": "Pro Denim Jacket – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 4.2,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-denim-jacket-67-1/600/600",
+        "https://picsum.photos/seed/pro-denim-jacket-67-2/600/600",
+        "https://picsum.photos/seed/pro-denim-jacket-67-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "XL",
+          "color": "Navy",
+          "sku": "PRO-DENIM-JA-NAVY-XL-67",
+          "price": 2239,
+          "stock": 25
+        },
+        {
+          "size": "M",
+          "color": "Navy",
+          "sku": "PRO-DENIM-JA-NAVY-M-67",
+          "price": 2189,
+          "stock": 15
+        },
+        {
+          "size": "S",
+          "color": "Navy",
+          "sku": "PRO-DENIM-JA-NAVY-S-67",
+          "price": 2189,
+          "stock": 10
+        },
+        {
+          "size": "L",
+          "color": "Navy",
+          "sku": "PRO-DENIM-JA-NAVY-L-67",
+          "price": 2189,
+          "stock": 0
+        },
+        {
+          "size": "XL",
+          "color": "Olive",
+          "sku": "PRO-DENIM-JA-OLIVE-XL-67",
+          "price": 2239,
+          "stock": 1
+        },
+        {
+          "size": "M",
+          "color": "Olive",
+          "sku": "PRO-DENIM-JA-OLIVE-M-67",
+          "price": 2189,
+          "stock": 5
+        },
+        {
+          "size": "S",
+          "color": "Olive",
+          "sku": "PRO-DENIM-JA-OLIVE-S-67",
+          "price": 2189,
+          "stock": 0
+        },
+        {
+          "size": "L",
+          "color": "Olive",
+          "sku": "PRO-DENIM-JA-OLIVE-L-67",
+          "price": 2189,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Everyday Formal Shirt",
+      "slug": "everyday-formal-shirt-68",
+      "description": "Everyday Formal Shirt – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 4.7,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-formal-shirt-68-1/600/600",
+        "https://picsum.photos/seed/everyday-formal-shirt-68-2/600/600",
+        "https://picsum.photos/seed/everyday-formal-shirt-68-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "XL",
+          "color": "Olive",
+          "sku": "EVERYDAY-FOR-OLIVE-XL-68",
+          "price": 1649,
+          "stock": 40
+        },
+        {
+          "size": "L",
+          "color": "Olive",
+          "sku": "EVERYDAY-FOR-OLIVE-L-68",
+          "price": 1599,
+          "stock": 15
+        },
+        {
+          "size": "M",
+          "color": "Olive",
+          "sku": "EVERYDAY-FOR-OLIVE-M-68",
+          "price": 1599,
+          "stock": 25
+        },
+        {
+          "size": "S",
+          "color": "Olive",
+          "sku": "EVERYDAY-FOR-OLIVE-S-68",
+          "price": 1599,
+          "stock": 15
+        },
+        {
+          "size": "XL",
+          "color": "White",
+          "sku": "EVERYDAY-FOR-WHITE-XL-68",
+          "price": 1649,
+          "stock": 15
+        },
+        {
+          "size": "L",
+          "color": "White",
+          "sku": "EVERYDAY-FOR-WHITE-L-68",
+          "price": 1599,
+          "stock": 1
+        },
+        {
+          "size": "M",
+          "color": "White",
+          "sku": "EVERYDAY-FOR-WHITE-M-68",
+          "price": 1599,
+          "stock": 2
+        },
+        {
+          "size": "S",
+          "color": "White",
+          "sku": "EVERYDAY-FOR-WHITE-S-68",
+          "price": 1599,
+          "stock": 15
+        },
+        {
+          "size": "XL",
+          "color": "Black",
+          "sku": "EVERYDAY-FOR-BLACK-XL-68",
+          "price": 1649,
+          "stock": 25
+        },
+        {
+          "size": "L",
+          "color": "Black",
+          "sku": "EVERYDAY-FOR-BLACK-L-68",
+          "price": 1599,
+          "stock": 40
+        },
+        {
+          "size": "M",
+          "color": "Black",
+          "sku": "EVERYDAY-FOR-BLACK-M-68",
+          "price": 1599,
+          "stock": 10
+        },
+        {
+          "size": "S",
+          "color": "Black",
+          "sku": "EVERYDAY-FOR-BLACK-S-68",
+          "price": 1599,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Premium Hoodie",
+      "slug": "premium-hoodie-69",
+      "description": "Premium Hoodie – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 3.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-hoodie-69-1/600/600",
+        "https://picsum.photos/seed/premium-hoodie-69-2/600/600",
+        "https://picsum.photos/seed/premium-hoodie-69-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "L",
+          "color": "Navy",
+          "sku": "PREMIUM-HOOD-NAVY-L-69",
+          "price": 1559,
+          "stock": 0
+        },
+        {
+          "size": "S",
+          "color": "Navy",
+          "sku": "PREMIUM-HOOD-NAVY-S-69",
+          "price": 1559,
+          "stock": 40
+        },
+        {
+          "size": "M",
+          "color": "Navy",
+          "sku": "PREMIUM-HOOD-NAVY-M-69",
+          "price": 1559,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Eco Kurta",
+      "slug": "eco-kurta-70",
+      "description": "Eco Kurta – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-kurta-70-1/600/600",
+        "https://picsum.photos/seed/eco-kurta-70-2/600/600",
+        "https://picsum.photos/seed/eco-kurta-70-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "L",
+          "color": "Olive",
+          "sku": "ECO-KURTA-70-OLIVE-L-70",
+          "price": 1989,
+          "stock": 2
+        },
+        {
+          "size": "XL",
+          "color": "Olive",
+          "sku": "ECO-KURTA-70-OLIVE-XL-70",
+          "price": 2039,
+          "stock": 10
+        },
+        {
+          "size": "L",
+          "color": "Black",
+          "sku": "ECO-KURTA-70-BLACK-L-70",
+          "price": 1989,
+          "stock": 40
+        },
+        {
+          "size": "XL",
+          "color": "Black",
+          "sku": "ECO-KURTA-70-BLACK-XL-70",
+          "price": 2039,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Comfort Linen Shirt",
+      "slug": "comfort-linen-shirt-71",
+      "description": "Comfort Linen Shirt – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-linen-shirt-71-1/600/600",
+        "https://picsum.photos/seed/comfort-linen-shirt-71-2/600/600",
+        "https://picsum.photos/seed/comfort-linen-shirt-71-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "S",
+          "color": "Navy",
+          "sku": "COMFORT-LINE-NAVY-S-71",
+          "price": 2209,
+          "stock": 5
+        },
+        {
+          "size": "L",
+          "color": "Navy",
+          "sku": "COMFORT-LINE-NAVY-L-71",
+          "price": 2209,
+          "stock": 1
+        },
+        {
+          "size": "M",
+          "color": "Navy",
+          "sku": "COMFORT-LINE-NAVY-M-71",
+          "price": 2209,
+          "stock": 40
+        },
+        {
+          "size": "XL",
+          "color": "Navy",
+          "sku": "COMFORT-LINE-NAVY-XL-71",
+          "price": 2259,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Everyday Polo T-Shirt",
+      "slug": "everyday-polo-t-shirt-72",
+      "description": "Everyday Polo T-Shirt – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 4.9,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-polo-t-shirt-72-1/600/600",
+        "https://picsum.photos/seed/everyday-polo-t-shirt-72-2/600/600",
+        "https://picsum.photos/seed/everyday-polo-t-shirt-72-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "XL",
+          "color": "Navy",
+          "sku": "EVERYDAY-POL-NAVY-XL-72",
+          "price": 1719,
+          "stock": 40
+        },
+        {
+          "size": "M",
+          "color": "Navy",
+          "sku": "EVERYDAY-POL-NAVY-M-72",
+          "price": 1669,
+          "stock": 2
+        },
+        {
+          "size": "S",
+          "color": "Navy",
+          "sku": "EVERYDAY-POL-NAVY-S-72",
+          "price": 1669,
+          "stock": 25
+        },
+        {
+          "size": "XL",
+          "color": "Olive",
+          "sku": "EVERYDAY-POL-OLIVE-XL-72",
+          "price": 1719,
+          "stock": 5
+        },
+        {
+          "size": "M",
+          "color": "Olive",
+          "sku": "EVERYDAY-POL-OLIVE-M-72",
+          "price": 1669,
+          "stock": 2
+        },
+        {
+          "size": "S",
+          "color": "Olive",
+          "sku": "EVERYDAY-POL-OLIVE-S-72",
+          "price": 1669,
+          "stock": 1
+        },
+        {
+          "size": "XL",
+          "color": "White",
+          "sku": "EVERYDAY-POL-WHITE-XL-72",
+          "price": 1719,
+          "stock": 10
+        },
+        {
+          "size": "M",
+          "color": "White",
+          "sku": "EVERYDAY-POL-WHITE-M-72",
+          "price": 1669,
+          "stock": 25
+        },
+        {
+          "size": "S",
+          "color": "White",
+          "sku": "EVERYDAY-POL-WHITE-S-72",
+          "price": 1669,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Pro Slim Fit Jeans",
+      "slug": "pro-slim-fit-jeans-73",
+      "description": "Pro Slim Fit Jeans – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 3.6,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-slim-fit-jeans-73-1/600/600",
+        "https://picsum.photos/seed/pro-slim-fit-jeans-73-2/600/600",
+        "https://picsum.photos/seed/pro-slim-fit-jeans-73-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "XL",
+          "color": "Navy",
+          "sku": "PRO-SLIM-FIT-NAVY-XL-73",
+          "price": 449,
+          "stock": 15
+        },
+        {
+          "size": "S",
+          "color": "Navy",
+          "sku": "PRO-SLIM-FIT-NAVY-S-73",
+          "price": 399,
+          "stock": 15
+        },
+        {
+          "size": "M",
+          "color": "Navy",
+          "sku": "PRO-SLIM-FIT-NAVY-M-73",
+          "price": 399,
+          "stock": 25
+        },
+        {
+          "size": "L",
+          "color": "Navy",
+          "sku": "PRO-SLIM-FIT-NAVY-L-73",
+          "price": 399,
+          "stock": 40
+        },
+        {
+          "size": "XL",
+          "color": "Olive",
+          "sku": "PRO-SLIM-FIT-OLIVE-XL-73",
+          "price": 449,
+          "stock": 15
+        },
+        {
+          "size": "S",
+          "color": "Olive",
+          "sku": "PRO-SLIM-FIT-OLIVE-S-73",
+          "price": 399,
+          "stock": 5
+        },
+        {
+          "size": "M",
+          "color": "Olive",
+          "sku": "PRO-SLIM-FIT-OLIVE-M-73",
+          "price": 399,
+          "stock": 5
+        },
+        {
+          "size": "L",
+          "color": "Olive",
+          "sku": "PRO-SLIM-FIT-OLIVE-L-73",
+          "price": 399,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Urban Sweatshirt",
+      "slug": "urban-sweatshirt-74",
+      "description": "Urban Sweatshirt – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-sweatshirt-74-1/600/600",
+        "https://picsum.photos/seed/urban-sweatshirt-74-2/600/600",
+        "https://picsum.photos/seed/urban-sweatshirt-74-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "XL",
+          "color": "Olive",
+          "sku": "URBAN-SWEATS-OLIVE-XL-74",
+          "price": 559,
+          "stock": 40
+        },
+        {
+          "size": "L",
+          "color": "Olive",
+          "sku": "URBAN-SWEATS-OLIVE-L-74",
+          "price": 509,
+          "stock": 0
+        },
+        {
+          "size": "S",
+          "color": "Olive",
+          "sku": "URBAN-SWEATS-OLIVE-S-74",
+          "price": 509,
+          "stock": 2
+        },
+        {
+          "size": "XL",
+          "color": "Navy",
+          "sku": "URBAN-SWEATS-NAVY-XL-74",
+          "price": 559,
+          "stock": 15
+        },
+        {
+          "size": "L",
+          "color": "Navy",
+          "sku": "URBAN-SWEATS-NAVY-L-74",
+          "price": 509,
+          "stock": 1
+        },
+        {
+          "size": "S",
+          "color": "Navy",
+          "sku": "URBAN-SWEATS-NAVY-S-74",
+          "price": 509,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "mens-clothing",
+      "name": "Smart Track Pants",
+      "slug": "smart-track-pants-75",
+      "description": "Smart Track Pants – good quality, great value. A customer favourite in men's clothing.",
+      "rating": 4.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/smart-track-pants-75-1/600/600",
+        "https://picsum.photos/seed/smart-track-pants-75-2/600/600",
+        "https://picsum.photos/seed/smart-track-pants-75-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "XL",
+          "color": "White",
+          "sku": "SMART-TRACK--WHITE-XL-75",
+          "price": 479,
+          "stock": 15
+        },
+        {
+          "size": "M",
+          "color": "White",
+          "sku": "SMART-TRACK--WHITE-M-75",
+          "price": 429,
+          "stock": 25
+        },
+        {
+          "size": "XL",
+          "color": "Olive",
+          "sku": "SMART-TRACK--OLIVE-XL-75",
+          "price": 479,
+          "stock": 1
+        },
+        {
+          "size": "M",
+          "color": "Olive",
+          "sku": "SMART-TRACK--OLIVE-M-75",
+          "price": 429,
+          "stock": 15
+        },
+        {
+          "size": "XL",
+          "color": "Black",
+          "sku": "SMART-TRACK--BLACK-XL-75",
+          "price": 479,
+          "stock": 25
+        },
+        {
+          "size": "M",
+          "color": "Black",
+          "sku": "SMART-TRACK--BLACK-M-75",
+          "price": 429,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Smart Badminton Racket",
+      "slug": "smart-badminton-racket-76",
+      "description": "Smart Badminton Racket – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 3.6,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/smart-badminton-racket-76-1/600/600",
+        "https://picsum.photos/seed/smart-badminton-racket-76-2/600/600",
+        "https://picsum.photos/seed/smart-badminton-racket-76-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "SMART-BADMIN-ORANGE-STD-76",
+          "price": 2919,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Pro Cricket Bat",
+      "slug": "pro-cricket-bat-77",
+      "description": "Pro Cricket Bat – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-cricket-bat-77-1/600/600",
+        "https://picsum.photos/seed/pro-cricket-bat-77-2/600/600",
+        "https://picsum.photos/seed/pro-cricket-bat-77-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "PRO-CRICKET--BLACK-STD-77",
+          "price": 1309,
+          "stock": 1
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "PRO-CRICKET--BLUE-STD-77",
+          "price": 1309,
+          "stock": 40
+        },
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "PRO-CRICKET--ORANGE-STD-77",
+          "price": 1309,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Premium Cycling Gloves",
+      "slug": "premium-cycling-gloves-78",
+      "description": "Premium Cycling Gloves – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 4.0,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-cycling-gloves-78-1/600/600",
+        "https://picsum.photos/seed/premium-cycling-gloves-78-2/600/600",
+        "https://picsum.photos/seed/premium-cycling-gloves-78-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "PREMIUM-CYCL-BLACK-STD-78",
+          "price": 379,
+          "stock": 15
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "PREMIUM-CYCL-BLUE-STD-78",
+          "price": 379,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Comfort Dumbbell Set",
+      "slug": "comfort-dumbbell-set-79",
+      "description": "Comfort Dumbbell Set – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 3.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-dumbbell-set-79-1/600/600",
+        "https://picsum.photos/seed/comfort-dumbbell-set-79-2/600/600",
+        "https://picsum.photos/seed/comfort-dumbbell-set-79-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "COMFORT-DUMB-ORANGE-STD-79",
+          "price": 2859,
+          "stock": 2
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "COMFORT-DUMB-BLACK-STD-79",
+          "price": 2859,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Urban Foam Roller",
+      "slug": "urban-foam-roller-80",
+      "description": "Urban Foam Roller – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 4.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-foam-roller-80-1/600/600",
+        "https://picsum.photos/seed/urban-foam-roller-80-2/600/600",
+        "https://picsum.photos/seed/urban-foam-roller-80-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "URBAN-FOAM-R-ORANGE-STD-80",
+          "price": 1379,
+          "stock": 5
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "URBAN-FOAM-R-BLACK-STD-80",
+          "price": 1379,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Smart Football",
+      "slug": "smart-football-81",
+      "description": "Smart Football – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 4.9,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/smart-football-81-1/600/600",
+        "https://picsum.photos/seed/smart-football-81-2/600/600",
+        "https://picsum.photos/seed/smart-football-81-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "SMART-FOOTBA-BLACK-STD-81",
+          "price": 1449,
+          "stock": 2
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "SMART-FOOTBA-BLUE-STD-81",
+          "price": 1449,
+          "stock": 1
+        },
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "SMART-FOOTBA-ORANGE-STD-81",
+          "price": 1449,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Pro Gym Bag",
+      "slug": "pro-gym-bag-82",
+      "description": "Pro Gym Bag – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-gym-bag-82-1/600/600",
+        "https://picsum.photos/seed/pro-gym-bag-82-2/600/600",
+        "https://picsum.photos/seed/pro-gym-bag-82-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "PRO-GYM-BAG--BLUE-STD-82",
+          "price": 2319,
+          "stock": 5
+        },
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "PRO-GYM-BAG--ORANGE-STD-82",
+          "price": 2319,
+          "stock": 25
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "PRO-GYM-BAG--BLACK-STD-82",
+          "price": 2319,
+          "stock": 40
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Urban Resistance Bands",
+      "slug": "urban-resistance-bands-83",
+      "description": "Urban Resistance Bands – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 4.2,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-resistance-bands-83-1/600/600",
+        "https://picsum.photos/seed/urban-resistance-bands-83-2/600/600",
+        "https://picsum.photos/seed/urban-resistance-bands-83-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "URBAN-RESIST-BLUE-STD-83",
+          "price": 1979,
+          "stock": 25
+        },
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "URBAN-RESIST-ORANGE-STD-83",
+          "price": 1979,
+          "stock": 10
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "URBAN-RESIST-BLACK-STD-83",
+          "price": 1979,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Premium Skipping Rope",
+      "slug": "premium-skipping-rope-84",
+      "description": "Premium Skipping Rope – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 4.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-skipping-rope-84-1/600/600",
+        "https://picsum.photos/seed/premium-skipping-rope-84-2/600/600",
+        "https://picsum.photos/seed/premium-skipping-rope-84-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "PREMIUM-SKIP-BLACK-STD-84",
+          "price": 2689,
+          "stock": 5
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "PREMIUM-SKIP-BLUE-STD-84",
+          "price": 2689,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Everyday Tennis Ball Pack",
+      "slug": "everyday-tennis-ball-pack-85",
+      "description": "Everyday Tennis Ball Pack – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 4.5,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-tennis-ball-pack-85-1/600/600",
+        "https://picsum.photos/seed/everyday-tennis-ball-pack-85-2/600/600",
+        "https://picsum.photos/seed/everyday-tennis-ball-pack-85-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "EVERYDAY-TEN-ORANGE-STD-85",
+          "price": 639,
+          "stock": 40
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "EVERYDAY-TEN-BLACK-STD-85",
+          "price": 639,
+          "stock": 0
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "EVERYDAY-TEN-BLUE-STD-85",
+          "price": 639,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Classic Water Sipper",
+      "slug": "classic-water-sipper-86",
+      "description": "Classic Water Sipper – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/classic-water-sipper-86-1/600/600",
+        "https://picsum.photos/seed/classic-water-sipper-86-2/600/600",
+        "https://picsum.photos/seed/classic-water-sipper-86-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "CLASSIC-WATE-ORANGE-STD-86",
+          "price": 1659,
+          "stock": 2
+        },
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "CLASSIC-WATE-BLUE-STD-86",
+          "price": 1659,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "sports-fitness",
+      "name": "Eco Yoga Mat",
+      "slug": "eco-yoga-mat-87",
+      "description": "Eco Yoga Mat – good quality, great value. A customer favourite in sports & fitness.",
+      "rating": 4.6,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-yoga-mat-87-1/600/600",
+        "https://picsum.photos/seed/eco-yoga-mat-87-2/600/600",
+        "https://picsum.photos/seed/eco-yoga-mat-87-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": null,
+          "color": "Blue",
+          "sku": "ECO-YOGA-MAT-BLUE-STD-87",
+          "price": 2859,
+          "stock": 40
+        },
+        {
+          "size": null,
+          "color": "Black",
+          "sku": "ECO-YOGA-MAT-BLACK-STD-87",
+          "price": 2859,
+          "stock": 10
+        },
+        {
+          "size": null,
+          "color": "Orange",
+          "sku": "ECO-YOGA-MAT-ORANGE-STD-87",
+          "price": 2859,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Smart Anarkali Suit",
+      "slug": "smart-anarkali-suit-88",
+      "description": "Smart Anarkali Suit – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 4.0,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/smart-anarkali-suit-88-1/600/600",
+        "https://picsum.photos/seed/smart-anarkali-suit-88-2/600/600",
+        "https://picsum.photos/seed/smart-anarkali-suit-88-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "L",
+          "color": "Maroon",
+          "sku": "SMART-ANARKA-MAROON-L-88",
+          "price": 829,
+          "stock": 25
+        },
+        {
+          "size": "M",
+          "color": "Maroon",
+          "sku": "SMART-ANARKA-MAROON-M-88",
+          "price": 829,
+          "stock": 0
+        },
+        {
+          "size": "S",
+          "color": "Maroon",
+          "sku": "SMART-ANARKA-MAROON-S-88",
+          "price": 829,
+          "stock": 10
+        },
+        {
+          "size": "XS",
+          "color": "Maroon",
+          "sku": "SMART-ANARKA-MAROON-XS-88",
+          "price": 829,
+          "stock": 1
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Pro Blouse",
+      "slug": "pro-blouse-89",
+      "description": "Pro Blouse – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 4.9,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-blouse-89-1/600/600",
+        "https://picsum.photos/seed/pro-blouse-89-2/600/600",
+        "https://picsum.photos/seed/pro-blouse-89-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "S",
+          "color": "Beige",
+          "sku": "PRO-BLOUSE-8-BEIGE-S-89",
+          "price": 3439,
+          "stock": 5
+        },
+        {
+          "size": "L",
+          "color": "Beige",
+          "sku": "PRO-BLOUSE-8-BEIGE-L-89",
+          "price": 3439,
+          "stock": 1
+        },
+        {
+          "size": "XS",
+          "color": "Beige",
+          "sku": "PRO-BLOUSE-8-BEIGE-XS-89",
+          "price": 3439,
+          "stock": 40
+        },
+        {
+          "size": "M",
+          "color": "Beige",
+          "sku": "PRO-BLOUSE-8-BEIGE-M-89",
+          "price": 3439,
+          "stock": 10
+        },
+        {
+          "size": "S",
+          "color": "Pink",
+          "sku": "PRO-BLOUSE-8-PINK-S-89",
+          "price": 3439,
+          "stock": 25
+        },
+        {
+          "size": "L",
+          "color": "Pink",
+          "sku": "PRO-BLOUSE-8-PINK-L-89",
+          "price": 3439,
+          "stock": 1
+        },
+        {
+          "size": "XS",
+          "color": "Pink",
+          "sku": "PRO-BLOUSE-8-PINK-XS-89",
+          "price": 3439,
+          "stock": 2
+        },
+        {
+          "size": "M",
+          "color": "Pink",
+          "sku": "PRO-BLOUSE-8-PINK-M-89",
+          "price": 3439,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Pro Cardigan",
+      "slug": "pro-cardigan-90",
+      "description": "Pro Cardigan – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-cardigan-90-1/600/600",
+        "https://picsum.photos/seed/pro-cardigan-90-2/600/600",
+        "https://picsum.photos/seed/pro-cardigan-90-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "S",
+          "color": "Pink",
+          "sku": "PRO-CARDIGAN-PINK-S-90",
+          "price": 2969,
+          "stock": 40
+        },
+        {
+          "size": "L",
+          "color": "Pink",
+          "sku": "PRO-CARDIGAN-PINK-L-90",
+          "price": 2969,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Urban Cotton Kurti",
+      "slug": "urban-cotton-kurti-91",
+      "description": "Urban Cotton Kurti – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 3.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/urban-cotton-kurti-91-1/600/600",
+        "https://picsum.photos/seed/urban-cotton-kurti-91-2/600/600",
+        "https://picsum.photos/seed/urban-cotton-kurti-91-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "L",
+          "color": "Maroon",
+          "sku": "URBAN-COTTON-MAROON-L-91",
+          "price": 3449,
+          "stock": 15
+        },
+        {
+          "size": "S",
+          "color": "Maroon",
+          "sku": "URBAN-COTTON-MAROON-S-91",
+          "price": 3449,
+          "stock": 5
+        },
+        {
+          "size": "XS",
+          "color": "Maroon",
+          "sku": "URBAN-COTTON-MAROON-XS-91",
+          "price": 3449,
+          "stock": 40
+        },
+        {
+          "size": "L",
+          "color": "Teal",
+          "sku": "URBAN-COTTON-TEAL-L-91",
+          "price": 3449,
+          "stock": 40
+        },
+        {
+          "size": "S",
+          "color": "Teal",
+          "sku": "URBAN-COTTON-TEAL-S-91",
+          "price": 3449,
+          "stock": 5
+        },
+        {
+          "size": "XS",
+          "color": "Teal",
+          "sku": "URBAN-COTTON-TEAL-XS-91",
+          "price": 3449,
+          "stock": 15
+        },
+        {
+          "size": "L",
+          "color": "Pink",
+          "sku": "URBAN-COTTON-PINK-L-91",
+          "price": 3449,
+          "stock": 1
+        },
+        {
+          "size": "S",
+          "color": "Pink",
+          "sku": "URBAN-COTTON-PINK-S-91",
+          "price": 3449,
+          "stock": 15
+        },
+        {
+          "size": "XS",
+          "color": "Pink",
+          "sku": "URBAN-COTTON-PINK-XS-91",
+          "price": 3449,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Pro Crop Top",
+      "slug": "pro-crop-top-92",
+      "description": "Pro Crop Top – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 4.6,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-crop-top-92-1/600/600",
+        "https://picsum.photos/seed/pro-crop-top-92-2/600/600",
+        "https://picsum.photos/seed/pro-crop-top-92-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "S",
+          "color": "Teal",
+          "sku": "PRO-CROP-TOP-TEAL-S-92",
+          "price": 1419,
+          "stock": 0
+        },
+        {
+          "size": "M",
+          "color": "Teal",
+          "sku": "PRO-CROP-TOP-TEAL-M-92",
+          "price": 1419,
+          "stock": 0
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Comfort Denim Skirt",
+      "slug": "comfort-denim-skirt-93",
+      "description": "Comfort Denim Skirt – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 4.3,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-denim-skirt-93-1/600/600",
+        "https://picsum.photos/seed/comfort-denim-skirt-93-2/600/600",
+        "https://picsum.photos/seed/comfort-denim-skirt-93-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "S",
+          "color": "Maroon",
+          "sku": "COMFORT-DENI-MAROON-S-93",
+          "price": 1089,
+          "stock": 0
+        },
+        {
+          "size": "XS",
+          "color": "Maroon",
+          "sku": "COMFORT-DENI-MAROON-XS-93",
+          "price": 1089,
+          "stock": 10
+        },
+        {
+          "size": "L",
+          "color": "Maroon",
+          "sku": "COMFORT-DENI-MAROON-L-93",
+          "price": 1089,
+          "stock": 2
+        },
+        {
+          "size": "M",
+          "color": "Maroon",
+          "sku": "COMFORT-DENI-MAROON-M-93",
+          "price": 1089,
+          "stock": 2
+        },
+        {
+          "size": "S",
+          "color": "Pink",
+          "sku": "COMFORT-DENI-PINK-S-93",
+          "price": 1089,
+          "stock": 10
+        },
+        {
+          "size": "XS",
+          "color": "Pink",
+          "sku": "COMFORT-DENI-PINK-XS-93",
+          "price": 1089,
+          "stock": 2
+        },
+        {
+          "size": "L",
+          "color": "Pink",
+          "sku": "COMFORT-DENI-PINK-L-93",
+          "price": 1089,
+          "stock": 1
+        },
+        {
+          "size": "M",
+          "color": "Pink",
+          "sku": "COMFORT-DENI-PINK-M-93",
+          "price": 1089,
+          "stock": 0
+        },
+        {
+          "size": "S",
+          "color": "Beige",
+          "sku": "COMFORT-DENI-BEIGE-S-93",
+          "price": 1089,
+          "stock": 2
+        },
+        {
+          "size": "XS",
+          "color": "Beige",
+          "sku": "COMFORT-DENI-BEIGE-XS-93",
+          "price": 1089,
+          "stock": 0
+        },
+        {
+          "size": "L",
+          "color": "Beige",
+          "sku": "COMFORT-DENI-BEIGE-L-93",
+          "price": 1089,
+          "stock": 15
+        },
+        {
+          "size": "M",
+          "color": "Beige",
+          "sku": "COMFORT-DENI-BEIGE-M-93",
+          "price": 1089,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Premium Floral Dress",
+      "slug": "premium-floral-dress-94",
+      "description": "Premium Floral Dress – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 4.0,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-floral-dress-94-1/600/600",
+        "https://picsum.photos/seed/premium-floral-dress-94-2/600/600",
+        "https://picsum.photos/seed/premium-floral-dress-94-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "L",
+          "color": "Pink",
+          "sku": "PREMIUM-FLOR-PINK-L-94",
+          "price": 1339,
+          "stock": 40
+        },
+        {
+          "size": "M",
+          "color": "Pink",
+          "sku": "PREMIUM-FLOR-PINK-M-94",
+          "price": 1339,
+          "stock": 40
+        },
+        {
+          "size": "XS",
+          "color": "Pink",
+          "sku": "PREMIUM-FLOR-PINK-XS-94",
+          "price": 1339,
+          "stock": 15
+        },
+        {
+          "size": "S",
+          "color": "Pink",
+          "sku": "PREMIUM-FLOR-PINK-S-94",
+          "price": 1339,
+          "stock": 1
+        },
+        {
+          "size": "L",
+          "color": "Teal",
+          "sku": "PREMIUM-FLOR-TEAL-L-94",
+          "price": 1339,
+          "stock": 40
+        },
+        {
+          "size": "M",
+          "color": "Teal",
+          "sku": "PREMIUM-FLOR-TEAL-M-94",
+          "price": 1339,
+          "stock": 5
+        },
+        {
+          "size": "XS",
+          "color": "Teal",
+          "sku": "PREMIUM-FLOR-TEAL-XS-94",
+          "price": 1339,
+          "stock": 0
+        },
+        {
+          "size": "S",
+          "color": "Teal",
+          "sku": "PREMIUM-FLOR-TEAL-S-94",
+          "price": 1339,
+          "stock": 10
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Premium Jumpsuit",
+      "slug": "premium-jumpsuit-95",
+      "description": "Premium Jumpsuit – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 5.0,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/premium-jumpsuit-95-1/600/600",
+        "https://picsum.photos/seed/premium-jumpsuit-95-2/600/600",
+        "https://picsum.photos/seed/premium-jumpsuit-95-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "XS",
+          "color": "Teal",
+          "sku": "PREMIUM-JUMP-TEAL-XS-95",
+          "price": 759,
+          "stock": 1
+        },
+        {
+          "size": "S",
+          "color": "Teal",
+          "sku": "PREMIUM-JUMP-TEAL-S-95",
+          "price": 759,
+          "stock": 15
+        },
+        {
+          "size": "M",
+          "color": "Teal",
+          "sku": "PREMIUM-JUMP-TEAL-M-95",
+          "price": 759,
+          "stock": 2
+        },
+        {
+          "size": "L",
+          "color": "Teal",
+          "sku": "PREMIUM-JUMP-TEAL-L-95",
+          "price": 759,
+          "stock": 1
+        },
+        {
+          "size": "XS",
+          "color": "Maroon",
+          "sku": "PREMIUM-JUMP-MAROON-XS-95",
+          "price": 759,
+          "stock": 2
+        },
+        {
+          "size": "S",
+          "color": "Maroon",
+          "sku": "PREMIUM-JUMP-MAROON-S-95",
+          "price": 759,
+          "stock": 10
+        },
+        {
+          "size": "M",
+          "color": "Maroon",
+          "sku": "PREMIUM-JUMP-MAROON-M-95",
+          "price": 759,
+          "stock": 15
+        },
+        {
+          "size": "L",
+          "color": "Maroon",
+          "sku": "PREMIUM-JUMP-MAROON-L-95",
+          "price": 759,
+          "stock": 25
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Pro Leggings",
+      "slug": "pro-leggings-96",
+      "description": "Pro Leggings – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/pro-leggings-96-1/600/600",
+        "https://picsum.photos/seed/pro-leggings-96-2/600/600",
+        "https://picsum.photos/seed/pro-leggings-96-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "S",
+          "color": "Teal",
+          "sku": "PRO-LEGGINGS-TEAL-S-96",
+          "price": 2769,
+          "stock": 25
+        },
+        {
+          "size": "L",
+          "color": "Teal",
+          "sku": "PRO-LEGGINGS-TEAL-L-96",
+          "price": 2769,
+          "stock": 15
+        },
+        {
+          "size": "M",
+          "color": "Teal",
+          "sku": "PRO-LEGGINGS-TEAL-M-96",
+          "price": 2769,
+          "stock": 40
+        },
+        {
+          "size": "XS",
+          "color": "Teal",
+          "sku": "PRO-LEGGINGS-TEAL-XS-96",
+          "price": 2769,
+          "stock": 25
+        },
+        {
+          "size": "S",
+          "color": "Pink",
+          "sku": "PRO-LEGGINGS-PINK-S-96",
+          "price": 2769,
+          "stock": 25
+        },
+        {
+          "size": "L",
+          "color": "Pink",
+          "sku": "PRO-LEGGINGS-PINK-L-96",
+          "price": 2769,
+          "stock": 1
+        },
+        {
+          "size": "M",
+          "color": "Pink",
+          "sku": "PRO-LEGGINGS-PINK-M-96",
+          "price": 2769,
+          "stock": 15
+        },
+        {
+          "size": "XS",
+          "color": "Pink",
+          "sku": "PRO-LEGGINGS-PINK-XS-96",
+          "price": 2769,
+          "stock": 25
+        },
+        {
+          "size": "S",
+          "color": "Beige",
+          "sku": "PRO-LEGGINGS-BEIGE-S-96",
+          "price": 2769,
+          "stock": 15
+        },
+        {
+          "size": "L",
+          "color": "Beige",
+          "sku": "PRO-LEGGINGS-BEIGE-L-96",
+          "price": 2769,
+          "stock": 10
+        },
+        {
+          "size": "M",
+          "color": "Beige",
+          "sku": "PRO-LEGGINGS-BEIGE-M-96",
+          "price": 2769,
+          "stock": 15
+        },
+        {
+          "size": "XS",
+          "color": "Beige",
+          "sku": "PRO-LEGGINGS-BEIGE-XS-96",
+          "price": 2769,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Smart Maxi Dress",
+      "slug": "smart-maxi-dress-97",
+      "description": "Smart Maxi Dress – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 4.2,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/smart-maxi-dress-97-1/600/600",
+        "https://picsum.photos/seed/smart-maxi-dress-97-2/600/600",
+        "https://picsum.photos/seed/smart-maxi-dress-97-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "L",
+          "color": "Pink",
+          "sku": "SMART-MAXI-D-PINK-L-97",
+          "price": 789,
+          "stock": 15
+        },
+        {
+          "size": "XS",
+          "color": "Pink",
+          "sku": "SMART-MAXI-D-PINK-XS-97",
+          "price": 789,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Eco Palazzo Pants",
+      "slug": "eco-palazzo-pants-98",
+      "description": "Eco Palazzo Pants – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 3.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/eco-palazzo-pants-98-1/600/600",
+        "https://picsum.photos/seed/eco-palazzo-pants-98-2/600/600",
+        "https://picsum.photos/seed/eco-palazzo-pants-98-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "L",
+          "color": "Teal",
+          "sku": "ECO-PALAZZO--TEAL-L-98",
+          "price": 3879,
+          "stock": 10
+        },
+        {
+          "size": "M",
+          "color": "Teal",
+          "sku": "ECO-PALAZZO--TEAL-M-98",
+          "price": 3879,
+          "stock": 10
+        },
+        {
+          "size": "XS",
+          "color": "Teal",
+          "sku": "ECO-PALAZZO--TEAL-XS-98",
+          "price": 3879,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Comfort Saree",
+      "slug": "comfort-saree-99",
+      "description": "Comfort Saree – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 3.8,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/comfort-saree-99-1/600/600",
+        "https://picsum.photos/seed/comfort-saree-99-2/600/600",
+        "https://picsum.photos/seed/comfort-saree-99-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "M",
+          "color": "Teal",
+          "sku": "COMFORT-SARE-TEAL-M-99",
+          "price": 1239,
+          "stock": 5
+        },
+        {
+          "size": "XS",
+          "color": "Teal",
+          "sku": "COMFORT-SARE-TEAL-XS-99",
+          "price": 1239,
+          "stock": 25
+        },
+        {
+          "size": "S",
+          "color": "Teal",
+          "sku": "COMFORT-SARE-TEAL-S-99",
+          "price": 1239,
+          "stock": 0
+        },
+        {
+          "size": "M",
+          "color": "Pink",
+          "sku": "COMFORT-SARE-PINK-M-99",
+          "price": 1239,
+          "stock": 10
+        },
+        {
+          "size": "XS",
+          "color": "Pink",
+          "sku": "COMFORT-SARE-PINK-XS-99",
+          "price": 1239,
+          "stock": 0
+        },
+        {
+          "size": "S",
+          "color": "Pink",
+          "sku": "COMFORT-SARE-PINK-S-99",
+          "price": 1239,
+          "stock": 2
+        },
+        {
+          "size": "M",
+          "color": "Beige",
+          "sku": "COMFORT-SARE-BEIGE-M-99",
+          "price": 1239,
+          "stock": 10
+        },
+        {
+          "size": "XS",
+          "color": "Beige",
+          "sku": "COMFORT-SARE-BEIGE-XS-99",
+          "price": 1239,
+          "stock": 10
+        },
+        {
+          "size": "S",
+          "color": "Beige",
+          "sku": "COMFORT-SARE-BEIGE-S-99",
+          "price": 1239,
+          "stock": 15
+        }
+      ]
+    },
+    {
+      "category": "womens-clothing",
+      "name": "Everyday Shrug",
+      "slug": "everyday-shrug-100",
+      "description": "Everyday Shrug – good quality, great value. A customer favourite in women's clothing.",
+      "rating": 4.4,
+      "is_active": true,
+      "images": [
+        "https://picsum.photos/seed/everyday-shrug-100-1/600/600",
+        "https://picsum.photos/seed/everyday-shrug-100-2/600/600",
+        "https://picsum.photos/seed/everyday-shrug-100-3/600/600"
+      ],
+      "variants": [
+        {
+          "size": "XS",
+          "color": "Teal",
+          "sku": "EVERYDAY-SHR-TEAL-XS-100",
+          "price": 1179,
+          "stock": 25
+        },
+        {
+          "size": "L",
+          "color": "Teal",
+          "sku": "EVERYDAY-SHR-TEAL-L-100",
+          "price": 1179,
+          "stock": 40
+        },
+        {
+          "size": "M",
+          "color": "Teal",
+          "sku": "EVERYDAY-SHR-TEAL-M-100",
+          "price": 1179,
+          "stock": 15
+        },
+        {
+          "size": "S",
+          "color": "Teal",
+          "sku": "EVERYDAY-SHR-TEAL-S-100",
+          "price": 1179,
+          "stock": 2
+        },
+        {
+          "size": "XS",
+          "color": "Pink",
+          "sku": "EVERYDAY-SHR-PINK-XS-100",
+          "price": 1179,
+          "stock": 15
+        },
+        {
+          "size": "L",
+          "color": "Pink",
+          "sku": "EVERYDAY-SHR-PINK-L-100",
+          "price": 1179,
+          "stock": 10
+        },
+        {
+          "size": "M",
+          "color": "Pink",
+          "sku": "EVERYDAY-SHR-PINK-M-100",
+          "price": 1179,
+          "stock": 15
+        },
+        {
+          "size": "S",
+          "color": "Pink",
+          "sku": "EVERYDAY-SHR-PINK-S-100",
+          "price": 1179,
+          "stock": 1
+        },
+        {
+          "size": "XS",
+          "color": "Beige",
+          "sku": "EVERYDAY-SHR-BEIGE-XS-100",
+          "price": 1179,
+          "stock": 0
+        },
+        {
+          "size": "L",
+          "color": "Beige",
+          "sku": "EVERYDAY-SHR-BEIGE-L-100",
+          "price": 1179,
+          "stock": 2
+        },
+        {
+          "size": "M",
+          "color": "Beige",
+          "sku": "EVERYDAY-SHR-BEIGE-M-100",
+          "price": 1179,
+          "stock": 2
+        },
+        {
+          "size": "S",
+          "color": "Beige",
+          "sku": "EVERYDAY-SHR-BEIGE-S-100",
+          "price": 1179,
+          "stock": 0
+        }
+      ]
+    }
+  ]
+}

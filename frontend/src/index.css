@@ -1,1 +1,50 @@
+/* Fonts: Playfair Display (elegant serif headings) + Manrope (clean body text) */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap');
 @import 'tailwindcss';
+
+/* ===== ShopKart design tokens =====
+   Tailwind v4 turns these into classes: bg-ink-900, text-gold-600, font-serif, bg-cream…
+   Change a colour here → it changes everywhere. */
+@theme {
+  --font-sans: 'Manrope', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+
+  /* Ink – deep navy-black for text, buttons and dark sections */
+  --color-ink-50: #f6f6f8;
+  --color-ink-100: #ebebef;
+  --color-ink-200: #d3d4dc;
+  --color-ink-300: #a9abb9;
+  --color-ink-400: #7a7d90;
+  --color-ink-500: #565a6d;
+  --color-ink-600: #40435a;
+  --color-ink-700: #2e3145;
+  --color-ink-800: #1e2030;
+  --color-ink-900: #131522;
+  --color-ink-950: #0b0c15;
+
+  /* Gold – champagne accent for highlights, links and ratings */
+  --color-gold-50: #fbf8f1;
+  --color-gold-100: #f5ecd7;
+  --color-gold-200: #ead8ae;
+  --color-gold-300: #dfc086;
+  --color-gold-400: #d1a85f;
+  --color-gold-500: #c29445;
+  --color-gold-600: #a77a37;
+  --color-gold-700: #865f2e;
+  --color-gold-800: #6c4c29;
+  --color-gold-900: #573e24;
+
+  /* Warm ivory page background */
+  --color-cream: #faf7f2;
+}
+
+@layer base {
+  body {
+    @apply bg-cream font-sans text-ink-700 antialiased;
+  }
+
+  h1,
+  h2 {
+    @apply font-serif tracking-tight;
+  }
+}

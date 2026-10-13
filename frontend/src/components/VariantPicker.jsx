@@ -1,11 +1,11 @@
 // Shows size / colour buttons. Only combinations that exist can be picked.
 const optionClass = (selected, disabled) =>
-  `rounded-lg border px-4 py-2 text-sm font-medium transition ${
+  `rounded-full border px-5 py-2 text-sm font-semibold transition ${
     selected
-      ? 'border-indigo-600 bg-indigo-600 text-white'
+      ? 'border-ink-900 bg-ink-900 text-gold-200'
       : disabled
-        ? 'cursor-not-allowed border-slate-200 text-slate-300 line-through'
-        : 'border-slate-300 text-slate-700 hover:border-indigo-600'
+        ? 'cursor-not-allowed border-ink-200 text-ink-300 line-through'
+        : 'border-ink-300 text-ink-700 hover:border-ink-900'
   }`
 
 const unique = list => [...new Set(list.filter(Boolean))]
@@ -22,7 +22,7 @@ const VariantPicker = ({ variants, selected, onSelect }) => {
     <div className="space-y-4">
       {colors.length > 0 && (
         <div>
-          <p className="mb-2 text-sm font-semibold text-slate-700">Colour: {selected.color}</p>
+          <p className="mb-2 text-sm font-semibold text-ink-700">Colour: {selected.color}</p>
           <div className="flex flex-wrap gap-2">
             {colors.map(color => {
               const match = find(color, selected.size) || variants.find(v => v.color === color)
@@ -38,7 +38,7 @@ const VariantPicker = ({ variants, selected, onSelect }) => {
 
       {sizes.length > 0 && (
         <div>
-          <p className="mb-2 text-sm font-semibold text-slate-700">Size: {selected.size}</p>
+          <p className="mb-2 text-sm font-semibold text-ink-700">Size: {selected.size}</p>
           <div className="flex flex-wrap gap-2">
             {sizes.map(size => {
               const match = find(selected.color, size)

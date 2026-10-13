@@ -5,38 +5,32 @@ const ProductCard = ({ product }) => {
   const outOfStock = product.total_stock === 0
 
   return (
-    <Link
-      to={`/products/${product.slug}`}
-      className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-xl"
-    >
-      <div className="relative aspect-square overflow-hidden bg-white">
+    <Link to={`/products/${product.slug}`} className="group block">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-white ring-1 ring-ink-100 transition duration-300 group-hover:shadow-[0_20px_40px_-20px_rgba(19,21,34,0.35)]">
         <img
           src={product.image}
           alt={product.name}
           loading="lazy"
-          className="h-full w-full object-contain p-4 transition duration-500 group-hover:scale-105"
+          className="h-full w-full object-contain p-6 transition duration-700 group-hover:scale-105"
         />
         {outOfStock && (
-          <span className="absolute left-3 top-3 rounded-full bg-slate-900/80 px-3 py-1 text-xs font-semibold text-white">
-            Out of stock
+          <span className="absolute left-3 top-3 rounded-full bg-ink-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
+            Sold out
           </span>
         )}
+        <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-ink-800 ring-1 ring-ink-100">
+          <span className="text-gold-500">★</span> {product.rating}
+        </span>
       </div>
 
-      <div className="p-4">
-        <p className="text-xs font-medium uppercase tracking-wide text-indigo-600">
+      <div className="mt-4 px-1">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-700">
           {product.category.name}
         </p>
-        <h3 className="mt-1 line-clamp-1 font-semibold text-slate-900">{product.name}</h3>
-        <div className="mt-3 flex items-center justify-between">
-          <span className="text-lg font-bold text-slate-900">
-            <span className="text-xs font-normal text-slate-500">from </span>
-            {formatPrice(product.min_price)}
-          </span>
-          <span className="rounded-md bg-green-600 px-2 py-0.5 text-xs font-bold text-white">
-            {product.rating} ★
-          </span>
-        </div>
+        <h3 className="mt-1 line-clamp-1 font-medium text-ink-900 group-hover:text-gold-700">{product.name}</h3>
+        <p className="mt-1 font-serif text-lg font-semibold text-ink-900">
+          {formatPrice(product.min_price)}
+        </p>
       </div>
     </Link>
   )

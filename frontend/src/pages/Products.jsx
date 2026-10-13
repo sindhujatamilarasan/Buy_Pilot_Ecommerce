@@ -34,13 +34,13 @@ const Products = () => {
     <div className="grid gap-8 md:grid-cols-[220px_1fr]">
       <aside className="space-y-6">
         <div>
-          <h3 className="mb-2 text-sm font-bold uppercase text-slate-500">Category</h3>
+          <h3 className="mb-2 text-sm font-bold uppercase text-ink-500">Category</h3>
           <div className="flex flex-col items-start gap-1">
-            <button onClick={() => updateParam('category', '')} className={!params.category ? 'font-semibold text-indigo-600' : 'text-slate-600'}>
+            <button onClick={() => updateParam('category', '')} className={!params.category ? 'font-semibold text-gold-700' : 'text-ink-600 hover:text-ink-900'}>
               All
             </button>
             {categories.data?.map(c => (
-              <button key={c.id} onClick={() => updateParam('category', c.slug)} className={params.category === c.slug ? 'font-semibold text-indigo-600' : 'text-slate-600 hover:text-slate-900'}>
+              <button key={c.id} onClick={() => updateParam('category', c.slug)} className={params.category === c.slug ? 'font-semibold text-gold-700' : 'text-ink-600 hover:text-ink-900'}>
                 {c.name}
               </button>
             ))}
@@ -48,8 +48,8 @@ const Products = () => {
         </div>
 
         <div>
-          <h3 className="mb-2 text-sm font-bold uppercase text-slate-500">Sort by</h3>
-          <select value={params.ordering || ''} onChange={e => updateParam('ordering', e.target.value)} className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm">
+          <h3 className="mb-2 text-sm font-bold uppercase text-ink-500">Sort by</h3>
+          <select value={params.ordering || ''} onChange={e => updateParam('ordering', e.target.value)} className="w-full rounded-lg border border-ink-300 bg-white px-3 py-2 text-sm">
             {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
         </div>
@@ -57,10 +57,10 @@ const Products = () => {
 
       <section>
         <div className="mb-4 flex items-baseline justify-between">
-          <h1 className="text-2xl font-bold text-slate-900">
+          <h1 className="text-3xl font-semibold text-ink-900">
             {params.search ? `Results for "${params.search}"` : 'All products'}
           </h1>
-          {data && <span className="text-sm text-slate-500">{data.count} products</span>}
+          {data && <span className="text-sm text-ink-500">{data.count} products</span>}
         </div>
 
         {loading && <Spinner />}
@@ -69,13 +69,13 @@ const Products = () => {
 
         {data?.results.length > 0 && (
           <>
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+            <div className="grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-3">
               {data.results.map(product => <ProductCard key={product.id} product={product} />)}
             </div>
 
             <div className="mt-8 flex items-center justify-center gap-4">
               <button disabled={!data.previous} onClick={() => updateParam('page', String(page - 1))} className="rounded-lg border bg-white px-4 py-2 text-sm disabled:opacity-40">← Prev</button>
-              <span className="text-sm text-slate-600">Page {page} of {Math.ceil(data.count / 12)}</span>
+              <span className="text-sm text-ink-600">Page {page} of {Math.ceil(data.count / 12)}</span>
               <button disabled={!data.next} onClick={() => updateParam('page', String(page + 1))} className="rounded-lg border bg-white px-4 py-2 text-sm disabled:opacity-40">Next →</button>
             </div>
           </>

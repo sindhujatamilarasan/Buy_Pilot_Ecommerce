@@ -1,15 +1,15 @@
 const tones = {
-  indigo: 'bg-indigo-50 text-indigo-600',
-  green: 'bg-green-50 text-green-600',
-  amber: 'bg-amber-50 text-amber-600',
-  red: 'bg-red-50 text-red-600',
+  gold: 'bg-gold-50 text-gold-700 ring-gold-200',
+  green: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
+  amber: 'bg-amber-50 text-amber-700 ring-amber-200',
+  red: 'bg-rose-50 text-rose-700 ring-rose-200',
 }
 
-const StatCard = ({ icon, label, value, tone = 'indigo' }) => (
-  <div className="rounded-2xl bg-white p-5 shadow-sm">
-    <div className={`inline-flex h-10 w-10 items-center justify-center rounded-xl text-lg ${tones[tone]}`}>{icon}</div>
-    <p className="mt-4 text-3xl font-extrabold text-slate-900">{value}</p>
-    <p className="text-sm text-slate-500">{label}</p>
+const StatCard = ({ icon, label, value, tone = 'gold' }) => (
+  <div className="rounded-2xl border border-ink-100 bg-white p-5 shadow-sm">
+    <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl text-lg ring-1 ${tones[tone]}`}>{icon}</div>
+    <p className="mt-4 font-serif text-3xl font-semibold text-ink-900">{value}</p>
+    <p className="text-sm text-ink-500">{label}</p>
   </div>
 )
 

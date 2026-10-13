@@ -14,7 +14,7 @@ const MENU = [
 
 const itemClass = ({ isActive }) =>
   `flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
-    isActive ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-800'
+    isActive ? 'bg-gold-500 text-ink-950' : 'text-ink-300 hover:bg-ink-800 hover:text-white'
   }`
 
 const AdminLayout = () => {
@@ -28,21 +28,21 @@ const AdminLayout = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-100 md:flex-row">
-      <aside className="w-full bg-slate-900 p-4 md:w-64 md:shrink-0">
-        <Link to="/" className="block px-3 py-2 text-xl font-extrabold text-white">🛍️ ShopKart</Link>
-        <p className="px-3 text-xs uppercase tracking-wider text-slate-500">{user.role} panel</p>
+    <div className="flex min-h-screen flex-col bg-cream md:flex-row">
+      <aside className="w-full bg-ink-950 p-5 md:w-64 md:shrink-0">
+        <Link to="/" className="block px-3 py-2 font-serif text-2xl font-semibold text-white">Shop<span className="text-gold-400">Kart</span></Link>
+        <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-gold-400">{user.role} panel</p>
 
         <nav className="mt-6 space-y-1">
           {items.map(item => (
             <NavLink key={item.to} to={item.to} end className={itemClass}>
               {item.label}
-              {item.soon && <span className="rounded bg-slate-700 px-1.5 text-[10px] text-slate-300">soon</span>}
+              {item.soon && <span className="rounded bg-ink-700 px-1.5 text-[10px] text-ink-300">soon</span>}
             </NavLink>
           ))}
         </nav>
 
-        <div className="mt-8 border-t border-slate-800 px-3 pt-4 text-sm text-slate-400">
+        <div className="mt-8 border-t border-ink-800 px-3 pt-4 text-sm text-ink-400">
           <p>{user.name}</p>
           <p className="text-xs">{user.email}</p>
           <button onClick={handleLogout} className="mt-3 text-red-400 hover:underline">Logout</button>

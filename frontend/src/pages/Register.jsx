@@ -37,9 +37,9 @@ const Register = () => {
         <input name="password" type="password" required minLength={8} placeholder="Password (min 8 characters)" value={form.password} onChange={handleChange} className={inputClass} />
         <button disabled={submitting} className={buttonClass}>{submitting ? 'Creating…' : 'Create account'}</button>
       </form>
-      <p className="mt-6 text-center text-sm text-slate-500">
+      <p className="mt-6 text-center text-sm text-ink-500">
         Already have an account?{' '}
-        <Link to="/login" state={{ from }} className="font-semibold text-indigo-600">Log in</Link>
+        <Link to="/login" state={{ from }} className="font-semibold text-gold-700">Log in</Link>
       </p>
     </AuthCard>
   )

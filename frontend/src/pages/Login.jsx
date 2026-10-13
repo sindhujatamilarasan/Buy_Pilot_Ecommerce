@@ -44,9 +44,9 @@ const Login = () => {
         <input name="password" type="password" required placeholder="Password" value={form.password} onChange={handleChange} className={inputClass} />
         <button disabled={submitting} className={buttonClass}>{submitting ? 'Logging in…' : 'Log in'}</button>
       </form>
-      <p className="mt-6 text-center text-sm text-slate-500">
+      <p className="mt-6 text-center text-sm text-ink-500">
         New here?{' '}
-        <Link to="/register" state={{ from }} className="font-semibold text-indigo-600">Create an account</Link>
+        <Link to="/register" state={{ from }} className="font-semibold text-gold-700">Create an account</Link>
       </p>
     </AuthCard>
   )

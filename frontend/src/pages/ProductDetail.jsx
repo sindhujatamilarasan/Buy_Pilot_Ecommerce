@@ -33,10 +33,10 @@ const ProductView = ({ product }) => {
   return (
     <div className="grid gap-10 md:grid-cols-2">
       <div>
-        <img src={product.images[imageIndex]?.path} alt={product.name} className="aspect-square w-full rounded-2xl border border-slate-200 bg-white object-contain p-6" />
+        <img src={product.images[imageIndex]?.path} alt={product.name} className="aspect-square w-full rounded-2xl border border-ink-200 bg-white object-contain p-6" />
         <div className="mt-3 flex gap-3">
           {product.images.map((image, index) => (
-            <button key={image.id} onClick={() => setImageIndex(index)} className={`overflow-hidden rounded-xl border-2 ${index === imageIndex ? 'border-indigo-600' : 'border-transparent'}`}>
+            <button key={image.id} onClick={() => setImageIndex(index)} className={`overflow-hidden rounded-xl border-2 ${index === imageIndex ? 'border-gold-500' : 'border-ink-100'}`}>
               <img src={image.path} alt="" className="h-20 w-20 bg-white object-contain p-1" />
             </button>
           ))}
@@ -44,13 +44,13 @@ const ProductView = ({ product }) => {
       </div>
 
       <div>
-        <p className="text-sm font-semibold uppercase text-indigo-600">{product.category.name}</p>
-        <h1 className="mt-1 text-3xl font-extrabold text-slate-900">{product.name}</h1>
-        <span className="mt-2 inline-block rounded-md bg-green-600 px-2 py-0.5 text-sm font-bold text-white">{product.rating} ★</span>
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold-700">{product.category.name}</p>
+        <h1 className="mt-2 text-4xl font-semibold text-ink-900">{product.name}</h1>
+        <span className="mt-3 inline-flex items-center gap-1 rounded-full bg-gold-50 px-3 py-1 text-sm font-semibold text-ink-800 ring-1 ring-gold-200"><span className="text-gold-500">★</span> {product.rating}</span>
 
         {/* Price and stock come from the SELECTED variant */}
-        <p className="mt-6 text-3xl font-bold text-slate-900">{formatPrice(variant.price)}</p>
-        <p className={`mt-1 text-sm font-medium ${inStock ? 'text-green-600' : 'text-red-600'}`}>
+        <p className="mt-6 font-serif text-3xl font-semibold text-ink-900">{formatPrice(variant.price)}</p>
+        <p className={`mt-1 text-sm font-medium ${inStock ? 'text-emerald-700' : 'text-rose-600'}`}>
           {!inStock ? 'Out of stock' : variant.stock <= 2 ? `Only ${variant.stock} left – hurry!` : 'In stock'}
         </p>
 
@@ -59,16 +59,16 @@ const ProductView = ({ product }) => {
         </div>
 
         <div className="mt-8 flex gap-3">
-          <button disabled title="Cart comes on Day 5" className="flex-1 rounded-xl border-2 border-indigo-600 py-3 font-semibold text-indigo-600 disabled:opacity-50">
+          <button disabled title="Cart comes on Day 5" className="flex-1 rounded-full border border-ink-900 py-3.5 font-semibold text-ink-900 disabled:opacity-40">
             Add to cart
           </button>
-          <button disabled={!inStock} onClick={buyNow} className="flex-1 rounded-xl bg-indigo-600 py-3 font-semibold text-white hover:bg-indigo-700 disabled:bg-slate-300">
+          <button disabled={!inStock} onClick={buyNow} className="flex-1 rounded-full bg-ink-900 py-3.5 font-semibold text-white transition hover:bg-gold-600 disabled:bg-ink-300">
             Buy now
           </button>
         </div>
 
-        <p className="mt-8 leading-relaxed text-slate-600">{product.description}</p>
-        <p className="mt-2 text-xs text-slate-400">SKU: {variant.sku}</p>
+        <p className="mt-8 leading-relaxed text-ink-600">{product.description}</p>
+        <p className="mt-2 text-xs text-ink-400">SKU: {variant.sku}</p>
       </div>
     </div>
   )

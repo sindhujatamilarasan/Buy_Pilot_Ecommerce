@@ -1,6 +1,6 @@
 // Empty / error / info box used on many pages
 const styles = {
-  info: 'border-slate-200 bg-white text-slate-600',
+  info: 'border-ink-200 bg-white text-ink-600',
   error: 'border-red-200 bg-red-50 text-red-700',
 }
 

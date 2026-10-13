@@ -169,7 +169,7 @@ REST_FRAMEWORK = {
 
 
 # CORS: allow the React dev server (a different port) to call this API
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:5173').split(',')
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173').split(',')
 
 
 # Email

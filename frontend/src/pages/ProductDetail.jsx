@@ -33,11 +33,11 @@ const ProductView = ({ product }) => {
   return (
     <div className="grid gap-10 md:grid-cols-2">
       <div>
-        <img src={product.images[imageIndex]?.path} alt={product.name} className="aspect-square w-full rounded-2xl object-cover" />
+        <img src={product.images[imageIndex]?.path} alt={product.name} className="aspect-square w-full rounded-2xl border border-slate-200 bg-white object-contain p-6" />
         <div className="mt-3 flex gap-3">
           {product.images.map((image, index) => (
             <button key={image.id} onClick={() => setImageIndex(index)} className={`overflow-hidden rounded-xl border-2 ${index === imageIndex ? 'border-indigo-600' : 'border-transparent'}`}>
-              <img src={image.path} alt="" className="h-20 w-20 object-cover" />
+              <img src={image.path} alt="" className="h-20 w-20 bg-white object-contain p-1" />
             </button>
           ))}
         </div>

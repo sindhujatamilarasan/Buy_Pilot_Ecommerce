@@ -82,7 +82,7 @@ Run backend tests: `.venv\Scripts\python manage.py test`
 
 ## Progress
 
-- [x] Day 1 – Project setup, DB design, seed data (100 products, 400 variants)
+- [x] Day 1 – Project setup, DB design, seed data (100 products with real photos from DummyJSON)
 - [x] Day 2 – Auth with customer / staff / admin roles; role-based routes and API protection; product list, detail and admin dashboard
 - [ ] Day 3 – Product list with search, filters, sort
 - [ ] Day 4 – Product detail, variants, wishlist

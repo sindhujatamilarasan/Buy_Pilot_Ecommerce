@@ -28,7 +28,7 @@ const Checkout = () => {
       </div>
 
       <div className="flex gap-4 rounded-2xl bg-white p-6 shadow-sm">
-        <img src={product.images[0]?.path} alt="" className="h-24 w-24 rounded-xl object-cover" />
+        <img src={product.images[0]?.path} alt="" className="h-24 w-24 rounded-xl border border-slate-200 bg-white object-contain p-2" />
         <div className="flex-1">
           <p className="font-semibold text-slate-900">{product.name}</p>
           <p className="text-sm text-slate-500">{[variant.color, variant.size].filter(Boolean).join(' · ')} · Qty 1</p>

@@ -6,19 +6,19 @@ const ProductCard = ({ product }) => {
 
   return (
     <Link to={`/products/${product.slug}`} className="group block">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-white ring-1 ring-ink-100 transition duration-300 group-hover:shadow-[0_20px_40px_-20px_rgba(19,21,34,0.35)]">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-sand-50 ring-1 ring-sand-200 transition duration-300 group-hover:shadow-[0_20px_40px_-20px_rgba(19,21,34,0.35)]">
         <img
           src={product.image}
           alt={product.name}
           loading="lazy"
-          className="h-full w-full object-contain p-6 transition duration-700 group-hover:scale-105"
+          className="h-full w-full object-contain p-6 mix-blend-multiply transition duration-700 group-hover:scale-105"
         />
         {outOfStock && (
           <span className="absolute left-3 top-3 rounded-full bg-ink-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
             Sold out
           </span>
         )}
-        <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-ink-800 ring-1 ring-ink-100">
+        <span className="absolute right-3 top-3 rounded-full bg-ink-900 px-2.5 py-1 text-xs font-semibold text-white">
           <span className="text-gold-500">★</span> {product.rating}
         </span>
       </div>

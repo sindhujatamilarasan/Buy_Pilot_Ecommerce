@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom'
 
 const AuthCard = ({ title, subtitle, error, children }) => (
-  <div className="mx-auto max-w-md rounded-3xl border border-ink-100 bg-white p-10 shadow-[0_30px_60px_-30px_rgba(19,21,34,0.35)]">
+  <div className="mx-auto max-w-md rounded-3xl border border-ink-100 bg-sand-50 p-10 shadow-[0_30px_60px_-30px_rgba(19,21,34,0.35)]">
     <Link to="/" className="font-serif text-2xl font-semibold text-ink-900">Shop<span className="text-gold-600">Kart</span></Link>
     <h1 className="mt-8 text-3xl font-semibold text-ink-900">{title}</h1>
     <p className="mt-1 text-sm text-ink-500">{subtitle}</p>

@@ -46,9 +46,9 @@ const Home = () => {
               <Link
                 key={product.id}
                 to={`/products/${product.slug}`}
-                className={`rounded-2xl bg-white p-5 shadow-2xl transition hover:-translate-y-1 ${index === 0 ? 'row-span-2 flex items-center' : ''}`}
+                className={`rounded-2xl bg-sand-50 p-5 shadow-2xl transition hover:-translate-y-1 ${index === 0 ? 'row-span-2 flex items-center' : ''}`}
               >
-                <img src={product.image} alt={product.name} className="w-full object-contain" />
+                <img src={product.image} alt={product.name} className="w-full object-contain mix-blend-multiply" />
               </Link>
             ))}
           </div>
@@ -58,11 +58,11 @@ const Home = () => {
       {/* Perks */}
       <section className="grid gap-4 md:grid-cols-3">
         {PERKS.map(perk => (
-          <div key={perk.title} className="flex items-center gap-4 rounded-2xl border border-ink-100 bg-white px-6 py-5">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gold-50 text-xl ring-1 ring-gold-200">{perk.icon}</span>
+          <div key={perk.title} className="flex items-center gap-4 rounded-2xl bg-ink-900 px-6 py-5">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink-800 text-xl ring-1 ring-gold-500/40">{perk.icon}</span>
             <div>
-              <p className="font-semibold text-ink-900">{perk.title}</p>
-              <p className="text-sm text-ink-500">{perk.text}</p>
+              <p className="font-semibold text-white">{perk.title}</p>
+              <p className="text-sm text-ink-300">{perk.text}</p>
             </div>
           </div>
         ))}
@@ -77,10 +77,10 @@ const Home = () => {
             <Link
               key={category.id}
               to={`/products?category=${category.slug}`}
-              className="group rounded-2xl border border-ink-100 bg-white p-6 transition hover:border-ink-900 hover:bg-ink-900"
+              className="group rounded-2xl bg-ink-900 p-6 transition hover:-translate-y-1 hover:bg-gold-500"
             >
-              <p className="font-serif text-lg font-semibold text-ink-900 group-hover:text-white">{category.name}</p>
-              <p className="mt-6 text-sm font-semibold text-gold-700 group-hover:text-gold-300">Explore →</p>
+              <p className="font-serif text-lg font-semibold text-white group-hover:text-ink-950">{category.name}</p>
+              <p className="mt-6 text-sm font-semibold text-gold-300 group-hover:text-ink-900">Explore →</p>
             </Link>
           ))}
         </div>

@@ -28,14 +28,14 @@ const Dashboard = () => {
         <StatCard icon="🧑‍💼" label="Staff" value={stats.staff} tone="green" />
       </div>
 
-      <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl bg-sand-50 shadow-sm">
         <div className="border-b border-ink-100 px-6 py-4">
           <h2 className="text-lg font-semibold text-ink-900">Low stock alert</h2>
           <p className="text-sm text-ink-500">Variants with only 1–2 items left</p>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="bg-ink-50 text-xs uppercase text-ink-500">
+            <thead className="bg-ink-900 text-xs uppercase tracking-wider text-gold-300">
               <tr>
                 <th className="px-6 py-3">Product</th>
                 <th className="px-6 py-3">Variant</th>

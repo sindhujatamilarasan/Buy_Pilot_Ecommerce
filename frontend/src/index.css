@@ -34,8 +34,12 @@
   --color-gold-800: #6c4c29;
   --color-gold-900: #573e24;
 
-  /* Warm ivory page background */
-  --color-cream: #faf7f2;
+  /* Warm sand – page background and light surfaces (no plain white) */
+  --color-cream: #ebe2d3;
+  --color-sand-50: #f6f1e8;
+  --color-sand-100: #efe7da;
+  --color-sand-200: #e2d5c0;
+  --color-sand-300: #cdb999;
 }
 
 @layer base {

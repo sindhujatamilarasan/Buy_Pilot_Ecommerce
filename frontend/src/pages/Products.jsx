@@ -32,15 +32,15 @@ const Products = () => {
 
   return (
     <div className="grid gap-8 md:grid-cols-[220px_1fr]">
-      <aside className="space-y-6">
+      <aside className="h-fit space-y-6 rounded-2xl bg-ink-900 p-6 md:sticky md:top-32">
         <div>
-          <h3 className="mb-2 text-sm font-bold uppercase text-ink-500">Category</h3>
-          <div className="flex flex-col items-start gap-1">
-            <button onClick={() => updateParam('category', '')} className={!params.category ? 'font-semibold text-gold-700' : 'text-ink-600 hover:text-ink-900'}>
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold-400">Category</h3>
+          <div className="flex flex-col items-start gap-2 text-sm">
+            <button onClick={() => updateParam('category', '')} className={!params.category ? 'font-semibold text-gold-300' : 'text-ink-300 hover:text-white'}>
               All
             </button>
             {categories.data?.map(c => (
-              <button key={c.id} onClick={() => updateParam('category', c.slug)} className={params.category === c.slug ? 'font-semibold text-gold-700' : 'text-ink-600 hover:text-ink-900'}>
+              <button key={c.id} onClick={() => updateParam('category', c.slug)} className={params.category === c.slug ? 'font-semibold text-gold-300' : 'text-ink-300 hover:text-white'}>
                 {c.name}
               </button>
             ))}
@@ -48,8 +48,8 @@ const Products = () => {
         </div>
 
         <div>
-          <h3 className="mb-2 text-sm font-bold uppercase text-ink-500">Sort by</h3>
-          <select value={params.ordering || ''} onChange={e => updateParam('ordering', e.target.value)} className="w-full rounded-lg border border-ink-300 bg-white px-3 py-2 text-sm">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold-400">Sort by</h3>
+          <select value={params.ordering || ''} onChange={e => updateParam('ordering', e.target.value)} className="w-full rounded-lg border border-ink-700 bg-ink-800 px-3 py-2 text-sm text-white">
             {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
         </div>
@@ -74,9 +74,9 @@ const Products = () => {
             </div>
 
             <div className="mt-8 flex items-center justify-center gap-4">
-              <button disabled={!data.previous} onClick={() => updateParam('page', String(page - 1))} className="rounded-lg border bg-white px-4 py-2 text-sm disabled:opacity-40">← Prev</button>
+              <button disabled={!data.previous} onClick={() => updateParam('page', String(page - 1))} className="rounded-lg border bg-sand-50 px-4 py-2 text-sm disabled:opacity-40">← Prev</button>
               <span className="text-sm text-ink-600">Page {page} of {Math.ceil(data.count / 12)}</span>
-              <button disabled={!data.next} onClick={() => updateParam('page', String(page + 1))} className="rounded-lg border bg-white px-4 py-2 text-sm disabled:opacity-40">Next →</button>
+              <button disabled={!data.next} onClick={() => updateParam('page', String(page + 1))} className="rounded-lg border bg-sand-50 px-4 py-2 text-sm disabled:opacity-40">Next →</button>
             </div>
           </>
         )}

@@ -22,13 +22,13 @@ const Checkout = () => {
     <div className="mx-auto max-w-2xl space-y-6">
       <h1 className="text-3xl font-semibold text-ink-900">Checkout</h1>
 
-      <div className="rounded-2xl bg-white p-6 shadow-sm">
+      <div className="rounded-2xl bg-sand-50 p-6 shadow-sm">
         <p className="text-sm text-ink-500">Ordering as</p>
         <p className="font-semibold text-ink-900">{user.name} · {user.email}</p>
       </div>
 
-      <div className="flex gap-4 rounded-2xl bg-white p-6 shadow-sm">
-        <img src={product.images[0]?.path} alt="" className="h-24 w-24 rounded-xl border border-ink-200 bg-white object-contain p-2" />
+      <div className="flex gap-4 rounded-2xl bg-sand-50 p-6 shadow-sm">
+        <img src={product.images[0]?.path} alt="" className="h-24 w-24 rounded-xl border border-ink-200 bg-sand-50 object-contain p-2 mix-blend-multiply" />
         <div className="flex-1">
           <p className="font-semibold text-ink-900">{product.name}</p>
           <p className="text-sm text-ink-500">{[variant.color, variant.size].filter(Boolean).join(' · ')} · Qty 1</p>

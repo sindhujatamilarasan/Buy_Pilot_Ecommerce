@@ -3,52 +3,58 @@ import { getCategories, getProducts } from '../api/products'
 import ProductCard from '../components/ProductCard'
 import Spinner from '../components/Spinner'
 import { useApi } from '../hooks/useApi'
+import { categoryStyle } from '../utils/categoryStyle'
 
 const PERKS = [
-  { icon: '🚚', title: 'Free shipping', text: 'On every order above ₹500' },
-  { icon: '🔒', title: 'Secure payments', text: 'Protected by Razorpay' },
-  { icon: '↩️', title: 'Easy returns', text: '7-day hassle-free returns' },
+  { icon: '🚚', title: 'Free shipping', text: 'On orders above ₹500', color: 'bg-brand-100' },
+  { icon: '🔒', title: 'Secure payments', text: 'Protected by Razorpay', color: 'bg-violet-100' },
+  { icon: '↩️', title: 'Easy returns', text: '7-day hassle-free returns', color: 'bg-emerald-100' },
 ]
+
+// Tilt the collage photos a little for a playful look
+const TILTS = ['-rotate-6', 'rotate-3', '-rotate-2']
 
 const Home = () => {
   const categories = useApi(getCategories)
   const topRated = useApi(getProducts, { ordering: '-rating' }) // "-" = highest first
   const products = topRated.data?.results || []
-  const heroImages = products.slice(0, 3)
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-16">
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-ink-950 px-8 py-14 md:px-14 md:py-20">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-gold-500/20 blur-3xl" />
-        <div className="relative grid items-center gap-12 md:grid-cols-2">
+      <section className="bg-brand relative overflow-hidden rounded-[2rem] px-8 py-14 text-white md:px-14 md:py-16">
+        <div className="pointer-events-none absolute -left-10 -top-10 h-56 w-56 rounded-full bg-sky-300/40 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 right-10 h-72 w-72 rounded-full bg-fuchsia-400/30 blur-3xl" />
+
+        <div className="relative grid items-center gap-10 md:grid-cols-2">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">The Festive Edit · 2026</p>
-            <h1 className="mt-5 text-4xl font-semibold leading-tight text-white md:text-6xl">
-              Curated for the way <em className="text-gold-300">you</em> live.
+            <span className="rounded-full bg-white/25 px-4 py-1.5 text-sm font-bold backdrop-blur">✨ Festive Sale is live</span>
+            <h1 className="mt-6 text-4xl font-extrabold leading-tight md:text-6xl">
+              Shop the trends <br /> you’ll love 💖
             </h1>
-            <p className="mt-5 max-w-md text-ink-300">
-              Hand-picked fashion, technology and home essentials – crafted to last, priced to delight.
+            <p className="mt-4 max-w-md text-lg text-white/90">
+              Phones, fashion, shoes, beauty and more – all in one happy place.
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Link to="/products" className="rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-ink-950 transition hover:bg-gold-400">
-                Shop the collection
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/products" className="rounded-full bg-white px-7 py-3.5 font-bold text-brand-600 shadow-xl transition hover:scale-105">
+                Start shopping →
               </Link>
-              <a href="#categories" className="rounded-full border border-ink-600 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-gold-400 hover:text-gold-300">
-                Explore categories
+              <a href="#categories" className="rounded-full border-2 border-white/70 px-7 py-3.5 font-bold text-white transition hover:bg-white/15">
+                Browse categories
               </a>
             </div>
           </div>
 
-          {/* Image collage from the top-rated products */}
-          <div className="hidden grid-cols-2 gap-4 md:grid">
-            {heroImages.map((product, index) => (
+          {/* Playful tilted photo collage from top-rated products */}
+          <div className="hidden justify-center gap-4 md:flex">
+            {products.slice(0, 3).map((product, index) => (
               <Link
                 key={product.id}
                 to={`/products/${product.slug}`}
-                className={`rounded-2xl bg-sand-50 p-5 shadow-2xl transition hover:-translate-y-1 ${index === 0 ? 'row-span-2 flex items-center' : ''}`}
+                className={`w-40 rounded-3xl bg-white p-4 shadow-2xl transition hover:rotate-0 hover:scale-110 ${TILTS[index]} ${index === 1 ? 'mt-10' : ''}`}
               >
-                <img src={product.image} alt={product.name} className="w-full object-contain mix-blend-multiply" />
+                <img src={product.image} alt={product.name} className="aspect-square w-full object-contain" />
+                <p className="mt-2 line-clamp-1 text-xs font-bold text-ink-800">{product.name}</p>
               </Link>
             ))}
           </div>
@@ -58,11 +64,11 @@ const Home = () => {
       {/* Perks */}
       <section className="grid gap-4 md:grid-cols-3">
         {PERKS.map(perk => (
-          <div key={perk.title} className="flex items-center gap-4 rounded-2xl bg-ink-900 px-6 py-5">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink-800 text-xl ring-1 ring-gold-500/40">{perk.icon}</span>
+          <div key={perk.title} className={`flex items-center gap-4 rounded-3xl px-6 py-5 ${perk.color}`}>
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm">{perk.icon}</span>
             <div>
-              <p className="font-semibold text-white">{perk.title}</p>
-              <p className="text-sm text-ink-300">{perk.text}</p>
+              <p className="font-display font-bold text-ink-900">{perk.title}</p>
+              <p className="text-sm text-ink-600">{perk.text}</p>
             </div>
           </div>
         ))}
@@ -70,19 +76,22 @@ const Home = () => {
 
       {/* Categories */}
       <section id="categories">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-700">Collections</p>
-        <h2 className="mt-2 text-3xl font-semibold text-ink-900 md:text-4xl">Shop by category</h2>
-        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {categories.data?.map(category => (
-            <Link
-              key={category.id}
-              to={`/products?category=${category.slug}`}
-              className="group rounded-2xl bg-ink-900 p-6 transition hover:-translate-y-1 hover:bg-gold-500"
-            >
-              <p className="font-serif text-lg font-semibold text-white group-hover:text-ink-950">{category.name}</p>
-              <p className="mt-6 text-sm font-semibold text-gold-300 group-hover:text-ink-900">Explore →</p>
-            </Link>
-          ))}
+        <h2 className="text-3xl font-extrabold text-ink-900">Shop by category 🛍️</h2>
+        <p className="mt-1 text-ink-500">Pick a world and start exploring.</p>
+        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {categories.data?.map(category => {
+            const style = categoryStyle(category.slug)
+            return (
+              <Link
+                key={category.id}
+                to={`/products?category=${category.slug}`}
+                className={`group flex flex-col items-center rounded-3xl p-6 text-center transition hover:-translate-y-1 hover:shadow-lg ${style.tile}`}
+              >
+                <span className="text-5xl transition group-hover:scale-125 group-hover:rotate-6">{style.emoji}</span>
+                <p className="mt-3 font-display font-bold text-ink-900">{category.name}</p>
+              </Link>
+            )
+          })}
         </div>
       </section>
 
@@ -90,17 +99,17 @@ const Home = () => {
       <section>
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-700">Loved by customers</p>
-            <h2 className="mt-2 text-3xl font-semibold text-ink-900 md:text-4xl">Top rated</h2>
+            <h2 className="text-3xl font-extrabold text-ink-900">Top rated ⭐</h2>
+            <p className="mt-1 text-ink-500">Our customers can’t stop loving these.</p>
           </div>
-          <Link to="/products?ordering=-rating" className="text-sm font-semibold text-ink-900 underline decoration-gold-400 underline-offset-4">
-            View all
+          <Link to="/products?ordering=-rating" className="rounded-full bg-brand-100 px-4 py-2 text-sm font-bold text-brand-700 hover:bg-brand-200">
+            View all →
           </Link>
         </div>
         {topRated.loading ? (
           <Spinner />
         ) : (
-          <div className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-5 md:grid-cols-4">
             {products.slice(0, 8).map(product => (
               <ProductCard key={product.id} product={product} />
             ))}

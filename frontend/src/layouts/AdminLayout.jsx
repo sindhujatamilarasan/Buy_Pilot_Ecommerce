@@ -13,8 +13,8 @@ const MENU = [
 ]
 
 const itemClass = ({ isActive }) =>
-  `flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
-    isActive ? 'bg-gold-500 text-ink-950' : 'text-ink-300 hover:bg-ink-800 hover:text-white'
+  `flex items-center justify-between rounded-2xl px-4 py-2.5 text-sm font-semibold transition ${
+    isActive ? 'bg-white text-brand-700 shadow-lg' : 'text-white/85 hover:bg-white/15 hover:text-white'
   }`
 
 const AdminLayout = () => {
@@ -28,28 +28,39 @@ const AdminLayout = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-cream md:flex-row">
-      <aside className="w-full bg-ink-950 p-5 md:w-64 md:shrink-0">
-        <Link to="/" className="block px-3 py-2 font-serif text-2xl font-semibold text-white">Shop<span className="text-gold-400">Kart</span></Link>
-        <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-gold-400">{user.role} panel</p>
+    <div className="flex min-h-screen flex-col bg-blush md:flex-row">
+      <aside className="bg-brand w-full p-5 md:sticky md:top-0 md:h-screen md:w-64 md:shrink-0">
+        <Link to="/" className="block px-2 font-display text-2xl font-extrabold text-white">🛍️ ShopKart</Link>
+        <span className="mx-2 mt-2 inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
+          {user.role} panel
+        </span>
 
-        <nav className="mt-6 space-y-1">
+        <nav className="mt-8 space-y-1.5">
           {items.map(item => (
             <NavLink key={item.to} to={item.to} end className={itemClass}>
               {item.label}
-              {item.soon && <span className="rounded bg-ink-700 px-1.5 text-[10px] text-ink-300">soon</span>}
+              {item.soon && <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-bold">soon</span>}
             </NavLink>
           ))}
         </nav>
 
-        <div className="mt-8 border-t border-ink-800 px-3 pt-4 text-sm text-ink-400">
-          <p>{user.name}</p>
-          <p className="text-xs">{user.email}</p>
-          <button onClick={handleLogout} className="mt-3 text-red-400 hover:underline">Logout</button>
+        <div className="mt-10 rounded-2xl bg-white/15 p-4 text-sm text-white">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white font-bold text-brand-700">
+              {user.name?.[0]?.toUpperCase()}
+            </span>
+            <div className="min-w-0">
+              <p className="truncate font-bold">{user.name}</p>
+              <p className="truncate text-xs text-white/75">{user.email}</p>
+            </div>
+          </div>
+          <button onClick={handleLogout} className="mt-3 w-full rounded-xl bg-white/20 py-2 font-semibold hover:bg-white/30">
+            Logout
+          </button>
         </div>
       </aside>
 
-      <main className="flex-1 p-6 md:p-8">
+      <main className="flex-1 p-6 md:p-10">
         <Outlet />
       </main>
     </div>

@@ -4,7 +4,7 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 
 const CustomerLayout = () => (
-  <div className="flex min-h-screen flex-col bg-cream">
+  <div className="flex min-h-screen flex-col bg-blush">
     <Navbar />
     <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-10">
       <Outlet />

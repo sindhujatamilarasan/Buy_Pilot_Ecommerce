@@ -1,54 +1,58 @@
-/* Fonts: Playfair Display (elegant serif headings) + Manrope (clean body text) */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap');
+/* Fonts: Outfit (bold, friendly headings) + Manrope (clean body text) */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
 @import 'tailwindcss';
 
 /* ===== ShopKart design tokens =====
-   Tailwind v4 turns these into classes: bg-ink-900, text-gold-600, font-serif, bg-cream…
-   Change a colour here → it changes everywhere. */
+   Tailwind v4 turns these into classes: text-ink-900, bg-blush, font-display…
+   Bright colours (pink, orange, violet…) come from Tailwind's built-in palette. */
 @theme {
   --font-sans: 'Manrope', system-ui, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-display: 'Outfit', system-ui, sans-serif;
 
-  /* Ink – deep navy-black for text, buttons and dark sections */
-  --color-ink-50: #f6f6f8;
-  --color-ink-100: #ebebef;
-  --color-ink-200: #d3d4dc;
-  --color-ink-300: #a9abb9;
-  --color-ink-400: #7a7d90;
-  --color-ink-500: #565a6d;
-  --color-ink-600: #40435a;
-  --color-ink-700: #2e3145;
-  --color-ink-800: #1e2030;
-  --color-ink-900: #131522;
-  --color-ink-950: #0b0c15;
+  /* Ink – used ONLY for text (no black surfaces) */
+  --color-ink-300: #a3a6b8;
+  --color-ink-400: #7c7f94;
+  --color-ink-500: #5d6075;
+  --color-ink-600: #45485c;
+  --color-ink-700: #33364a;
+  --color-ink-800: #252838;
+  --color-ink-900: #1a1c2b;
 
-  /* Gold – champagne accent for highlights, links and ratings */
-  --color-gold-50: #fbf8f1;
-  --color-gold-100: #f5ecd7;
-  --color-gold-200: #ead8ae;
-  --color-gold-300: #dfc086;
-  --color-gold-400: #d1a85f;
-  --color-gold-500: #c29445;
-  --color-gold-600: #a77a37;
-  --color-gold-700: #865f2e;
-  --color-gold-800: #6c4c29;
-  --color-gold-900: #573e24;
+  /* Brand – calm violet-indigo. Change these to re-colour the whole shop. */
+  --color-brand-50: #f5f3ff;
+  --color-brand-100: #ede9fe;
+  --color-brand-200: #ddd6fe;
+  --color-brand-300: #c4b5fd;
+  --color-brand-400: #a78bfa;
+  --color-brand-500: #8b5cf6;
+  --color-brand-600: #7c3aed;
+  --color-brand-700: #6d28d9;
+  --color-brand-800: #5b21b6;
+  --color-brand-900: #4c1d95;
 
-  /* Warm sand – page background and light surfaces (no plain white) */
-  --color-cream: #ebe2d3;
-  --color-sand-50: #f6f1e8;
-  --color-sand-100: #efe7da;
-  --color-sand-200: #e2d5c0;
-  --color-sand-300: #cdb999;
+  /* Soft lavender page background (not plain white) */
+  --color-blush: #f6f5fb;
 }
 
 @layer base {
   body {
-    @apply bg-cream font-sans text-ink-700 antialiased;
+    @apply bg-blush font-sans text-ink-700 antialiased;
   }
 
   h1,
-  h2 {
-    @apply font-serif tracking-tight;
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
   }
+}
+
+/* Reusable brand gradient (buttons, hero, logo): violet → indigo */
+@utility bg-brand {
+  background-image: linear-gradient(120deg, #7c3aed 0%, #6366f1 60%, #4f8df5 100%);
+}
+
+@utility text-brand {
+  background-image: linear-gradient(120deg, #6d28d9 0%, #4f46e5 100%);
+  background-clip: text;
+  color: transparent;
 }

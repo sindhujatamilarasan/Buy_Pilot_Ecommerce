@@ -2,19 +2,22 @@
 import { Link } from 'react-router-dom'
 
 const AuthCard = ({ title, subtitle, error, children }) => (
-  <div className="mx-auto max-w-md rounded-3xl border border-ink-100 bg-sand-50 p-10 shadow-[0_30px_60px_-30px_rgba(19,21,34,0.35)]">
-    <Link to="/" className="font-serif text-2xl font-semibold text-ink-900">Shop<span className="text-gold-600">Kart</span></Link>
-    <h1 className="mt-8 text-3xl font-semibold text-ink-900">{title}</h1>
-    <p className="mt-1 text-sm text-ink-500">{subtitle}</p>
-    {error && <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-    <div className="mt-6">{children}</div>
+  <div className="mx-auto max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl shadow-brand-100">
+    <div className="bg-brand h-2" />
+    <div className="p-10">
+      <Link to="/" className="font-display text-2xl font-extrabold">🛍️ <span className="text-brand">ShopKart</span></Link>
+      <h1 className="mt-8 text-3xl font-bold text-ink-900">{title}</h1>
+      <p className="mt-1 text-sm text-ink-500">{subtitle}</p>
+      {error && <p className="mt-4 rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</p>}
+      <div className="mt-6">{children}</div>
+    </div>
   </div>
 )
 
 export const inputClass =
-  'w-full rounded-xl border border-ink-300 px-4 py-3 text-sm outline-none focus:border-gold-500 focus:ring-4 focus:ring-gold-100'
+  'w-full rounded-xl border-2 border-brand-100 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100'
 
 export const buttonClass =
-  'w-full rounded-full bg-ink-900 py-3.5 font-semibold text-white transition hover:bg-gold-600 disabled:opacity-60'
+  'bg-brand w-full rounded-full py-3.5 font-bold text-white shadow-lg shadow-brand-200 transition hover:scale-[1.02] disabled:opacity-60'
 
 export default AuthCard

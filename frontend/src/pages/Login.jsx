@@ -46,7 +46,7 @@ const Login = () => {
       </form>
       <p className="mt-6 text-center text-sm text-ink-500">
         New here?{' '}
-        <Link to="/register" state={{ from }} className="font-semibold text-gold-700">Create an account</Link>
+        <Link to="/register" state={{ from }} className="font-semibold text-brand-600">Create an account</Link>
       </p>
     </AuthCard>
   )

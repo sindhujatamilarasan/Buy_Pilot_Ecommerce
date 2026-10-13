@@ -60,3 +60,4 @@ class AuthAndRoleTests(APITestCase):
         res = self.client.get('/api/admin/dashboard/')
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.data['stats']['low_stock'], 1)
+        self.assertEqual(res.data['categories'], [{'name': 'Books', 'slug': 'books', 'products': 1}])

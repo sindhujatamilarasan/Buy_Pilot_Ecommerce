@@ -1,15 +1,19 @@
+// One number on the dashboard, with a coloured icon bubble
 const tones = {
-  gold: 'bg-gold-50 text-gold-700 ring-gold-200',
-  green: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
-  amber: 'bg-amber-50 text-amber-700 ring-amber-200',
-  red: 'bg-rose-50 text-rose-700 ring-rose-200',
+  violet: 'bg-violet-100 text-violet-700',
+  sky: 'bg-sky-100 text-sky-700',
+  amber: 'bg-amber-100 text-amber-700',
+  rose: 'bg-rose-100 text-rose-700',
+  emerald: 'bg-emerald-100 text-emerald-700',
+  indigo: 'bg-indigo-100 text-indigo-700',
 }
 
-const StatCard = ({ icon, label, value, tone = 'gold' }) => (
-  <div className="rounded-2xl border border-ink-100 bg-sand-50 p-5 shadow-sm">
-    <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl text-lg ring-1 ${tones[tone]}`}>{icon}</div>
-    <p className="mt-4 font-serif text-3xl font-semibold text-ink-900">{value}</p>
-    <p className="text-sm text-ink-500">{label}</p>
+const StatCard = ({ icon, label, value, hint, tone = 'violet' }) => (
+  <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-brand-100 transition hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-100">
+    <div className={`flex h-12 w-12 items-center justify-center rounded-2xl text-2xl ${tones[tone]}`}>{icon}</div>
+    <p className="mt-4 font-display text-3xl font-extrabold text-ink-900">{value}</p>
+    <p className="text-sm font-semibold text-ink-600">{label}</p>
+    {hint && <p className="mt-1 text-xs text-ink-400">{hint}</p>}
   </div>
 )
 

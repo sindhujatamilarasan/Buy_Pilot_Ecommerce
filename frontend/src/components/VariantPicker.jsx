@@ -1,11 +1,11 @@
 // Shows size / colour buttons. Only combinations that exist can be picked.
 const optionClass = (selected, disabled) =>
-  `rounded-full border px-5 py-2 text-sm font-semibold transition ${
+  `rounded-full border-2 px-5 py-2 text-sm font-bold transition ${
     selected
-      ? 'border-ink-900 bg-ink-900 text-gold-200'
+      ? 'border-brand-500 bg-brand-500 text-white shadow-md shadow-brand-200'
       : disabled
-        ? 'cursor-not-allowed border-ink-200 text-ink-300 line-through'
-        : 'border-ink-300 text-ink-700 hover:border-ink-900'
+        ? 'cursor-not-allowed border-ink-300/40 text-ink-300 line-through'
+        : 'border-brand-200 bg-white text-ink-700 hover:border-brand-400'
   }`
 
 const unique = list => [...new Set(list.filter(Boolean))]

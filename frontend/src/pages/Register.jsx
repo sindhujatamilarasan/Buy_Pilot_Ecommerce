@@ -39,7 +39,7 @@ const Register = () => {
       </form>
       <p className="mt-6 text-center text-sm text-ink-500">
         Already have an account?{' '}
-        <Link to="/login" state={{ from }} className="font-semibold text-gold-700">Log in</Link>
+        <Link to="/login" state={{ from }} className="font-semibold text-brand-600">Log in</Link>
       </p>
     </AuthCard>
   )

@@ -1,46 +1,62 @@
-// Day 1 – Home page: proves React can talk to the Django API.
-// useEffect is new: it runs code AFTER the component appears on screen
-// (here: call the API once). We'll learn it properly on Day 2–3.
-import { useEffect, useState } from 'react'
-import { getHealth } from '../api/health'
+import { Link } from 'react-router-dom'
+import { getCategories, getProducts } from '../api/products'
+import ProductCard from '../components/ProductCard'
+import Spinner from '../components/Spinner'
+import { useApi } from '../hooks/useApi'
 
 const Home = () => {
-  const [status, setStatus] = useState('checking') // 'checking' | 'ok' | 'error'
-
-  useEffect(() => {
-    getHealth()
-      .then(() => setStatus('ok'))
-      .catch(() => setStatus('error'))
-  }, []) // [] = run only once, when the page first loads
+  const categories = useApi(getCategories)
+  const topRated = useApi(getProducts, { ordering: '-rating' }) // "-" = highest first
 
   return (
-    <main className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-lg">
-        <h1 className="text-3xl font-extrabold text-slate-900">🛍️ ShopKart</h1>
-        <p className="mt-2 text-slate-500">E-commerce project – Day 1 setup</p>
+    <div className="space-y-12">
+      {/* Hero */}
+      <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-fuchsia-600 px-8 py-14 text-white">
+        <p className="text-sm font-semibold uppercase tracking-widest text-indigo-100">Big Festive Sale</p>
+        <h1 className="mt-3 max-w-xl text-4xl font-extrabold leading-tight md:text-5xl">
+          Everything you love, delivered to your door.
+        </h1>
+        <p className="mt-4 max-w-lg text-indigo-100">
+          100+ products across fashion, electronics, home and more. Free shipping above ₹500.
+        </p>
+        <Link to="/products" className="mt-8 inline-block rounded-full bg-white px-6 py-3 font-semibold text-indigo-700 hover:bg-indigo-50">
+          Shop now →
+        </Link>
+      </section>
 
-        <ul className="mt-6 space-y-3">
-          <li className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
-            <span className="font-medium text-slate-700">React + Tailwind</span>
-            <span className="text-green-600 font-semibold">✅ Running</span>
-          </li>
-          <li className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
-            <span className="font-medium text-slate-700">Django API</span>
-            {status === 'checking' && <span className="text-slate-400">⏳ Checking…</span>}
-            {status === 'ok' && <span className="text-green-600 font-semibold">✅ Connected</span>}
-            {status === 'error' && (
-              <span className="text-red-600 font-semibold">❌ Not running</span>
-            )}
-          </li>
-        </ul>
+      {/* Categories */}
+      <section>
+        <h2 className="mb-4 text-2xl font-bold text-slate-900">Shop by category</h2>
+        <div className="flex flex-wrap gap-3">
+          {categories.data?.map(category => (
+            <Link
+              key={category.id}
+              to={`/products?category=${category.slug}`}
+              className="rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-700 hover:border-indigo-600 hover:text-indigo-600"
+            >
+              {category.name}
+            </Link>
+          ))}
+        </div>
+      </section>
 
-        {status === 'error' && (
-          <p className="mt-4 text-sm text-red-600">
-            Start the backend: <code>python manage.py runserver</code> in the backend folder.
-          </p>
+      {/* Top rated */}
+      <section>
+        <div className="mb-4 flex items-baseline justify-between">
+          <h2 className="text-2xl font-bold text-slate-900">Top rated</h2>
+          <Link to="/products?ordering=-rating" className="text-sm font-semibold text-indigo-600">View all →</Link>
+        </div>
+        {topRated.loading ? (
+          <Spinner />
+        ) : (
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {topRated.data?.results.slice(0, 8).map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
         )}
-      </div>
-    </main>
+      </section>
+    </div>
   )
 }
 

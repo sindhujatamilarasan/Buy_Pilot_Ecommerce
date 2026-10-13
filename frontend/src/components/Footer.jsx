@@ -5,7 +5,7 @@ const COLUMNS = [
 ]
 
 const Footer = () => (
-  <footer className="mt-20 bg-gradient-to-br from-brand-50 via-rose-50 to-orange-50">
+  <footer className="mt-20 bg-gradient-to-br from-brand-50 via-brand-50 to-mango-100">
     <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">
       <div>
         <p className="font-display text-2xl font-extrabold">🛍️ <span className="text-brand">ShopKart</span></p>

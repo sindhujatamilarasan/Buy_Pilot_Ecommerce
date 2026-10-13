@@ -18,20 +18,26 @@
   --color-ink-800: #252838;
   --color-ink-900: #1a1c2b;
 
-  /* Brand – pink. Change these to re-colour the whole shop. */
-  --color-brand-50: #fdf2f8;
-  --color-brand-100: #fce7f3;
-  --color-brand-200: #fbcfe8;
-  --color-brand-300: #f9a8d4;
-  --color-brand-400: #f472b6;
-  --color-brand-500: #ec4899;
-  --color-brand-600: #db2777;
-  --color-brand-700: #be185d;
-  --color-brand-800: #9d174d;
-  --color-brand-900: #831843;
+  /* Brand – emerald green. Change these to re-colour the whole shop. */
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
 
-  /* Warm, very light peach page background (not plain white) */
-  --color-blush: #fff8f5;
+  /* Mango – warm accent for offers, badges and ratings */
+  --color-mango-100: #fef3c7;
+  --color-mango-400: #fbbf24;
+  --color-mango-500: #f59e0b;
+  --color-mango-600: #d97706;
+
+  /* Very light mint page background (not plain white) */
+  --color-blush: #f7fcf9;
 }
 
 @layer base {
@@ -46,18 +52,18 @@
   }
 }
 
-/* Bright pink → orange: ONLY for small things (buttons, badges, logo) */
+/* Bright emerald → teal: ONLY for small things (buttons, active menu, logo) */
 @utility bg-brand {
-  background-image: linear-gradient(120deg, #ec4899 0%, #f87171 55%, #fb923c 100%);
+  background-image: linear-gradient(120deg, #10b981 0%, #0d9488 100%);
 }
 
-/* Soft pastel pink → peach: for BIG areas (hero, top strip, sidebar, banners) */
+/* Soft mint → mango cream: for BIG areas (hero, top strip, sidebar, banners) */
 @utility bg-brand-soft {
-  background-image: linear-gradient(120deg, #fde4ef 0%, #ffe4e6 50%, #ffedd5 100%);
+  background-image: linear-gradient(120deg, #d1fae5 0%, #ecfdf5 45%, #fef3c7 100%);
 }
 
 @utility text-brand {
-  background-image: linear-gradient(120deg, #db2777 0%, #f97316 100%);
+  background-image: linear-gradient(120deg, #059669 0%, #0d9488 100%);
   background-clip: text;
   color: transparent;
 }

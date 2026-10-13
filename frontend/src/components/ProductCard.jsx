@@ -24,7 +24,7 @@ const ProductCard = ({ product }) => {
           <span className="absolute left-2 top-2 rounded-full bg-ink-500 px-2.5 py-1 text-[11px] font-bold text-white">Sold out</span>
         )}
         {almostGone && (
-          <span className="absolute left-2 top-2 rounded-full bg-orange-500 px-2.5 py-1 text-[11px] font-bold text-white">🔥 Only few left</span>
+          <span className="absolute left-2 top-2 rounded-full bg-mango-500 px-2.5 py-1 text-[11px] font-bold text-white">🔥 Only few left</span>
         )}
         <span className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-xs font-bold text-ink-800 shadow-sm">
           <span className="text-amber-400">★</span> {product.rating}

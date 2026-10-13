@@ -8,7 +8,7 @@ import { categoryStyle } from '../utils/categoryStyle'
 const PERKS = [
   { icon: '🚚', title: 'Free shipping', text: 'On orders above ₹500', color: 'bg-brand-100' },
   { icon: '🔒', title: 'Secure payments', text: 'Protected by Razorpay', color: 'bg-violet-100' },
-  { icon: '↩️', title: 'Easy returns', text: '7-day hassle-free returns', color: 'bg-emerald-100' },
+  { icon: '↩️', title: 'Easy returns', text: '7-day hassle-free returns', color: 'bg-mango-100' },
 ]
 
 // Tilt the collage photos a little for a playful look
@@ -24,13 +24,13 @@ const Home = () => {
       {/* Hero */}
       <section className="bg-brand-soft relative overflow-hidden rounded-[2rem] px-8 py-14 md:px-14 md:py-16">
         <div className="pointer-events-none absolute -left-10 -top-10 h-56 w-56 rounded-full bg-white/70 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-16 right-10 h-72 w-72 rounded-full bg-orange-200/60 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 right-10 h-72 w-72 rounded-full bg-mango-400/30 blur-3xl" />
 
         <div className="relative grid items-center gap-10 md:grid-cols-2">
           <div>
             <span className="rounded-full bg-white/80 px-4 py-1.5 text-sm font-bold text-brand-700 shadow-sm">✨ Festive Sale is live</span>
             <h1 className="mt-6 text-4xl font-extrabold leading-tight text-ink-900 md:text-6xl">
-              Shop the trends <br /> <span className="text-brand">you’ll love</span> 💖
+              Shop the trends <br /> <span className="text-brand">you’ll love</span> 💚
             </h1>
             <p className="mt-4 max-w-md text-lg text-ink-600">
               Phones, fashion, shoes, beauty and more – all in one happy place.

@@ -45,10 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third-party
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     # Our apps
     'accounts',
     'catalog',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -153,6 +155,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Django REST Framework
 REST_FRAMEWORK = {
+    # React sends:  Authorization: Token <key>
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    # Safe default: every API needs login unless a view says AllowAny
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 12,
 }

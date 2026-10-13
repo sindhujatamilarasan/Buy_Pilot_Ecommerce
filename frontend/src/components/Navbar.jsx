@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { useCart } from '../hooks/useCart'
 
 const linkClass = ({ isActive }) =>
   `rounded-full px-3 py-1.5 text-sm font-semibold transition ${
@@ -9,6 +10,7 @@ const linkClass = ({ isActive }) =>
 
 const Navbar = () => {
   const { user, logout } = useAuth()
+  const { count } = useCart()
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
 
@@ -45,7 +47,10 @@ const Navbar = () => {
 
           <nav className="ml-auto flex items-center gap-1">
             <NavLink to="/products" className={linkClass}>Shop</NavLink>
-            <NavLink to="/cart" className={linkClass}>🛒 Cart</NavLink>
+            <NavLink to="/cart" className={linkClass}>
+              🛒 Cart
+              {count > 0 && <span className="bg-brand ml-1.5 rounded-full px-2 py-0.5 text-xs font-bold text-white">{count}</span>}
+            </NavLink>
 
             {user ? (
               <>

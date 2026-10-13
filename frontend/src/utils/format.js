@@ -1,6 +1,9 @@
-// "2999.00" → "₹2,999"
-export const formatPrice = value =>
-  `₹${Number(value).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`
+// 2999 → "₹2,999"   ·   179.82 → "₹179.82"
+export const formatPrice = value => {
+  const amount = Number(value)
+  const decimals = Number.isInteger(amount) ? 0 : 2
+  return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: 2 })}`
+}
 
 // Turn axios errors into one readable message for the UI
 export const getErrorMessage = error => {

@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import AdminLayout from './layouts/AdminLayout'
 import CustomerLayout from './layouts/CustomerLayout'
 import Dashboard from './pages/admin/Dashboard'
+import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -21,7 +22,7 @@ const App = () => (
       <Route path="/" element={<Home />} />
       <Route path="/products" element={<Products />} />
       <Route path="/products/:slug" element={<ProductDetail />} />
-      <Route path="/cart" element={<Placeholder icon="🛒" title="Cart" when="Day 5" />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forbidden" element={<NotFound forbidden />} />

@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProduct } from '../api/products'
 import Message from '../components/Message'
+import QtyStepper from '../components/QtyStepper'
 import Spinner from '../components/Spinner'
 import VariantPicker from '../components/VariantPicker'
 import { useApi } from '../hooks/useApi'
+import { useCart } from '../hooks/useCart'
 import { categoryStyle } from '../utils/categoryStyle'
 import { formatPrice } from '../utils/format'
 
@@ -26,11 +28,50 @@ const ProductView = ({ product }) => {
   const [variant, setVariant] = useState(
     () => product.variants.find(v => v.stock > 0) || product.variants[0],
   )
-  const inStock = variant.stock > 0
-  const style = categoryStyle(product.category.slug)
+  const [qty, setQty] = useState(1)
+  const [notice, setNotice] = useState(null) // message after "Add to cart"
+  const { addItem, quantityOf } = useCart()
 
-  // Ordering needs login → /checkout is a protected route
-  const buyNow = () => navigate('/checkout', { state: { product, variant } })
+  const style = categoryStyle(product.category.slug)
+  const inCart = quantityOf(variant.id)
+  const canAdd = variant.stock - inCart // stock limit: what is left after what is already in the cart
+  const inStock = variant.stock > 0
+
+  const selectVariant = next => {
+    setVariant(next)
+    setQty(1)
+    setNotice(null)
+  }
+
+  // What we store in the cart for this variant
+  const cartItem = () => ({
+    variantId: variant.id,
+    slug: product.slug,
+    name: product.name,
+    image: product.images[0]?.path,
+    size: variant.size,
+    color: variant.color,
+    price: Number(variant.price),
+    stock: variant.stock,
+  })
+
+  const addToCart = () => {
+    const added = addItem(cartItem(), qty)
+    setNotice(
+      added === 0
+        ? { type: 'warn', text: `You already have all ${variant.stock} in your cart.` }
+        : added < qty
+          ? { type: 'warn', text: `Only ${added} more could be added (stock limit).` }
+          : { type: 'ok', text: `Added ${added} to your cart ✓` },
+    )
+    setQty(1)
+  }
+
+  // Buy now = add to cart, then checkout (protected → login first if needed)
+  const buyNow = () => {
+    if (canAdd > 0) addItem(cartItem(), qty)
+    navigate('/checkout')
+  }
 
   return (
     <div className="grid gap-10 md:grid-cols-2">
@@ -59,17 +100,31 @@ const ProductView = ({ product }) => {
         </p>
 
         <div className="mt-6">
-          <VariantPicker variants={product.variants} selected={variant} onSelect={setVariant} />
+          <VariantPicker variants={product.variants} selected={variant} onSelect={selectVariant} />
         </div>
 
-        <div className="mt-8 flex gap-3">
-          <button disabled title="Cart comes on Day 5" className="flex-1 rounded-full border-2 border-brand-300 py-3.5 font-bold text-brand-600 disabled:opacity-50">
+        {inStock && (
+          <div className="mt-6 flex items-center gap-3 text-sm">
+            <span className="font-semibold text-ink-700">Quantity</span>
+            <QtyStepper value={qty} max={Math.max(1, canAdd)} onChange={setQty} />
+            {inCart > 0 && <span className="text-ink-500">({inCart} already in cart)</span>}
+          </div>
+        )}
+
+        <div className="mt-6 flex gap-3">
+          <button onClick={addToCart} disabled={!inStock || canAdd === 0} className="flex-1 rounded-full border-2 border-brand-300 bg-white py-3.5 font-bold text-brand-700 transition hover:bg-brand-50 disabled:opacity-50">
             Add to cart
           </button>
           <button disabled={!inStock} onClick={buyNow} className="bg-brand flex-1 rounded-full py-3.5 font-bold text-white shadow-lg shadow-brand-200 transition hover:scale-[1.02] disabled:bg-none disabled:bg-ink-300 disabled:shadow-none">
             Buy now
           </button>
         </div>
+
+        {notice && (
+          <p className={`mt-4 rounded-2xl px-4 py-3 text-sm font-semibold ${notice.type === 'ok' ? 'bg-brand-50 text-brand-800' : 'bg-mango-100 text-ink-700'}`}>
+            {notice.text} <Link to="/cart" className="ml-1 underline">View cart →</Link>
+          </p>
+        )}
 
         <p className="mt-8 leading-relaxed text-ink-600">{product.description}</p>
         <p className="mt-2 text-xs text-ink-400">SKU: {variant.sku}</p>

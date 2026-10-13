@@ -5,7 +5,7 @@ const COLUMNS = [
 ]
 
 const Footer = () => (
-  <footer className="mt-20 bg-gradient-to-br from-brand-100 via-indigo-50 to-sky-100">
+  <footer className="mt-20 bg-gradient-to-br from-brand-50 via-rose-50 to-orange-50">
     <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">
       <div>
         <p className="font-display text-2xl font-extrabold">🛍️ <span className="text-brand">ShopKart</span></p>
@@ -24,7 +24,7 @@ const Footer = () => (
         </div>
       ))}
     </div>
-    <div className="border-t border-brand-200 py-5 text-center text-xs text-ink-500">
+    <div className="border-t border-brand-100 py-5 text-center text-xs text-ink-500">
       © 2026 ShopKart · Made with 💖 using React + Django
     </div>
   </footer>

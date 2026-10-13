@@ -22,24 +22,24 @@ const Home = () => {
   return (
     <div className="space-y-16">
       {/* Hero */}
-      <section className="bg-brand relative overflow-hidden rounded-[2rem] px-8 py-14 text-white md:px-14 md:py-16">
-        <div className="pointer-events-none absolute -left-10 -top-10 h-56 w-56 rounded-full bg-sky-300/40 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-16 right-10 h-72 w-72 rounded-full bg-fuchsia-400/30 blur-3xl" />
+      <section className="bg-brand-soft relative overflow-hidden rounded-[2rem] px-8 py-14 md:px-14 md:py-16">
+        <div className="pointer-events-none absolute -left-10 -top-10 h-56 w-56 rounded-full bg-white/70 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 right-10 h-72 w-72 rounded-full bg-orange-200/60 blur-3xl" />
 
         <div className="relative grid items-center gap-10 md:grid-cols-2">
           <div>
-            <span className="rounded-full bg-white/25 px-4 py-1.5 text-sm font-bold backdrop-blur">✨ Festive Sale is live</span>
-            <h1 className="mt-6 text-4xl font-extrabold leading-tight md:text-6xl">
-              Shop the trends <br /> you’ll love 💖
+            <span className="rounded-full bg-white/80 px-4 py-1.5 text-sm font-bold text-brand-700 shadow-sm">✨ Festive Sale is live</span>
+            <h1 className="mt-6 text-4xl font-extrabold leading-tight text-ink-900 md:text-6xl">
+              Shop the trends <br /> <span className="text-brand">you’ll love</span> 💖
             </h1>
-            <p className="mt-4 max-w-md text-lg text-white/90">
+            <p className="mt-4 max-w-md text-lg text-ink-600">
               Phones, fashion, shoes, beauty and more – all in one happy place.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/products" className="rounded-full bg-white px-7 py-3.5 font-bold text-brand-600 shadow-xl transition hover:scale-105">
+              <Link to="/products" className="bg-brand rounded-full px-7 py-3.5 font-bold text-white shadow-lg shadow-brand-200 transition hover:scale-105">
                 Start shopping →
               </Link>
-              <a href="#categories" className="rounded-full border-2 border-white/70 px-7 py-3.5 font-bold text-white transition hover:bg-white/15">
+              <a href="#categories" className="rounded-full border-2 border-brand-300 bg-white/60 px-7 py-3.5 font-bold text-brand-700 transition hover:bg-white">
                 Browse categories
               </a>
             </div>
@@ -51,7 +51,7 @@ const Home = () => {
               <Link
                 key={product.id}
                 to={`/products/${product.slug}`}
-                className={`w-40 rounded-3xl bg-white p-4 shadow-2xl transition hover:rotate-0 hover:scale-110 ${TILTS[index]} ${index === 1 ? 'mt-10' : ''}`}
+                className={`w-40 rounded-3xl bg-white p-4 shadow-xl shadow-brand-200/60 transition hover:rotate-0 hover:scale-110 ${TILTS[index]} ${index === 1 ? 'mt-10' : ''}`}
               >
                 <img src={product.image} alt={product.name} className="aspect-square w-full object-contain" />
                 <p className="mt-2 line-clamp-1 text-xs font-bold text-ink-800">{product.name}</p>

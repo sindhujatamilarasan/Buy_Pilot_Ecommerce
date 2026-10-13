@@ -27,11 +27,11 @@ const Dashboard = () => {
   return (
     <div className="space-y-8">
       {/* Greeting banner */}
-      <div className="bg-brand relative overflow-hidden rounded-3xl p-8 text-white">
-        <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/15 blur-2xl" />
-        <p className="text-sm font-semibold text-white/80">{now.toDateString()}</p>
-        <h1 className="mt-1 text-3xl font-extrabold">{greeting(now)}, {user.name} 👋</h1>
-        <p className="mt-2 text-white/85">
+      <div className="bg-brand-soft relative overflow-hidden rounded-3xl p-8">
+        <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/70 blur-2xl" />
+        <p className="text-sm font-semibold text-brand-700">{now.toDateString()}</p>
+        <h1 className="mt-1 text-3xl font-extrabold text-ink-900">{greeting(now)}, {user.name} 👋</h1>
+        <p className="mt-2 text-ink-600">
           You have <b>{stats.low_stock}</b> variants running low and <b>{stats.out_of_stock}</b> sold out.
         </p>
       </div>

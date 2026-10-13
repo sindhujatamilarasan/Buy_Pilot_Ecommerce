@@ -24,8 +24,8 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-20">
-      <div className="bg-brand py-2 text-center text-xs font-bold tracking-wide text-white">
-        ✨ Free shipping on orders above ₹500 · Easy 7-day returns
+      <div className="bg-brand-soft py-2 text-center text-xs font-bold tracking-wide text-brand-800">
+        🎉 Free shipping on orders above ₹500 · Easy 7-day returns
       </div>
 
       <div className="border-b border-brand-100 bg-blush/90 backdrop-blur">

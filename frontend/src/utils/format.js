@@ -5,11 +5,17 @@ export const formatPrice = value => {
   return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: 2 })}`
 }
 
+// Find the first text message inside Django's error JSON (it can be nested: {variants: [{sku: ['…']}]})
+const firstMessage = value => {
+  if (typeof value === 'string') return value
+  if (Array.isArray(value)) return value.map(firstMessage).find(Boolean)
+  if (value && typeof value === 'object') return Object.values(value).map(firstMessage).find(Boolean)
+  return null
+}
+
 // Turn axios errors into one readable message for the UI
 export const getErrorMessage = error => {
   const data = error?.response?.data
   if (!data) return 'Cannot reach the server. Is the backend running?'
-  if (typeof data.detail === 'string') return data.detail
-  const first = Object.values(data)[0]
-  return Array.isArray(first) ? first[0] : 'Something went wrong.'
+  return firstMessage(data.detail ?? data) || 'Something went wrong.'
 }

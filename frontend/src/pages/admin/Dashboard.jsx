@@ -6,6 +6,7 @@ import Spinner from '../../components/Spinner'
 import StatCard from '../../components/StatCard'
 import StockHealth from '../../components/StockHealth'
 import { useApi } from '../../hooks/useApi'
+import { formatPrice } from '../../utils/format'
 import { useAuth } from '../../hooks/useAuth'
 
 const greeting = date => {
@@ -34,6 +35,13 @@ const Dashboard = () => {
         <p className="mt-2 text-ink-600">
           You have <b>{stats.low_stock}</b> variants running low and <b>{stats.out_of_stock}</b> sold out.
         </p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          {[['💰 Revenue', formatPrice(stats.revenue)], ['🧾 Orders', stats.orders], ['🚚 To ship', stats.to_ship]].map(([label, value]) => (
+            <span key={label} className="rounded-2xl bg-white/80 px-4 py-2 text-sm font-semibold text-ink-600 shadow-sm">
+              {label} <b className="ml-1 font-display text-lg text-ink-900">{value}</b>
+            </span>
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">

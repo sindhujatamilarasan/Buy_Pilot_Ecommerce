@@ -4,10 +4,10 @@ import { useAuth } from '../hooks/useAuth'
 
 const MENU = [
   { to: '/admin', label: '📊 Dashboard', roles: ['admin'] },
-  { to: '/admin/products', label: '📦 Products', roles: ['admin'], soon: true },
-  { to: '/admin/coupons', label: '🏷️ Coupons', roles: ['admin'], soon: true },
-  { to: '/admin/orders', label: '🧾 Orders', roles: ['admin'], soon: true },
-  { to: '/admin/users', label: '👥 Users', roles: ['admin'], soon: true },
+  { to: '/admin/products', label: '📦 Products', roles: ['admin'] },
+  { to: '/admin/coupons', label: '🏷️ Coupons', roles: ['admin'] },
+  { to: '/admin/orders', label: '🧾 Orders', roles: ['admin'] },
+  { to: '/admin/users', label: '👥 Users', roles: ['admin'] },
   { to: '/admin/reports', label: '📈 Reports', roles: ['admin'], soon: true },
   { to: '/staff/orders', label: '🧾 Orders', roles: ['staff'] },
 ]
@@ -37,7 +37,7 @@ const AdminLayout = () => {
 
         <nav className="mt-8 space-y-1.5">
           {items.map(item => (
-            <NavLink key={item.to} to={item.to} end className={itemClass}>
+            <NavLink key={item.to} to={item.to} end={item.to === '/admin'} className={itemClass}>
               {item.label}
               {item.soon && <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-bold text-ink-500">soon</span>}
             </NavLink>

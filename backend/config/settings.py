@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'catalog',
     'dashboard',
     'cart',
+    'coupons',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -167,6 +169,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 12,
 }
+
+
+# Razorpay TEST keys (free account → Settings → API Keys). Empty = mock payment mode.
+RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID', '')
+RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET', '')
 
 
 # CORS: allow the React dev server (a different port) to call this API

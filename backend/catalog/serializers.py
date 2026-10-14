@@ -2,6 +2,7 @@
 from rest_framework import serializers
 
 from .models import Category, Product, ProductImage, ProductVariant
+from .utils import absolute_media
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -14,6 +15,11 @@ class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
         fields = ['id', 'path']
+
+    def to_representation(self, image):
+        data = super().to_representation(image)
+        data['path'] = absolute_media(self.context.get('request'), image.path)
+        return data
 
 
 class ProductVariantSerializer(serializers.ModelSerializer):
@@ -37,7 +43,7 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     def get_image(self, product):
         first = product.images.first()
-        return first.path if first else None
+        return absolute_media(self.context.get('request'), first.path) if first else None
 
 
 class ProductDetailSerializer(ProductListSerializer):

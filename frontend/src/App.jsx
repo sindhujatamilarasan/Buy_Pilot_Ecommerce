@@ -10,6 +10,8 @@ import Checkout from './pages/Checkout'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
+import OrderDetail from './pages/OrderDetail'
+import Orders from './pages/Orders'
 import Placeholder from './pages/Placeholder'
 import ProductDetail from './pages/ProductDetail'
 import Products from './pages/Products'
@@ -31,7 +33,8 @@ const App = () => (
       <Route element={<ProtectedRoute />}>
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/wishlist" element={<Placeholder icon="❤️" title="Wishlist" when="Day 4" />} />
-        <Route path="/orders" element={<Placeholder icon="🧾" title="My orders" when="Day 11" />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/orders/:id" element={<OrderDetail />} />
       </Route>
     </Route>
 

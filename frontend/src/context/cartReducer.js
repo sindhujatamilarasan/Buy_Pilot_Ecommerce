@@ -43,7 +43,8 @@ export const cartReducer = (state, action) => {
       }
 
     case 'CLEAR':
-      return { items: [] }
+      // After a successful order: remove the bought items, keep "saved for later"
+      return { items: state.items.filter(i => i.savedForLater) }
 
     default:
       return state

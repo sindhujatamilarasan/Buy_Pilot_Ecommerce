@@ -41,10 +41,10 @@ const Users = () => {
       {loading ? <Spinner /> : (
         <div className={`${adminCard} overflow-x-auto`}>
           <table className="w-full text-left text-sm">
-            <thead className="bg-brand-50 text-xs font-bold uppercase tracking-wider text-brand-700">
+            <thead className="bg-[#f6f8f7] text-xs font-semibold uppercase tracking-wider text-ink-400">
               <tr><th className="px-5 py-3">User</th><th className="px-5 py-3">Joined</th><th className="px-5 py-3">Orders</th><th className="px-5 py-3">Role</th></tr>
             </thead>
-            <tbody className="divide-y divide-brand-50">
+            <tbody className="divide-y divide-ink-300/20">
               {data.results.map(user => (
                 <tr key={user.id}>
                   <td className="px-5 py-3">

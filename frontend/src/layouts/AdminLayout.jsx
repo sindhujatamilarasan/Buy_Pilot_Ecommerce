@@ -1,26 +1,37 @@
-// Sidebar layout for admin and staff. Each menu item lists which roles can see it.
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+// Admin / staff frame: grouped sidebar + top bar. Menu items list which roles can see them.
+import { useState } from 'react'
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 const MENU = [
-  { to: '/admin', label: '📊 Dashboard', roles: ['admin'] },
-  { to: '/admin/products', label: '📦 Products', roles: ['admin'] },
-  { to: '/admin/coupons', label: '🏷️ Coupons', roles: ['admin'] },
-  { to: '/admin/orders', label: '🧾 Orders', roles: ['admin'] },
-  { to: '/admin/users', label: '👥 Users', roles: ['admin'] },
-  { to: '/admin/reports', label: '📈 Reports', roles: ['admin'], soon: true },
-  { to: '/staff/orders', label: '🧾 Orders', roles: ['staff'] },
+  { group: 'Overview', items: [
+    { to: '/admin', label: 'Dashboard', icon: '📊', roles: ['admin'] },
+    { to: '/admin/reports', label: 'Reports', icon: '📈', roles: ['admin'], soon: true },
+  ] },
+  { group: 'Catalog', items: [
+    { to: '/admin/products', label: 'Products', icon: '📦', roles: ['admin'] },
+    { to: '/admin/coupons', label: 'Coupons', icon: '🏷️', roles: ['admin'] },
+  ] },
+  { group: 'Sales', items: [
+    { to: '/admin/orders', label: 'Orders', icon: '🧾', roles: ['admin'] },
+    { to: '/staff/orders', label: 'Orders', icon: '🧾', roles: ['staff'] },
+  ] },
+  { group: 'People', items: [{ to: '/admin/users', label: 'Users', icon: '👥', roles: ['admin'] }] },
 ]
 
 const itemClass = ({ isActive }) =>
-  `flex items-center justify-between rounded-2xl px-4 py-2.5 text-sm font-semibold transition ${
-    isActive ? 'bg-brand text-white shadow-md shadow-brand-200' : 'text-ink-700 hover:bg-white/70'
+  `group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition ${
+    isActive ? 'bg-brand-50 text-brand-800 ring-1 ring-brand-100' : 'text-ink-600 hover:bg-ink-300/10 hover:text-ink-900'
   }`
 
 const AdminLayout = () => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-  const items = MENU.filter(item => item.roles.includes(user.role))
+  const { pathname } = useLocation()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const groups = MENU.map(g => ({ ...g, items: g.items.filter(i => i.roles.includes(user.role)) })).filter(g => g.items.length)
+  const current = groups.flatMap(g => g.items).find(i => (i.to === '/admin' ? pathname === i.to : pathname.startsWith(i.to)))
 
   const handleLogout = async () => {
     await logout()
@@ -28,41 +39,66 @@ const AdminLayout = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-blush md:flex-row">
-      <aside className="bg-brand-soft w-full border-r border-brand-100 p-5 md:sticky md:top-0 md:h-screen md:w-64 md:shrink-0">
-        <Link to="/" className="block px-2 font-display text-2xl font-extrabold">🛍️ <span className="text-brand">ShopKart</span></Link>
-        <span className="mx-2 mt-2 inline-block rounded-full bg-white/80 px-3 py-1 text-xs font-bold uppercase tracking-wider text-brand-700">
-          {user.role} panel
-        </span>
+    <div className="min-h-screen bg-[#f6f8f7] md:flex">
+      {/* Sidebar (slides in on mobile) */}
+      <aside className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-ink-300/20 bg-white transition-transform md:sticky md:top-0 md:h-screen md:translate-x-0 ${menuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}`}>
+        <div className="flex items-center gap-2 px-5 py-5">
+          <span className="bg-brand flex h-9 w-9 items-center justify-center rounded-xl text-lg">🛍️</span>
+          <div>
+            <p className="font-display text-lg font-extrabold leading-none text-ink-900">ShopKart</p>
+            <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-ink-400">{user.role} console</p>
+          </div>
+        </div>
 
-        <nav className="mt-8 space-y-1.5">
-          {items.map(item => (
-            <NavLink key={item.to} to={item.to} end={item.to === '/admin'} className={itemClass}>
-              {item.label}
-              {item.soon && <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-bold text-ink-500">soon</span>}
-            </NavLink>
+        <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-2">
+          {groups.map(group => (
+            <div key={group.group}>
+              <p className="px-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-ink-400">{group.group}</p>
+              <div className="space-y-0.5">
+                {group.items.map(item => (
+                  <NavLink key={item.to} to={item.to} end={item.to === '/admin'} onClick={() => setMenuOpen(false)} className={itemClass}>
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink-300/10 text-sm">{item.icon}</span>
+                    <span className="flex-1">{item.label}</span>
+                    {item.soon && <span className="rounded-md bg-mango-100 px-1.5 py-0.5 text-[10px] font-bold text-mango-600">Soon</span>}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
           ))}
         </nav>
 
-        <div className="mt-10 rounded-2xl bg-white/70 p-4 text-sm text-ink-800">
+        <div className="m-3 rounded-2xl bg-[#f6f8f7] p-3">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand font-bold text-white">
-              {user.name?.[0]?.toUpperCase()}
-            </span>
-            <div className="min-w-0">
-              <p className="truncate font-bold">{user.name}</p>
-              <p className="truncate text-xs text-ink-500">{user.email}</p>
+            <span className="bg-brand flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-bold text-white">{user.name?.[0]?.toUpperCase()}</span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-bold text-ink-900">{user.name}</p>
+              <p className="truncate text-xs text-ink-400">{user.email}</p>
             </div>
           </div>
-          <button onClick={handleLogout} className="mt-3 w-full rounded-xl bg-brand-50 py-2 font-semibold text-brand-700 hover:bg-brand-100">
-            Logout
+          <button onClick={handleLogout} className="mt-3 w-full rounded-xl bg-white py-2 text-sm font-semibold text-ink-600 ring-1 ring-ink-300/30 hover:text-rose-600">
+            Log out
           </button>
         </div>
       </aside>
+      {menuOpen && <button aria-label="Close menu" onClick={() => setMenuOpen(false)} className="fixed inset-0 z-30 bg-ink-900/30 md:hidden" />}
 
-      <main className="flex-1 p-6 md:p-10">
-        <Outlet />
-      </main>
+      <div className="min-w-0 flex-1">
+        {/* Top bar */}
+        <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-ink-300/20 bg-white/85 px-4 py-3 backdrop-blur md:px-8">
+          <button onClick={() => setMenuOpen(true)} aria-label="Open menu" className="rounded-lg p-2 text-xl md:hidden">☰</button>
+          <p className="text-sm text-ink-400">
+            {user.role === 'staff' ? 'Staff' : 'Admin'} <span className="mx-1">/</span>
+            <span className="font-semibold text-ink-800">{current?.label || 'Products'}</span>
+          </p>
+          <Link to="/" className="ml-auto rounded-full px-4 py-2 text-sm font-semibold text-brand-700 ring-1 ring-brand-200 hover:bg-brand-50">
+            View store ↗
+          </Link>
+        </header>
+
+        <main className="mx-auto max-w-7xl p-4 md:p-8">
+          <Outlet />
+        </main>
+      </div>
     </div>
   )
 }

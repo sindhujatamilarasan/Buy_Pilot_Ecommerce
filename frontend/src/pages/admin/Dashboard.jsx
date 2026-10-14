@@ -1,13 +1,17 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { getDashboard } from '../../api/admin'
+import LowStockList from '../../components/admin/LowStockList'
+import RecentOrders from '../../components/admin/RecentOrders'
+import SalesChart from '../../components/admin/SalesChart'
 import CategoryBars from '../../components/CategoryBars'
 import Message from '../../components/Message'
 import Spinner from '../../components/Spinner'
 import StatCard from '../../components/StatCard'
 import StockHealth from '../../components/StockHealth'
 import { useApi } from '../../hooks/useApi'
-import { formatPrice } from '../../utils/format'
 import { useAuth } from '../../hooks/useAuth'
+import { formatPrice } from '../../utils/format'
 
 const greeting = date => {
   const hour = date.getHours()
@@ -23,76 +27,42 @@ const Dashboard = () => {
   if (loading) return <Spinner />
   if (error) return <Message type="error" icon="⚠️" title="Could not load the dashboard" />
 
-  const { stats, categories, low_stock_items: lowStock } = data
+  const { stats, sales, recent_orders: recentOrders, categories, low_stock_items: lowStock } = data
 
   return (
-    <div className="space-y-8">
-      {/* Greeting banner */}
-      <div className="bg-brand-soft relative overflow-hidden rounded-3xl p-8">
-        <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/70 blur-2xl" />
-        <p className="text-sm font-semibold text-brand-700">{now.toDateString()}</p>
-        <h1 className="mt-1 text-3xl font-extrabold text-ink-900">{greeting(now)}, {user.name} 👋</h1>
-        <p className="mt-2 text-ink-600">
-          You have <b>{stats.low_stock}</b> variants running low and <b>{stats.out_of_stock}</b> sold out.
-        </p>
-        <div className="mt-5 flex flex-wrap gap-3">
-          {[['💰 Revenue', formatPrice(stats.revenue)], ['🧾 Orders', stats.orders], ['🚚 To ship', stats.to_ship]].map(([label, value]) => (
-            <span key={label} className="rounded-2xl bg-white/80 px-4 py-2 text-sm font-semibold text-ink-600 shadow-sm">
-              {label} <b className="ml-1 font-display text-lg text-ink-900">{value}</b>
-            </span>
-          ))}
+    <div className="space-y-6">
+      {/* Header + quick actions */}
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-brand-700">{now.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+          <h1 className="mt-1 text-3xl font-extrabold text-ink-900">{greeting(now)}, {user.name} 👋</h1>
+          <p className="text-sm text-ink-500">Here’s what’s happening in your store.</p>
+        </div>
+        <div className="flex gap-2">
+          <Link to="/admin/orders" className="rounded-full bg-white px-4 py-2.5 text-sm font-bold text-ink-700 shadow-sm ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]">🧾 Orders</Link>
+          <Link to="/admin/products/new" className="bg-brand rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-md">+ Add product</Link>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
-        <StatCard icon="📦" label="Products" value={stats.products} hint={`${stats.categories} categories`} tone="violet" />
-        <StatCard icon="🎨" label="Variants" value={stats.variants} hint="sizes & storage" tone="indigo" />
-        <StatCard icon="✅" label="Healthy stock" value={stats.in_stock} hint="3+ in stock" tone="emerald" />
-        <StatCard icon="⚠️" label="Low stock" value={stats.low_stock} hint="1–2 left" tone="amber" />
-        <StatCard icon="⛔" label="Sold out" value={stats.out_of_stock} hint="needs restock" tone="rose" />
-        <StatCard icon="👤" label="Customers" value={stats.customers} hint={`${stats.staff} staff`} tone="sky" />
+      {/* KPIs */}
+      <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+        <StatCard icon="💰" label="Revenue" value={formatPrice(stats.revenue)} hint="All paid orders" tone="brand" />
+        <StatCard icon="🧾" label="Orders" value={stats.orders} hint="Paid + cancelled" tone="sky" />
+        <StatCard icon="🚚" label="To ship" value={stats.to_ship} hint="Placed or packed" tone="mango" />
+        <StatCard icon="👤" label="Customers" value={stats.customers} hint={`${stats.staff} staff members`} tone="violet" />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="min-w-0 lg:col-span-2"><SalesChart sales={sales} /></div>
         <StockHealth inStock={stats.in_stock} low={stats.low_stock} out={stats.out_of_stock} />
-        <CategoryBars categories={categories} />
       </div>
 
-      <div className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-brand-100">
-        <div className="flex items-center justify-between px-6 py-5">
-          <div>
-            <h2 className="text-lg font-bold text-ink-900">🔥 Low stock alert</h2>
-            <p className="text-sm text-ink-500">Restock these soon</p>
-          </div>
-          <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700">{stats.low_stock} items</span>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-brand-50 text-xs font-bold uppercase tracking-wider text-brand-700">
-              <tr>
-                <th className="px-6 py-3">Product</th>
-                <th className="px-6 py-3">Variant</th>
-                <th className="px-6 py-3">SKU</th>
-                <th className="px-6 py-3 text-right">Stock</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-brand-50">
-              {lowStock.map(item => (
-                <tr key={item.sku} className="hover:bg-brand-50/50">
-                  <td className="px-6 py-3 font-semibold text-ink-900">{item.product}</td>
-                  <td className="px-6 py-3 text-ink-600">{[item.color, item.size].filter(Boolean).join(' · ') || 'Standard'}</td>
-                  <td className="px-6 py-3 font-mono text-xs text-ink-400">{item.sku}</td>
-                  <td className="px-6 py-3 text-right">
-                    <span className={`rounded-full px-3 py-1 text-xs font-bold ${item.stock === 1 ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700'}`}>
-                      {item.stock} left
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="min-w-0 lg:col-span-2"><RecentOrders orders={recentOrders} /></div>
+        <LowStockList items={lowStock} total={stats.low_stock} />
       </div>
+
+      <CategoryBars categories={categories} />
     </div>
   )
 }

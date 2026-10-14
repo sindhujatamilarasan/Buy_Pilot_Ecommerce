@@ -15,14 +15,3 @@ const DEFAULT = { emoji: '🛍️', tile: 'bg-fuchsia-100 hover:bg-fuchsia-200',
 
 export const categoryStyle = slug => STYLES[slug] || DEFAULT
 
-// Bar colours for the dashboard chart
-export const CATEGORY_BAR = {
-  'mens-clothing': 'bg-sky-400',
-  'womens-clothing': 'bg-pink-400',
-  footwear: 'bg-orange-400',
-  electronics: 'bg-violet-400',
-  'home-kitchen': 'bg-emerald-400',
-  'beauty-care': 'bg-rose-400',
-  'sports-fitness': 'bg-lime-400',
-  'watches-accessories': 'bg-amber-400',
-}

@@ -8,8 +8,8 @@ const StockHealth = ({ inStock, low, out }) => {
   ]
 
   return (
-    <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-brand-100">
-      <h2 className="text-lg font-bold text-ink-900">📦 Stock health</h2>
+    <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-ink-300/20">
+      <h2 className="text-lg font-bold text-ink-900">Stock health</h2>
       <p className="text-sm text-ink-500">All {total} product variants</p>
 
       <div className="mt-5 flex h-4 overflow-hidden rounded-full bg-brand-50">
@@ -18,7 +18,7 @@ const StockHealth = ({ inStock, low, out }) => {
         ))}
       </div>
 
-      <div className="mt-5 grid grid-cols-3 gap-3">
+      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1">
         {parts.map(part => (
           <div key={part.label}>
             <p className="flex items-center gap-2 text-xs font-semibold text-ink-500">

@@ -35,12 +35,12 @@ const Products = () => {
       {loading ? <Spinner /> : (
         <div className={`${adminCard} overflow-x-auto`}>
           <table className="w-full text-left text-sm">
-            <thead className="bg-brand-50 text-xs font-bold uppercase tracking-wider text-brand-700">
+            <thead className="bg-[#f6f8f7] text-xs font-semibold uppercase tracking-wider text-ink-400">
               <tr><th className="px-5 py-3">Product</th><th className="px-5 py-3">Category</th><th className="px-5 py-3">Variants</th><th className="px-5 py-3">Stock</th><th className="px-5 py-3">Status</th><th className="px-5 py-3" /></tr>
             </thead>
-            <tbody className="divide-y divide-brand-50">
+            <tbody className="divide-y divide-ink-300/20">
               {data.results.map(product => (
-                <tr key={product.id} className="hover:bg-brand-50/40">
+                <tr key={product.id} className="hover:bg-[#f6f8f7]">
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
                       <img src={product.images[0]?.url} alt="" className="h-11 w-11 rounded-xl bg-brand-50 object-contain p-1 mix-blend-multiply" />

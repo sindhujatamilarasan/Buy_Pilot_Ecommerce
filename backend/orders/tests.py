@@ -158,3 +158,16 @@ class RazorpaySignatureTests(APITestCase):
         self.assertEqual(res.status_code, 400)
         self.variant.refresh_from_db()
         self.assertEqual(self.variant.stock, 3)
+
+
+class DashboardSalesTests(APITestCase):
+    def test_paid_order_counted_today(self):
+        admin = User.objects.create_user(username='ad@t.com', email='ad@t.com', password='x', role='admin')
+        Order.objects.create(user=admin, ship_name='A', ship_phone='9876543210', ship_address='a', ship_city='c',
+                             ship_pincode='600001', subtotal=100, tax=18, shipping=49, total=167,
+                             status='placed', payment_status='paid')
+        self.client.force_authenticate(admin)
+        data = self.client.get('/api/admin/dashboard/').data
+        self.assertEqual(data['sales'][-1]['orders'], 1)  # last entry = today
+        self.assertEqual(Decimal(data['sales'][-1]['revenue']), Decimal('167'))
+        self.assertEqual(data['recent_orders'][0]['customer'], 'A')

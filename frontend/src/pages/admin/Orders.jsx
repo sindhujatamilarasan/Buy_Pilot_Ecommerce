@@ -39,7 +39,7 @@ const Orders = () => {
 
       <div className="flex flex-wrap gap-2">
         {TABS.map(([value, label]) => (
-          <button key={value} onClick={() => setStatus(value)} className={`rounded-full px-4 py-2 text-sm font-bold transition ${status === value ? 'bg-brand text-white shadow-md' : 'bg-white text-ink-600 ring-1 ring-brand-100 hover:bg-brand-50'}`}>
+          <button key={value} onClick={() => setStatus(value)} className={`rounded-full px-4 py-2 text-sm font-bold transition ${status === value ? 'bg-brand text-white shadow-md' : 'bg-white text-ink-600 ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]'}`}>
             {label}
           </button>
         ))}

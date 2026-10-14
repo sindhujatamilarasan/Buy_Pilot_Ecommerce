@@ -61,3 +61,5 @@ class AuthAndRoleTests(APITestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.data['stats']['low_stock'], 1)
         self.assertEqual(res.data['categories'], [{'name': 'Books', 'slug': 'books', 'products': 1}])
+        self.assertEqual(len(res.data['sales']), 7)  # always 7 days, zero-filled
+        self.assertEqual(res.data['recent_orders'], [])

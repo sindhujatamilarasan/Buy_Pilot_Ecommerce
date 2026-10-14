@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     'cart',
     'coupons',
     'orders',
+    'backoffice',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +134,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+# Tests only: a fast (insecure) password hasher so the test suite runs quickly
+if 'test' in sys.argv:
+    PASSWORD_HASHERS = ['django.contrib.auth.hashers.MD5PasswordHasher']
 
 
 # Internationalization

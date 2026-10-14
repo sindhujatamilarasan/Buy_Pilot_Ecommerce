@@ -13,6 +13,7 @@ urlpatterns = [
     path('api/admin/', include('dashboard.urls')),
     path('api/cart/', include('cart.urls')),
     path('api/', include('orders.urls')),
+    path('api/manage/', include('backoffice.urls')),
 ]
 
 # Serve uploaded images during development

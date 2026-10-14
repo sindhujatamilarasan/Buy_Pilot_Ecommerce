@@ -1,3 +1,4 @@
+import { IndianRupee, Plus, ReceiptText, Truck, UserRound } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getDashboard } from '../../api/admin'
@@ -35,21 +36,21 @@ const Dashboard = () => {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm font-semibold text-brand-700">{now.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
-          <h1 className="mt-1 text-3xl font-extrabold text-ink-900">{greeting(now)}, {user.name} 👋</h1>
+          <h1 className="mt-1 text-3xl font-extrabold text-ink-900">{greeting(now)}, {user.name}</h1>
           <p className="text-sm text-ink-500">Here’s what’s happening in your store.</p>
         </div>
         <div className="flex gap-2">
-          <Link to="/admin/orders" className="rounded-full bg-white px-4 py-2.5 text-sm font-bold text-ink-700 shadow-sm ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]">🧾 Orders</Link>
-          <Link to="/admin/products/new" className="bg-brand rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-md">+ Add product</Link>
+          <Link to="/admin/orders" className="flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-bold text-ink-700 shadow-sm ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]"><ReceiptText size={16} /> Orders</Link>
+          <Link to="/admin/products/new" className="bg-brand flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-md"><Plus size={16} /> Add product</Link>
         </div>
       </div>
 
       {/* KPIs */}
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
-        <StatCard icon="💰" label="Revenue" value={formatPrice(stats.revenue)} hint="All paid orders" tone="brand" />
-        <StatCard icon="🧾" label="Orders" value={stats.orders} hint="Paid + cancelled" tone="sky" />
-        <StatCard icon="🚚" label="To ship" value={stats.to_ship} hint="Placed or packed" tone="mango" />
-        <StatCard icon="👤" label="Customers" value={stats.customers} hint={`${stats.staff} staff members`} tone="violet" />
+        <StatCard icon={IndianRupee} label="Revenue" value={formatPrice(stats.revenue)} hint="All paid orders" tone="brand" />
+        <StatCard icon={ReceiptText} label="Orders" value={stats.orders} hint="Paid + cancelled" tone="sky" />
+        <StatCard icon={Truck} label="To ship" value={stats.to_ship} hint="Placed or packed" tone="mango" />
+        <StatCard icon={UserRound} label="Customers" value={stats.customers} hint={`${stats.staff} staff members`} tone="violet" />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">

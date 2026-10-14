@@ -1,4 +1,5 @@
 // Product photos: upload a file (saved in backend/media) or paste an image URL
+import { ImagePlus, LoaderCircle, X } from 'lucide-react'
 import { useState } from 'react'
 import { uploadImage } from '../../api/manage'
 import { getErrorMessage } from '../../utils/format'
@@ -33,11 +34,11 @@ const ImagesEditor = ({ images, onChange }) => {
           <div key={image.key} className="relative">
             <img src={image.url || image.path} alt="" className="h-24 w-24 rounded-2xl bg-brand-50 object-contain p-2 ring-1 ring-brand-100" />
             {index === 0 && <span className="absolute bottom-1 left-1 rounded-full bg-brand-600 px-2 text-[10px] font-bold text-white">Main</span>}
-            <button type="button" onClick={() => onChange(images.filter(i => i.key !== image.key))} className="absolute -right-2 -top-2 h-6 w-6 rounded-full bg-white text-xs font-bold text-rose-600 shadow">✕</button>
+            <button type="button" onClick={() => onChange(images.filter(i => i.key !== image.key))} title="Remove photo" className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-white text-rose-600 shadow"><X size={14} /></button>
           </div>
         ))}
-        <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-brand-200 text-xs font-bold text-brand-700 hover:bg-brand-50">
-          <span className="text-2xl">{uploading ? '⏳' : '📷'}</span>
+        <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-brand-200 text-xs font-bold text-brand-700 hover:bg-brand-50">
+          {uploading ? <LoaderCircle size={22} className="animate-spin" /> : <ImagePlus size={22} />}
           {uploading ? 'Uploading' : 'Upload'}
           <input type="file" accept=".jpg,.jpeg,.png,.webp" onChange={handleFile} className="hidden" />
         </label>

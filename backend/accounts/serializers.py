@@ -8,11 +8,26 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     """What React gets about the logged-in user (never the password)."""
 
+    name = serializers.CharField(source='first_name', max_length=150)
+
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'role']
+        fields = ['id', 'name', 'email', 'role', 'date_joined']
+        read_only_fields = ['email', 'role', 'date_joined']  # only the name can be edited
 
-    name = serializers.CharField(source='first_name')
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True, min_length=8)
+
+    def validate_old_password(self, value):
+        if not self.context['request'].user.check_password(value):
+            raise serializers.ValidationError('Your current password is wrong.')
+        return value
+
+    def validate_new_password(self, value):
+        validate_password(value, self.context['request'].user)
+        return value
 
 
 class RegisterSerializer(serializers.Serializer):

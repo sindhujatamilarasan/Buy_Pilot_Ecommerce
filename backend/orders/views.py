@@ -39,6 +39,15 @@ class AddressDetail(generics.RetrieveUpdateDestroyAPIView):
         if address.is_default:
             self.request.user.addresses.exclude(pk=address.pk).update(is_default=False)
 
+    def perform_destroy(self, address):
+        was_default = address.is_default
+        address.delete()
+        # Deleted the default? Make the newest remaining address the default
+        next_address = self.request.user.addresses.first()
+        if was_default and next_address:
+            next_address.is_default = True
+            next_address.save(update_fields=['is_default'])
+
 
 # ---------- Orders ----------
 @api_view(['GET', 'POST'])

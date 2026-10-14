@@ -3,6 +3,8 @@ import client from './client'
 // Addresses
 export const getAddresses = async () => (await client.get('/addresses/')).data
 export const createAddress = async data => (await client.post('/addresses/', data)).data
+export const updateAddress = async (id, data) => (await client.patch(`/addresses/${id}/`, data)).data
+export const deleteAddress = async id => client.delete(`/addresses/${id}/`)
 
 // Orders + payment
 export const createOrder = async data => (await client.post('/orders/', data)).data

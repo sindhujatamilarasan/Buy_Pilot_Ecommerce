@@ -63,3 +63,33 @@ class AuthAndRoleTests(APITestCase):
         self.assertEqual(res.data['categories'], [{'name': 'Books', 'slug': 'books', 'products': 1}])
         self.assertEqual(len(res.data['sales']), 7)  # always 7 days, zero-filled
         self.assertEqual(res.data['recent_orders'], [])
+
+
+class ProfileTests(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='p@t.com', email='p@t.com', password='Old@12345',
+                                             first_name='Old', role='customer')
+        self.client.force_authenticate(self.user)
+
+    def test_update_name_but_not_role_or_email(self):
+        res = self.client.patch('/api/auth/me/', {'name': 'New Name', 'role': 'admin', 'email': 'x@y.com'})
+        self.assertEqual(res.data['name'], 'New Name')
+        self.assertEqual(res.data['role'], 'customer')
+        self.assertEqual(res.data['email'], 'p@t.com')
+
+    def test_change_password(self):
+        wrong = self.client.post('/api/auth/change-password/', {'old_password': 'nope', 'new_password': 'Brand@New99'})
+        self.assertEqual(wrong.status_code, 400)
+        ok = self.client.post('/api/auth/change-password/', {'old_password': 'Old@12345', 'new_password': 'Brand@New99'})
+        self.assertEqual(ok.status_code, 200)
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password('Brand@New99'))
+
+    def test_deleting_default_address_moves_default(self):
+        first = self.client.post('/api/addresses/', {'name': 'A', 'phone': '9876543210', 'address': 'a',
+                                                     'city': 'c', 'pincode': '600001'}).data
+        second = self.client.post('/api/addresses/', {'name': 'B', 'phone': '9876543210', 'address': 'b',
+                                                      'city': 'c', 'pincode': '600002'}).data
+        self.client.delete(f"/api/addresses/{first['id']}/")
+        self.assertTrue(self.client.get('/api/addresses/').data[0]['is_default'])
+        self.assertEqual(self.client.get('/api/addresses/').data[0]['id'], second['id'])

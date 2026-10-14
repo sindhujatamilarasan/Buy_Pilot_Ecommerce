@@ -1,12 +1,13 @@
+// Add a new address, or edit one (pass `address`)
 import { useState } from 'react'
-import { createAddress } from '../api/orders'
+import { createAddress, updateAddress } from '../api/orders'
 import { getErrorMessage } from '../utils/format'
 
 const EMPTY = { name: '', phone: '', address: '', city: '', pincode: '', is_default: false }
-const input = 'w-full rounded-xl border-2 border-brand-100 px-3 py-2.5 text-sm outline-none focus:border-brand-400'
+const input = 'w-full rounded-xl border border-ink-300/40 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-4 focus:ring-brand-100'
 
-const AddressForm = ({ onSaved, onCancel }) => {
-  const [form, setForm] = useState(EMPTY)
+const AddressForm = ({ address, onSaved, onCancel }) => {
+  const [form, setForm] = useState(address ? { ...EMPTY, ...address } : EMPTY)
   const [errors, setErrors] = useState({})
   const [saving, setSaving] = useState(false)
 
@@ -19,7 +20,7 @@ const AddressForm = ({ onSaved, onCancel }) => {
     e.preventDefault()
     setSaving(true)
     try {
-      onSaved(await createAddress(form))
+      onSaved(address ? await updateAddress(address.id, form) : await createAddress(form))
     } catch (error) {
       setErrors(error.response?.data || { detail: getErrorMessage(error) })
     } finally {
@@ -35,19 +36,19 @@ const AddressForm = ({ onSaved, onCancel }) => {
   )
 
   return (
-    <form onSubmit={submit} className="grid gap-3 rounded-2xl bg-brand-50 p-4 sm:grid-cols-2">
+    <form onSubmit={submit} className="grid gap-3 rounded-2xl bg-[#f6f8f7] p-4 sm:grid-cols-2">
       {field('name', 'Full name')}
       {field('phone', '10-digit mobile', { props: { inputMode: 'numeric', maxLength: 10 } })}
       {field('address', 'House no, street, area', { wide: true })}
       {field('city', 'City')}
       {field('pincode', 'Pincode', { props: { inputMode: 'numeric', maxLength: 6 } })}
       <label className="flex items-center gap-2 text-sm text-ink-600 sm:col-span-2">
-        <input type="checkbox" name="is_default" checked={form.is_default} onChange={change} className="accent-brand-600" />
+        <input type="checkbox" name="is_default" checked={form.is_default} onChange={change} className="h-4 w-4 accent-brand-600" />
         Make this my default address
       </label>
       {errors.detail && <p className="text-sm text-rose-600 sm:col-span-2">{errors.detail}</p>}
       <div className="flex gap-3 sm:col-span-2">
-        <button disabled={saving} className="bg-brand rounded-full px-5 py-2.5 text-sm font-bold text-white">{saving ? 'Saving…' : 'Save address'}</button>
+        <button disabled={saving} className="bg-brand rounded-full px-5 py-2.5 text-sm font-bold text-white">{saving ? 'Saving…' : address ? 'Update address' : 'Save address'}</button>
         {onCancel && <button type="button" onClick={onCancel} className="text-sm font-semibold text-ink-500">Cancel</button>}
       </div>
     </form>

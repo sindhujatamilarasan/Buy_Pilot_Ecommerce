@@ -1,22 +1,23 @@
 // Admin / staff frame: grouped sidebar + top bar. Menu items list which roles can see them.
+import { ChartColumn, ExternalLink, LayoutDashboard, LogOut, Menu, Package, ReceiptText, ShoppingBag, Tag, Users } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 const MENU = [
   { group: 'Overview', items: [
-    { to: '/admin', label: 'Dashboard', icon: '📊', roles: ['admin'] },
-    { to: '/admin/reports', label: 'Reports', icon: '📈', roles: ['admin'], soon: true },
+    { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin'] },
+    { to: '/admin/reports', label: 'Reports', icon: ChartColumn, roles: ['admin'], soon: true },
   ] },
   { group: 'Catalog', items: [
-    { to: '/admin/products', label: 'Products', icon: '📦', roles: ['admin'] },
-    { to: '/admin/coupons', label: 'Coupons', icon: '🏷️', roles: ['admin'] },
+    { to: '/admin/products', label: 'Products', icon: Package, roles: ['admin'] },
+    { to: '/admin/coupons', label: 'Coupons', icon: Tag, roles: ['admin'] },
   ] },
   { group: 'Sales', items: [
-    { to: '/admin/orders', label: 'Orders', icon: '🧾', roles: ['admin'] },
-    { to: '/staff/orders', label: 'Orders', icon: '🧾', roles: ['staff'] },
+    { to: '/admin/orders', label: 'Orders', icon: ReceiptText, roles: ['admin'] },
+    { to: '/staff/orders', label: 'Orders', icon: ReceiptText, roles: ['staff'] },
   ] },
-  { group: 'People', items: [{ to: '/admin/users', label: 'Users', icon: '👥', roles: ['admin'] }] },
+  { group: 'People', items: [{ to: '/admin/users', label: 'Users', icon: Users, roles: ['admin'] }] },
 ]
 
 const itemClass = ({ isActive }) =>
@@ -43,7 +44,7 @@ const AdminLayout = () => {
       {/* Sidebar (slides in on mobile) */}
       <aside className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-ink-300/20 bg-white transition-transform md:sticky md:top-0 md:h-screen md:translate-x-0 ${menuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}`}>
         <div className="flex items-center gap-2 px-5 py-5">
-          <span className="bg-brand flex h-9 w-9 items-center justify-center rounded-xl text-lg">🛍️</span>
+          <span className="bg-brand flex h-9 w-9 items-center justify-center rounded-xl text-white"><ShoppingBag size={19} /></span>
           <div>
             <p className="font-display text-lg font-extrabold leading-none text-ink-900">ShopKart</p>
             <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-ink-400">{user.role} console</p>
@@ -55,9 +56,9 @@ const AdminLayout = () => {
             <div key={group.group}>
               <p className="px-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-ink-400">{group.group}</p>
               <div className="space-y-0.5">
-                {group.items.map(item => (
+                {group.items.map(({ icon: Icon, ...item }) => (
                   <NavLink key={item.to} to={item.to} end={item.to === '/admin'} onClick={() => setMenuOpen(false)} className={itemClass}>
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-ink-300/10 text-sm">{item.icon}</span>
+                    <Icon size={18} strokeWidth={2} className="shrink-0" />
                     <span className="flex-1">{item.label}</span>
                     {item.soon && <span className="rounded-md bg-mango-100 px-1.5 py-0.5 text-[10px] font-bold text-mango-600">Soon</span>}
                   </NavLink>
@@ -75,8 +76,8 @@ const AdminLayout = () => {
               <p className="truncate text-xs text-ink-400">{user.email}</p>
             </div>
           </div>
-          <button onClick={handleLogout} className="mt-3 w-full rounded-xl bg-white py-2 text-sm font-semibold text-ink-600 ring-1 ring-ink-300/30 hover:text-rose-600">
-            Log out
+          <button onClick={handleLogout} className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-white py-2 text-sm font-semibold text-ink-600 ring-1 ring-ink-300/30 hover:text-rose-600">
+            <LogOut size={16} /> Log out
           </button>
         </div>
       </aside>
@@ -85,13 +86,13 @@ const AdminLayout = () => {
       <div className="min-w-0 flex-1">
         {/* Top bar */}
         <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-ink-300/20 bg-white/85 px-4 py-3 backdrop-blur md:px-8">
-          <button onClick={() => setMenuOpen(true)} aria-label="Open menu" className="rounded-lg p-2 text-xl md:hidden">☰</button>
+          <button onClick={() => setMenuOpen(true)} aria-label="Open menu" className="rounded-lg p-2 text-ink-700 hover:bg-ink-300/10 md:hidden"><Menu size={22} /></button>
           <p className="text-sm text-ink-400">
             {user.role === 'staff' ? 'Staff' : 'Admin'} <span className="mx-1">/</span>
             <span className="font-semibold text-ink-800">{current?.label || 'Products'}</span>
           </p>
-          <Link to="/" className="ml-auto rounded-full px-4 py-2 text-sm font-semibold text-brand-700 ring-1 ring-brand-200 hover:bg-brand-50">
-            View store ↗
+          <Link to="/" className="ml-auto flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-brand-700 ring-1 ring-brand-200 hover:bg-brand-50">
+            View store <ExternalLink size={15} />
           </Link>
         </header>
 

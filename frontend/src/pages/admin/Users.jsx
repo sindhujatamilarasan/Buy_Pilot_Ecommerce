@@ -1,3 +1,4 @@
+import { Search } from 'lucide-react'
 import { useState } from 'react'
 import { getUsers, setUserRole } from '../../api/manage'
 import { adminCard, adminInput } from '../../components/admin/adminStyles'
@@ -28,8 +29,11 @@ const Users = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Users 👥" subtitle="Give staff access to the orders page">
-        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Name or email…" className={adminInput} />
+      <PageHeader title="Users" subtitle="Customers, staff and admins – give staff access to the orders page">
+        <div className="relative">
+          <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Name or email…" className={`${adminInput} pl-9`} />
+        </div>
         <select value={role} onChange={e => setRole(e.target.value)} className={adminInput}>
           <option value="">All roles</option>
           <option value="customer">Customers</option>
@@ -46,10 +50,15 @@ const Users = () => {
             </thead>
             <tbody className="divide-y divide-ink-300/20">
               {data.results.map(user => (
-                <tr key={user.id}>
+                <tr key={user.id} className="hover:bg-[#f6f8f7]">
                   <td className="px-5 py-3">
-                    <p className="font-semibold text-ink-900">{user.name || '—'}</p>
-                    <p className="text-xs text-ink-500">{user.email}</p>
+                    <div className="flex items-center gap-3">
+                      <span className="bg-brand flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white">{(user.name || user.email)[0].toUpperCase()}</span>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-ink-900">{user.name || '—'}</p>
+                        <p className="text-xs text-ink-500">{user.email}</p>
+                      </div>
+                    </div>
                   </td>
                   <td className="px-5 py-3 text-ink-600">{new Date(user.date_joined).toLocaleDateString('en-IN')}</td>
                   <td className="px-5 py-3 text-ink-600">{user.orders}</td>

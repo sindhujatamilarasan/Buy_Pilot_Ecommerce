@@ -1,10 +1,11 @@
+import { CircleAlert } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const LowStockList = ({ items, total }) => (
   <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-ink-300/20">
     <div className="flex items-center justify-between">
       <h2 className="text-lg font-bold text-ink-900">Low stock</h2>
-      <span className="rounded-full bg-mango-100 px-2.5 py-0.5 text-xs font-bold text-mango-600">⚠️ {total}</span>
+      <span className="flex items-center gap-1 rounded-full bg-mango-100 px-2.5 py-0.5 text-xs font-bold text-mango-600"><CircleAlert size={13} /> {total}</span>
     </div>
     <ul className="mt-4 space-y-3">
       {items.slice(0, 6).map(item => (

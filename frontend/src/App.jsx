@@ -2,6 +2,10 @@
 // Layout routes (no path) wrap pages with a frame; ProtectedRoute guards by login/role.
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
+import AccountLayout from './pages/account/AccountLayout'
+import Addresses from './pages/account/Addresses'
+import Profile from './pages/account/Profile'
+import Security from './pages/account/Security'
 import AdminLayout from './layouts/AdminLayout'
 import CustomerLayout from './layouts/CustomerLayout'
 import Coupons from './pages/admin/Coupons'
@@ -37,8 +41,13 @@ const App = () => (
       {/* Any logged-in user */}
       <Route element={<ProtectedRoute />}>
         <Route path="/checkout" element={<Checkout />} />
+        <Route element={<AccountLayout />}>
+          <Route path="/account" element={<Profile />} />
+          <Route path="/account/addresses" element={<Addresses />} />
+          <Route path="/account/security" element={<Security />} />
+          <Route path="/orders" element={<Orders />} />
+        </Route>
         <Route path="/wishlist" element={<Placeholder icon="❤️" title="Wishlist" when="Day 4" />} />
-        <Route path="/orders" element={<Orders />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
       </Route>
     </Route>

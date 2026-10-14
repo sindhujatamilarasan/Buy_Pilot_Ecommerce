@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useCart } from '../hooks/useCart'
+import UserMenu from './UserMenu'
 
 const linkClass = ({ isActive }) =>
   `rounded-full px-3 py-1.5 text-sm font-semibold transition ${
@@ -9,7 +10,7 @@ const linkClass = ({ isActive }) =>
   }`
 
 const Navbar = () => {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const { count } = useCart()
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
@@ -17,11 +18,6 @@ const Navbar = () => {
   const handleSearch = e => {
     e.preventDefault() // stop the browser from reloading the page
     navigate(`/products?search=${encodeURIComponent(search.trim())}`)
-  }
-
-  const handleLogout = async () => {
-    await logout()
-    navigate('/')
   }
 
   return (
@@ -53,17 +49,7 @@ const Navbar = () => {
             </NavLink>
 
             {user ? (
-              <>
-                {user.role === 'customer' && <NavLink to="/orders" className={linkClass}>Orders</NavLink>}
-                {user.role === 'admin' && <NavLink to="/admin" className={linkClass}>Dashboard</NavLink>}
-                {user.role === 'staff' && <NavLink to="/staff/orders" className={linkClass}>Orders</NavLink>}
-                <span title={`${user.name} (${user.role})`} className="bg-brand ml-2 hidden h-9 w-9 items-center justify-center rounded-full font-bold text-white md:flex">
-                  {user.name?.[0]?.toUpperCase()}
-                </span>
-                <button onClick={handleLogout} className="ml-2 text-sm font-semibold text-ink-500 hover:text-rose-600">
-                  Logout
-                </button>
-              </>
+              <UserMenu />
             ) : (
               <Link to="/login" className="bg-brand ml-2 rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-brand-200 transition hover:scale-105">
                 Sign in

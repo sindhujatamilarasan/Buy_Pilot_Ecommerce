@@ -13,8 +13,11 @@ const Orders = () => {
   if (error) return <Message type="error" icon="⚠️" title="Could not load your orders" />
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
-      <h1 className="text-3xl font-extrabold text-ink-900">My orders 🧾</h1>
+    <div className="space-y-4">
+      <div>
+        <h1 className="text-2xl font-extrabold text-ink-900">My orders</h1>
+        <p className="text-sm text-ink-500">Track, cancel or pay for your orders.</p>
+      </div>
 
       {orders.length === 0 && (
         <Message icon="📦" title="No orders yet">
@@ -23,7 +26,7 @@ const Orders = () => {
       )}
 
       {orders.map(order => (
-        <Link key={order.id} to={`/orders/${order.id}`} className="block rounded-3xl bg-white p-5 shadow-sm ring-1 ring-brand-100 transition hover:-translate-y-0.5 hover:shadow-lg">
+        <Link key={order.id} to={`/orders/${order.id}`} className="block rounded-2xl p-5 ring-1 ring-ink-300/25 transition hover:bg-[#f6f8f7] hover:ring-brand-200">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <p className="font-display text-lg font-bold text-ink-900">Order #{order.id}</p>

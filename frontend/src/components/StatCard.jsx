@@ -1,4 +1,4 @@
-// KPI card: icon tile + big number + caption
+// KPI card: big number + caption + icon tile. `icon` is a lucide icon component.
 const tones = {
   brand: 'bg-brand-50 text-brand-700',
   sky: 'bg-sky-50 text-sky-700',
@@ -7,11 +7,11 @@ const tones = {
   rose: 'bg-rose-50 text-rose-700',
 }
 
-const StatCard = ({ icon, label, value, hint, tone = 'brand' }) => (
+const StatCard = ({ icon: Icon, label, value, hint, tone = 'brand' }) => (
   <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-ink-300/20">
     <div className="flex items-center justify-between">
       <p className="text-sm font-semibold text-ink-500">{label}</p>
-      <span className={`flex h-10 w-10 items-center justify-center rounded-2xl text-lg ${tones[tone]}`}>{icon}</span>
+      <span className={`flex h-10 w-10 items-center justify-center rounded-2xl ${tones[tone]}`}><Icon size={20} /></span>
     </div>
     <p className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink-900">{value}</p>
     {hint && <p className="mt-1 text-xs text-ink-400">{hint}</p>}

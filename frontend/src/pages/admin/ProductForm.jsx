@@ -1,14 +1,14 @@
+import { ArrowLeft, Save } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { createProduct, getAdminProduct, updateProduct } from '../../api/manage'
 import { getCategories } from '../../api/products'
 import ImagesEditor from '../../components/admin/ImagesEditor'
 import { adminCard, adminInput, newVariant } from '../../components/admin/adminStyles'
-import PageHeader from '../../components/admin/PageHeader'
 import VariantsEditor from '../../components/admin/VariantsEditor'
 import Spinner from '../../components/Spinner'
 import { useApi } from '../../hooks/useApi'
-import { getErrorMessage } from '../../utils/format'
+import { formatPrice, getErrorMessage } from '../../utils/format'
 
 const noProduct = () => Promise.resolve(null)
 
@@ -58,42 +58,75 @@ const ProductFormView = ({ product, categories }) => {
     }
   }
 
+  const stock = form.variants.reduce((sum, v) => sum + Number(v.stock || 0), 0)
+  const prices = form.variants.map(v => Number(v.price)).filter(Boolean)
+  const card = `${adminCard} p-6`
+
   return (
-    <form onSubmit={submit} className="space-y-6">
-      <PageHeader title={product ? `Edit: ${product.name}` : 'New product ✨'}>
-        <Link to="/admin/products" className="text-sm font-bold text-ink-500">Cancel</Link>
-        <button disabled={saving} className="bg-brand rounded-full px-6 py-2.5 text-sm font-bold text-white shadow-md">{saving ? 'Saving…' : 'Save product'}</button>
-      </PageHeader>
+    <form onSubmit={submit} className="space-y-5">
+      <div>
+        <Link to="/admin/products" className="flex items-center gap-1 text-sm font-semibold text-ink-500 hover:text-ink-800"><ArrowLeft size={16} /> Products</Link>
+        <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-ink-900">{product ? product.name : 'New product'}</h1>
+      </div>
       {error && <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">{error}</p>}
 
-      <div className={`${adminCard} grid gap-4 p-6 md:grid-cols-2`}>
-        <label className="text-sm font-bold text-ink-700">Name *
-          <input required value={form.name} onChange={e => set('name', e.target.value)} className={`${adminInput} mt-1 w-full`} />
-        </label>
-        <label className="text-sm font-bold text-ink-700">Category *
-          <select required value={form.category} onChange={e => set('category', Number(e.target.value))} className={`${adminInput} mt-1 w-full`}>
-            <option value="">Choose…</option>
-            {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-          </select>
-        </label>
-        <label className="text-sm font-bold text-ink-700 md:col-span-2">Description
-          <textarea rows={3} value={form.description} onChange={e => set('description', e.target.value)} className={`${adminInput} mt-1 w-full`} />
-        </label>
-        <label className="flex items-center gap-2 text-sm font-semibold text-ink-700">
-          <input type="checkbox" checked={form.is_active} onChange={e => set('is_active', e.target.checked)} className="h-4 w-4 accent-brand-600" />
-          Show in shop (active)
-        </label>
-      </div>
+      <div className="grid items-start gap-5 lg:grid-cols-[1fr_320px]">
+        <div className="min-w-0 space-y-5">
+          <div className={card}>
+            <h2 className="text-base font-bold text-ink-900">Details</h2>
+            <label className="mt-4 block text-sm font-semibold text-ink-700">Name
+              <input required value={form.name} onChange={e => set('name', e.target.value)} className={`${adminInput} mt-1 w-full`} placeholder="e.g. Cotton T-Shirt" />
+            </label>
+            <label className="mt-4 block text-sm font-semibold text-ink-700">Description
+              <textarea rows={4} value={form.description} onChange={e => set('description', e.target.value)} className={`${adminInput} mt-1 w-full`} placeholder="What makes it special?" />
+            </label>
+          </div>
 
-      <div className={`${adminCard} p-6`}>
-        <h2 className="mb-4 text-lg font-bold text-ink-900">🖼️ Photos</h2>
-        <ImagesEditor images={form.images} onChange={images => set('images', images)} />
-      </div>
+          <div className={card}>
+            <h2 className="text-base font-bold text-ink-900">Photos</h2>
+            <p className="mb-4 text-sm text-ink-500">The first photo is the main one in the shop.</p>
+            <ImagesEditor images={form.images} onChange={images => set('images', images)} />
+          </div>
 
-      <div className={`${adminCard} p-6`}>
-        <h2 className="mb-1 text-lg font-bold text-ink-900">🎨 Variants, price & stock</h2>
-        <p className="mb-4 text-sm text-ink-500">Each size / colour has its own price and stock.</p>
-        <VariantsEditor variants={form.variants} onChange={variants => set('variants', variants)} />
+          <div className={card}>
+            <h2 className="text-base font-bold text-ink-900">Variants, price & stock</h2>
+            <p className="mb-4 text-sm text-ink-500">Each size / colour has its own price and stock.</p>
+            <VariantsEditor variants={form.variants} onChange={variants => set('variants', variants)} />
+          </div>
+        </div>
+
+        {/* Side panel */}
+        <div className="space-y-5 lg:sticky lg:top-24">
+          <div className={card}>
+            <h2 className="text-base font-bold text-ink-900">Status</h2>
+            <button type="button" onClick={() => set('is_active', !form.is_active)} className="mt-3 flex w-full items-center justify-between rounded-2xl bg-[#f6f8f7] px-4 py-3">
+              <span className="text-sm font-semibold text-ink-700">{form.is_active ? 'Visible in shop' : 'Hidden from shop'}</span>
+              <span className={`relative h-6 w-11 rounded-full transition ${form.is_active ? 'bg-brand-600' : 'bg-ink-300'}`}>
+                <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${form.is_active ? 'left-[22px]' : 'left-0.5'}`} />
+              </span>
+            </button>
+            <label className="mt-4 block text-sm font-semibold text-ink-700">Category
+              <select required value={form.category} onChange={e => set('category', Number(e.target.value))} className={`${adminInput} mt-1 w-full`}>
+                <option value="">Choose…</option>
+                {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </label>
+          </div>
+
+          <div className={card}>
+            <h2 className="text-base font-bold text-ink-900">Summary</h2>
+            <dl className="mt-3 space-y-2 text-sm">
+              <div className="flex justify-between"><dt className="text-ink-500">Variants</dt><dd className="font-semibold text-ink-900">{form.variants.length}</dd></div>
+              <div className="flex justify-between"><dt className="text-ink-500">Total stock</dt><dd className="font-semibold text-ink-900">{stock}</dd></div>
+              <div className="flex justify-between"><dt className="text-ink-500">Price</dt><dd className="font-semibold text-ink-900">{prices.length ? (Math.min(...prices) === Math.max(...prices) ? formatPrice(prices[0]) : `${formatPrice(Math.min(...prices))} – ${formatPrice(Math.max(...prices))}`) : '—'}</dd></div>
+              <div className="flex justify-between"><dt className="text-ink-500">Photos</dt><dd className="font-semibold text-ink-900">{form.images.length}</dd></div>
+            </dl>
+            <button disabled={saving} className="bg-brand mt-5 flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-bold text-white shadow-md disabled:opacity-60">
+              <Save size={16} /> {saving ? 'Saving…' : 'Save product'}
+            </button>
+            <Link to="/admin/products" className="mt-2 block text-center text-sm font-semibold text-ink-500">Cancel</Link>
+          </div>
+        </div>
       </div>
     </form>
   )

@@ -27,7 +27,7 @@ const Coupons = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Coupons 🏷️" subtitle="Flat or % discounts · minimum order · expiry · one use per customer" />
+      <PageHeader title="Coupons" subtitle="Flat or % discounts · minimum order · expiry · one use per customer" />
 
       <div className={`${adminCard} p-6`}><CouponForm onCreated={reload} /></div>
 

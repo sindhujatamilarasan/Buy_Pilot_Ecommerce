@@ -1,5 +1,6 @@
 // Used by admin (/admin/orders) and staff (/staff/orders). Staff can only move the status forward.
-import { useState } from 'react'
+import { ChevronDown, ReceiptText, Search } from 'lucide-react'
+import { Fragment, useState } from 'react'
 import { adminCancelOrder, getManageOrders, nextOrderStatus } from '../../api/manage'
 import { adminCard, adminInput } from '../../components/admin/adminStyles'
 import PageHeader from '../../components/admin/PageHeader'
@@ -10,15 +11,18 @@ import { useAuth } from '../../hooks/useAuth'
 import { formatPrice, getErrorMessage } from '../../utils/format'
 
 const TABS = [
-  ['', 'All'], ['placed', 'Placed'], ['packed', 'Packed'], ['shipped', 'Shipped'],
-  ['delivered', 'Delivered'], ['cancelled', 'Cancelled'], ['pending_payment', 'Unpaid'],
+  ['placed', 'To pack'], ['packed', 'To ship'], ['shipped', 'Shipped'], ['delivered', 'Delivered'],
+  ['cancelled', 'Cancelled'], ['pending_payment', 'Unpaid'], ['', 'All'],
 ]
-const NEXT_LABEL = { placed: 'Mark packed 📦', packed: 'Mark shipped 🚚', shipped: 'Mark delivered 🏠' }
+const NEXT_LABEL = { placed: 'Mark packed', packed: 'Mark shipped', shipped: 'Mark delivered' }
+const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`
+const PAYMENT_STYLE = { paid: 'text-brand-700', failed: 'text-rose-600', refund_pending: 'text-mango-600', pending: 'text-ink-400' }
 
 const Orders = () => {
   const { user } = useAuth()
   const [status, setStatus] = useState('placed')
   const [search, setSearch] = useState('')
+  const [open, setOpen] = useState(null) // order id with details shown
   const [version, setVersion] = useState(0)
   const { data, loading } = useApi(getManageOrders, { status, search }, version)
 
@@ -32,45 +36,88 @@ const Orders = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <PageHeader title="Orders 🧾" subtitle={user.role === 'staff' ? 'Pack, ship and deliver orders' : 'All customer orders'}>
-        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Order #, name or email…" className={adminInput} />
+    <div className="space-y-5">
+      <PageHeader title="Orders" subtitle={user.role === 'staff' ? 'Pack, ship and deliver customer orders' : 'All customer orders'}>
+        <div className="relative">
+          <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Order #, name or email…" className={`${adminInput} pl-9`} />
+        </div>
       </PageHeader>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex gap-2 overflow-x-auto pb-1">
         {TABS.map(([value, label]) => (
-          <button key={value} onClick={() => setStatus(value)} className={`rounded-full px-4 py-2 text-sm font-bold transition ${status === value ? 'bg-brand text-white shadow-md' : 'bg-white text-ink-600 ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]'}`}>
+          <button key={value} onClick={() => setStatus(value)} className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${status === value ? 'bg-ink-900 text-white' : 'bg-white text-ink-600 ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]'}`}>
             {label}
           </button>
         ))}
       </div>
 
       {loading ? <Spinner /> : (
-        <div className="space-y-3">
-          {data.results.length === 0 && <p className="text-ink-500">No orders here.</p>}
-          {data.results.map(order => (
-            <div key={order.id} className={`${adminCard} flex flex-wrap items-center gap-4 p-5`}>
-              <div className="min-w-[140px]">
-                <p className="font-display text-lg font-bold text-ink-900">#{order.id}</p>
-                <p className="text-xs text-ink-500">{new Date(order.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</p>
-              </div>
-              <div className="min-w-[180px] flex-1 text-sm">
-                <p className="font-semibold text-ink-900">{order.ship_name} <span className="font-normal text-ink-400">· {order.customer}</span></p>
-                <p className="line-clamp-1 text-ink-500">{order.items.map(i => `${i.product_name} × ${i.qty}`).join(', ')}</p>
-                <p className="text-xs text-ink-400">{order.ship_city} – {order.ship_pincode}</p>
-              </div>
-              <p className="font-display text-lg font-bold text-ink-900">{formatPrice(order.total)}</p>
-              <OrderStatusBadge status={order.status} label={order.status_label} />
-              <div className="flex gap-3 text-sm font-bold">
-                {NEXT_LABEL[order.status] && (
-                  <button onClick={() => act(() => nextOrderStatus(order.id))} className="bg-brand rounded-full px-4 py-2 text-white">{NEXT_LABEL[order.status]}</button>
-                )}
-                {user.role === 'admin' && order.can_cancel && (
-                  <button onClick={() => window.confirm(`Cancel order #${order.id}? Stock goes back.`) && act(() => adminCancelOrder(order.id))} className="text-ink-400 hover:text-rose-600">Cancel</button>
-                )}
-              </div>
-            </div>
-          ))}
+        <div className={`${adminCard} overflow-x-auto`}>
+          {data.results.length === 0 ? (
+            <div className="p-12 text-center text-ink-500"><ReceiptText className="mx-auto text-ink-300" size={40} /><p className="mt-2 font-semibold">No orders here</p></div>
+          ) : (
+            <table className="w-full text-left text-sm">
+              <thead className="bg-[#f6f8f7] text-xs font-semibold uppercase tracking-wider text-ink-400">
+                <tr><th className="px-5 py-3">Order</th><th className="px-5 py-3">Customer</th><th className="px-5 py-3">Items</th><th className="px-5 py-3">Total</th><th className="px-5 py-3">Status</th><th className="px-5 py-3 text-right">Action</th></tr>
+              </thead>
+              <tbody className="divide-y divide-ink-300/20">
+                {data.results.map(order => (
+                  <Fragment key={order.id}>
+                    <tr className="hover:bg-[#f6f8f7]">
+                      <td className="px-5 py-3">
+                        <button onClick={() => setOpen(open === order.id ? null : order.id)} className="flex items-center gap-1 font-bold text-ink-900">
+                          #{order.id} <ChevronDown size={15} className={`text-ink-400 transition ${open === order.id ? 'rotate-180' : ''}`} />
+                        </button>
+                        <p className="text-xs text-ink-400">{new Date(order.created_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}</p>
+                      </td>
+                      <td className="px-5 py-3">
+                        <p className="font-semibold text-ink-800">{order.ship_name}</p>
+                        <p className="text-xs text-ink-400">{order.customer}</p>
+                      </td>
+                      <td className="max-w-[220px] px-5 py-3">
+                        <p className="truncate text-ink-700">{order.items.map(i => i.product_name).join(', ')}</p>
+                        <p className="text-xs text-ink-400">{plural(order.items.reduce((n, i) => n + i.qty, 0), 'item')}</p>
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-3">
+                        <p className="font-semibold text-ink-900">{formatPrice(order.total)}</p>
+                        <p className={`text-xs font-semibold ${PAYMENT_STYLE[order.payment_status]}`}>{order.payment_status_label}</p>
+                      </td>
+                      <td className="px-5 py-3"><OrderStatusBadge status={order.status} label={order.status_label} /></td>
+                      <td className="whitespace-nowrap px-5 py-3 text-right">
+                        {NEXT_LABEL[order.status] && (
+                          <button onClick={() => act(() => nextOrderStatus(order.id))} className="bg-brand rounded-full px-4 py-2 text-xs font-bold text-white">{NEXT_LABEL[order.status]}</button>
+                        )}
+                        {user.role === 'admin' && order.can_cancel && (
+                          <button onClick={() => window.confirm(`Cancel order #${order.id}? Stock goes back.`) && act(() => adminCancelOrder(order.id))} className="ml-3 text-xs font-semibold text-ink-400 hover:text-rose-600">Cancel</button>
+                        )}
+                      </td>
+                    </tr>
+                    {open === order.id && (
+                      <tr className="bg-[#f6f8f7]">
+                        <td colSpan={6} className="px-5 py-4">
+                          <div className="grid gap-4 text-sm md:grid-cols-2">
+                            <div>
+                              <p className="text-xs font-bold uppercase text-ink-400">Items</p>
+                              {order.items.map(i => (
+                                <p key={i.id} className="mt-1 text-ink-700">{i.product_name} {i.variant_label && `(${i.variant_label})`} × {i.qty} — {formatPrice(i.line_total)}</p>
+                              ))}
+                            </div>
+                            <div>
+                              <p className="text-xs font-bold uppercase text-ink-400">Deliver to</p>
+                              <p className="mt-1 text-ink-700">{order.ship_name} · {order.ship_phone}</p>
+                              <p className="text-ink-700">{order.ship_address}, {order.ship_city} – {order.ship_pincode}</p>
+                              {order.coupon_code && <p className="mt-1 text-ink-500">Coupon {order.coupon_code} (−{formatPrice(order.discount)})</p>}
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       )}
     </div>

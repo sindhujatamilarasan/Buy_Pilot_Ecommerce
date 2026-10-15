@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import HeartButton from './HeartButton'
 import { categoryStyle } from '../utils/categoryStyle'
 import { formatPrice } from '../utils/format'
 
@@ -26,7 +27,8 @@ const ProductCard = ({ product }) => {
         {almostGone && (
           <span className="absolute left-2 top-2 rounded-full bg-mango-500 px-2.5 py-1 text-[11px] font-bold text-white">🔥 Only few left</span>
         )}
-        <span className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-xs font-bold text-ink-800 shadow-sm">
+        <HeartButton product={product} className="absolute right-2 top-2" />
+        <span className="absolute bottom-2 left-2 rounded-full bg-white/90 px-2 py-1 text-xs font-bold text-ink-800 shadow-sm">
           <span className="text-amber-400">★</span> {product.rating}
         </span>
       </div>

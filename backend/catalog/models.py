@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -58,3 +59,21 @@ class ProductVariant(models.Model):
 
     def __str__(self):
         return self.sku
+
+
+class WishlistItem(models.Model):
+    """A product a user saved with the ❤️ button. One row per (user, product)."""
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='wishlist_items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='wishlisted_by')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        constraints = [
+            # The database itself refuses the same product twice for one user
+            models.UniqueConstraint(fields=['user', 'product'], name='unique_wishlist_item'),
+        ]
+
+    def __str__(self):
+        return f'{self.user} ❤️ {self.product}'

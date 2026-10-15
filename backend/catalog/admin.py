@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Product, ProductImage, ProductVariant
+from .models import Category, Product, ProductImage, ProductVariant, WishlistItem
 
 
 class ProductImageInline(admin.TabularInline):
@@ -33,3 +33,8 @@ class ProductVariantAdmin(admin.ModelAdmin):
     list_display = ('sku', 'product', 'size', 'color', 'price', 'stock')
     list_filter = ('product__category',)
     search_fields = ('sku', 'product__name')
+
+
+@admin.register(WishlistItem)
+class WishlistItemAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'created_at')

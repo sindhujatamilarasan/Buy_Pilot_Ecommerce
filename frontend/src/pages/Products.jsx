@@ -1,9 +1,11 @@
-// Product list. Filters live in the URL (?search=&category=&ordering=&page=)
+// Product list. Filters live in the URL (?search=&category=&min_price=&max_price=&min_rating=&ordering=&page=)
 // so a filtered page can be refreshed, bookmarked or shared.
+import { useCallback, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { getCategories, getProducts } from '../api/products'
 import Message from '../components/Message'
 import ProductCard from '../components/ProductCard'
+import { PriceFilter, RatingFilter } from '../components/ProductFilters'
 import Spinner from '../components/Spinner'
 import { useApi } from '../hooks/useApi'
 import { categoryStyle } from '../utils/categoryStyle'
@@ -23,12 +25,29 @@ const Products = () => {
   const categories = useApi(getCategories)
   const { data, loading, error } = useApi(getProducts, params)
 
-  // Change one filter, keep the others, go back to page 1
-  const updateParam = (name, value) => {
-    const next = { ...params, [name]: value }
-    if (name !== 'page') delete next.page
-    if (!value) delete next[name]
-    setSearchParams(next)
+  const [resetKey, setResetKey] = useState(0) // changes → the price boxes start empty again
+
+  // Change some filters, keep the others, go back to page 1
+  const updateParams = useCallback(
+    changes =>
+      setSearchParams(current => {
+        const next = Object.fromEntries(current)
+        Object.entries(changes).forEach(([name, value]) => {
+          if (value) next[name] = value
+          else delete next[name]
+        })
+        if (!('page' in changes)) delete next.page
+        return next
+      }),
+    [setSearchParams],
+  )
+  const updateParam = (name, value) => updateParams({ [name]: value })
+  const updatePrice = useCallback(({ min, max }) => updateParams({ min_price: min, max_price: max }), [updateParams])
+
+  const hasFilters = ['category', 'min_price', 'max_price', 'min_rating', 'search'].some(name => params[name])
+  const clearFilters = () => {
+    setSearchParams(params.ordering ? { ordering: params.ordering } : {})
+    setResetKey(k => k + 1)
   }
 
   return (
@@ -48,6 +67,9 @@ const Products = () => {
           </div>
         </div>
 
+        <PriceFilter key={resetKey} min={params.min_price} max={params.max_price} onChange={updatePrice} />
+        <RatingFilter value={params.min_rating} onChange={value => updateParam('min_rating', value)} />
+
         <div>
           <h3 className="mb-3 text-sm font-bold text-ink-900">Sort by</h3>
           <select value={params.ordering || ''} onChange={e => updateParam('ordering', e.target.value)} className="w-full rounded-xl border-2 border-brand-100 bg-white px-3 py-2 text-sm font-semibold text-ink-700 outline-none focus:border-brand-400">
@@ -61,12 +83,19 @@ const Products = () => {
           <h1 className="text-3xl font-extrabold text-ink-900">
             {params.search ? `Results for "${params.search}"` : 'All products'}
           </h1>
-          {data && <span className="text-sm text-ink-500">{data.count} products</span>}
+          <div className="flex items-center gap-3">
+            {data && <span className="text-sm text-ink-500">{data.count} products</span>}
+            {hasFilters && (
+              <button onClick={clearFilters} className="rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">
+                ✕ Clear filters
+              </button>
+            )}
+          </div>
         </div>
 
         {loading && <Spinner />}
         {error && <Message type="error" icon="⚠️" title="Could not load products" />}
-        {data?.results.length === 0 && <Message icon="😕" title="No products found">Try a different search or category.</Message>}
+        {data?.results.length === 0 && <Message icon="😕" title="No products found">Try a different search, price or category.</Message>}
 
         {data?.results.length > 0 && (
           <>

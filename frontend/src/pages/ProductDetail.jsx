@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProduct } from '../api/products'
+import HeartButton from '../components/HeartButton'
 import Message from '../components/Message'
 import QtyStepper from '../components/QtyStepper'
 import Spinner from '../components/Spinner'
@@ -91,7 +92,10 @@ const ProductView = ({ product }) => {
       <div>
         <p className={`text-sm font-bold ${style.text}`}>{style.emoji} {product.category.name}</p>
         <h1 className="mt-2 text-4xl font-extrabold text-ink-900">{product.name}</h1>
-        <span className="mt-3 inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-sm font-bold text-amber-800"><span className="text-amber-500">★</span> {product.rating}</span>
+        <div className="mt-3 flex items-center gap-3">
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-sm font-bold text-amber-800"><span className="text-amber-500">★</span> {product.rating}</span>
+          <HeartButton product={product} className="ring-1 ring-ink-300/30" />
+        </div>
 
         {/* Price and stock come from the SELECTED variant */}
         <p className="mt-6 font-display text-4xl font-extrabold text-ink-900">{formatPrice(variant.price)}</p>

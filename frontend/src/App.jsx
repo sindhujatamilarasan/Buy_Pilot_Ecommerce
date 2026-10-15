@@ -25,6 +25,7 @@ import Placeholder from './pages/Placeholder'
 import ProductDetail from './pages/ProductDetail'
 import Products from './pages/Products'
 import Register from './pages/Register'
+import Wishlist from './pages/Wishlist'
 
 const App = () => (
   <Routes>
@@ -47,7 +48,7 @@ const App = () => (
           <Route path="/account/security" element={<Security />} />
           <Route path="/orders" element={<Orders />} />
         </Route>
-        <Route path="/wishlist" element={<Placeholder icon="❤️" title="Wishlist" when="Day 4" />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
       </Route>
     </Route>

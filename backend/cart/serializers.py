@@ -20,3 +20,13 @@ def quote_to_json(quote):
         'coupon': {'code': quote['coupon'].code} if quote['coupon'] else None,
         'coupon_error': quote['coupon_error'],
     }
+
+
+class SavedCartItemSerializer(serializers.Serializer):
+    variant_id = serializers.IntegerField(min_value=1)
+    qty = serializers.IntegerField(min_value=1, max_value=99)
+    saved_for_later = serializers.BooleanField(default=False)
+
+
+class SavedCartSerializer(serializers.Serializer):
+    items = SavedCartItemSerializer(many=True, max_length=100)

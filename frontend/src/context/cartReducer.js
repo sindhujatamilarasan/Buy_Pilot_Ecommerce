@@ -3,6 +3,7 @@
 // Components never edit the cart directly; they "dispatch" an action like { type: 'ADD', … }.
 //
 // A cart item: { variantId, slug, name, image, size, color, price, stock, qty, savedForLater }
+// State: { items: [...], owner: null | userId }  – owner = whose cart this is (null = guest)
 
 export const cartReducer = (state, action) => {
   switch (action.type) {
@@ -13,6 +14,7 @@ export const cartReducer = (state, action) => {
       if (existing) {
         // Already in the cart → increase qty, but never above the stock
         return {
+          ...state,
           items: state.items.map(i =>
             i.variantId === item.variantId
               ? { ...i, ...item, qty: Math.min(i.qty + qty, item.stock), savedForLater: false }
@@ -20,11 +22,12 @@ export const cartReducer = (state, action) => {
           ),
         }
       }
-      return { items: [...state.items, { ...item, qty: Math.min(qty, item.stock), savedForLater: false }] }
+      return { ...state, items: [...state.items, { ...item, qty: Math.min(qty, item.stock), savedForLater: false }] }
     }
 
     case 'SET_QTY':
       return {
+        ...state,
         items: state.items.map(i =>
           i.variantId === action.variantId
             ? { ...i, qty: Math.max(1, Math.min(action.qty, i.stock)) } // keep between 1 and stock
@@ -33,10 +36,11 @@ export const cartReducer = (state, action) => {
       }
 
     case 'REMOVE':
-      return { items: state.items.filter(i => i.variantId !== action.variantId) }
+      return { ...state, items: state.items.filter(i => i.variantId !== action.variantId) }
 
     case 'TOGGLE_SAVE_FOR_LATER':
       return {
+        ...state,
         items: state.items.map(i =>
           i.variantId === action.variantId ? { ...i, savedForLater: !i.savedForLater } : i,
         ),
@@ -44,7 +48,11 @@ export const cartReducer = (state, action) => {
 
     case 'CLEAR':
       // After a successful order: remove the bought items, keep "saved for later"
-      return { items: state.items.filter(i => i.savedForLater) }
+      return { ...state, items: state.items.filter(i => i.savedForLater) }
+
+    case 'REPLACE':
+      // Whole cart from the server (after login) or from another browser tab
+      return { items: action.items, owner: action.owner }
 
     default:
       return state

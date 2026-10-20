@@ -9,7 +9,7 @@ from .pricing import calculate_summary, money
 
 def build_quote(items, coupon_code='', user=None):
     """items = [{'variant_id': 5, 'qty': 2}, …] – only ids and quantities, never prices."""
-    variants = ProductVariant.objects.select_related('product').prefetch_related('product__images').in_bulk(
+    variants = ProductVariant.objects.select_related('product__store').prefetch_related('product__images').in_bulk(
         [item['variant_id'] for item in items]
     )
 
@@ -18,7 +18,7 @@ def build_quote(items, coupon_code='', user=None):
 
     for item in items:
         variant = variants.get(item['variant_id'])
-        if variant is None or not variant.product.is_active:
+        if variant is None or not variant.product.is_active or not variant.product.store.is_active:
             problems.append({'variant_id': item['variant_id'], 'code': 'not_found',
                              'message': 'This product is no longer available.'})
             continue
@@ -44,7 +44,16 @@ def build_quote(items, coupon_code='', user=None):
             'qty': item['qty'],
             'line_total': line_total,
             'stock': variant.stock,
+            'store_id': variant.product.store_id,
+            'store_name': variant.product.store.name,
         })
+
+    # One order = one store: the store that sells the items packs, ships and refunds the order
+    stores = {line['store_name'] for line in lines}
+    if len(stores) > 1:
+        problems.append({'variant_id': None, 'code': 'mixed_stores',
+                         'message': 'Your cart has items from ' + ' and '.join(sorted(stores))
+                                    + '. Please order from one store at a time (save the others for later).'})
 
     coupon, coupon_error, discount = None, None, Decimal('0')
     if coupon_code:

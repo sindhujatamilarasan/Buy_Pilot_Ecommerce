@@ -7,12 +7,13 @@ from rest_framework.test import APITestCase
 from accounts.models import User
 from catalog.models import Category, Product, ProductVariant
 from orders.models import Order, OrderItem
+from stores.models import default_store_id
 
 
 class SalesReportTests(APITestCase):
     def setUp(self):
-        self.admin = User.objects.create_user(username='a@t.com', email='a@t.com', password='x', role='admin')
-        self.staff = User.objects.create_user(username='s@t.com', email='s@t.com', password='x', role='staff')
+        self.admin = User.objects.create_user(username='a@t.com', email='a@t.com', password='x', role='admin', store_id=default_store_id())
+        self.staff = User.objects.create_user(username='s@t.com', email='s@t.com', password='x', role='staff', store_id=default_store_id())
         category = Category.objects.create(name='Shoes', slug='shoes')
         product = Product.objects.create(category=category, name='Runner', slug='runner')
         self.variant = ProductVariant.objects.create(product=product, sku='RUN-8', price=1000, stock=10)

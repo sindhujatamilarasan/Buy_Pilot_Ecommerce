@@ -2,6 +2,7 @@ from rest_framework.test import APITestCase
 
 from accounts.models import User
 from catalog.models import Category, Product, ProductVariant
+from stores.models import default_store_id
 
 
 class AuthAndRoleTests(APITestCase):
@@ -9,9 +10,9 @@ class AuthAndRoleTests(APITestCase):
         self.customer = User.objects.create_user(
             username='c@test.com', email='c@test.com', password='Pass@12345', role='customer')
         self.staff = User.objects.create_user(
-            username='s@test.com', email='s@test.com', password='Pass@12345', role='staff')
+            username='s@test.com', email='s@test.com', password='Pass@12345', role='staff', store_id=default_store_id())
         self.admin = User.objects.create_user(
-            username='a@test.com', email='a@test.com', password='Pass@12345', role='admin')
+            username='a@test.com', email='a@test.com', password='Pass@12345', role='admin', store_id=default_store_id())
         category = Category.objects.create(name='Books', slug='books')
         product = Product.objects.create(category=category, name='Book', slug='book')
         ProductVariant.objects.create(product=product, sku='BOOK-1', price=199, stock=1)

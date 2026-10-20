@@ -21,3 +21,4 @@ Thumbs.db
 # Database backups (contain password hashes and tokens)
 backend/sqlite-backup.json
 backend/.env.sqlite.bak
+backend/pg-backup-*.sql

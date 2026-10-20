@@ -7,6 +7,7 @@ from accounts.models import User
 from catalog.models import Category, Product, ProductImage, ProductVariant
 from catalog.utils import absolute_media
 from coupons.models import Coupon
+from stores.models import Store
 
 
 class VariantWriteSerializer(serializers.ModelSerializer):
@@ -29,13 +30,16 @@ class ImageWriteSerializer(serializers.ModelSerializer):
 class ProductAdminSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
     category_name = serializers.CharField(source='category.name', read_only=True)
+    # Only the super admin's choice is used – a store admin's products always go to their own store (see views)
+    store = serializers.PrimaryKeyRelatedField(queryset=Store.objects.all(), required=False)
+    store_name = serializers.CharField(source='store.name', read_only=True)
     variants = VariantWriteSerializer(many=True)
     images = ImageWriteSerializer(many=True, required=False)
     total_stock = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'slug', 'category', 'category_name', 'description', 'rating',
+        fields = ['id', 'name', 'slug', 'store', 'store_name', 'category', 'category_name', 'description', 'rating',
                   'is_active', 'variants', 'images', 'total_stock']
         read_only_fields = ['rating']
         extra_kwargs = {'slug': {'required': False, 'allow_blank': True, 'validators': []}}
@@ -139,8 +143,9 @@ class CouponSerializer(serializers.ModelSerializer):
 class UserAdminSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='first_name', read_only=True)
     orders = serializers.IntegerField(source='orders.count', read_only=True)
+    store_name = serializers.CharField(source='store.name', read_only=True, default=None)
 
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'role', 'is_active', 'date_joined', 'orders']
+        fields = ['id', 'name', 'email', 'role', 'store', 'store_name', 'is_active', 'date_joined', 'orders']
         read_only_fields = ['email', 'date_joined']

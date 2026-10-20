@@ -10,9 +10,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField(source='first_name', max_length=150)
 
+    store_name = serializers.CharField(source='store.name', read_only=True, default=None)  # store admins / staff
+
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'role', 'date_joined']
+        fields = ['id', 'name', 'email', 'role', 'store_name', 'date_joined']
         read_only_fields = ['email', 'role', 'date_joined']  # only the name can be edited
 
 

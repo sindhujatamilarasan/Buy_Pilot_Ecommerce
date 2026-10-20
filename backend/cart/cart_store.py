@@ -11,7 +11,7 @@ def cart_payload(user, request=None):
     """The cart in the SAME shape the React cart uses, so it can replace the local cart directly.
     `request` is used to turn uploaded image paths (/media/…) into full URLs."""
     cart, _ = Cart.objects.get_or_create(user=user)
-    items = cart.items.select_related('variant__product').prefetch_related('variant__product__images')
+    items = cart.items.select_related('variant__product__store').prefetch_related('variant__product__images')
     payload = []
     for item in items:
         variant = item.variant
@@ -27,6 +27,8 @@ def cart_payload(user, request=None):
             'stock': variant.stock,
             'qty': item.qty,
             'savedForLater': item.saved_for_later,
+            'storeId': variant.product.store_id,
+            'storeName': variant.product.store.name,
         })
     return {'items': payload}
 

@@ -11,11 +11,14 @@ class User(AbstractUser):
 
     class Role(models.TextChoices):
         CUSTOMER = 'customer', 'Customer'
-        STAFF = 'staff', 'Staff'
-        ADMIN = 'admin', 'Admin'
+        STAFF = 'staff', 'Staff'  # orders of their store
+        ADMIN = 'admin', 'Store admin'  # everything of their store
+        SUPERADMIN = 'superadmin', 'Super admin'  # all stores; creates stores + store admins
 
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.CUSTOMER)
+    # Which store a store admin / staff member works for (empty for customers and the super admin)
+    store = models.ForeignKey('stores.Store', on_delete=models.PROTECT, null=True, blank=True, related_name='members')
 
     def __str__(self):
         return f'{self.username} ({self.role})'

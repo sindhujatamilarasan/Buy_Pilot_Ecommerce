@@ -15,11 +15,13 @@ ALLOWED_DAYS = (7, 30, 90)
 LINE_TOTAL = ExpressionWrapper(F('price') * F('qty'), output_field=DecimalField(max_digits=14, decimal_places=2))
 
 
-def paid_orders(start, end):
-    """Paid orders created between two dates (both included, in the shop's time zone)."""
-    return Order.objects.filter(
+def paid_orders(start, end, store=None):
+    """Paid orders created between two dates (both included, in the shop's time zone).
+    store=None → all stores (super admin); otherwise only that store's orders."""
+    orders = Order.objects.filter(
         payment_status=Order.PaymentStatus.PAID, created_at__date__gte=start, created_at__date__lte=end,
     )
+    return orders if store is None else orders.filter(store=store)
 
 
 def totals(orders):
@@ -38,14 +40,14 @@ def change(now, before):
     return round((float(now) - float(before)) / float(before) * 100, 1)
 
 
-def sales_report(days):
+def sales_report(days, store=None):
     today = timezone.localdate()
     start = today - timedelta(days=days - 1)
     prev_end = start - timedelta(days=1)
     prev_start = prev_end - timedelta(days=days - 1)
 
-    orders = paid_orders(start, today)
-    current, previous = totals(orders), totals(paid_orders(prev_start, prev_end))
+    orders = paid_orders(start, today, store)
+    current, previous = totals(orders), totals(paid_orders(prev_start, prev_end, store))
 
     # Revenue + orders per day; days without sales are filled with 0 so the chart has no gaps
     rows = orders.annotate(day=TruncDate('created_at')).values('day').annotate(revenue=Sum('total'), orders=Count('id'))
@@ -71,7 +73,7 @@ def sales_report(days):
         row['name'] = row['name'] or 'Removed products'  # the variant was deleted later
 
     statuses = (
-        Order.objects.filter(created_at__date__gte=start)
+        Order.objects.filter(created_at__date__gte=start, **({} if store is None else {'store': store}))
         .exclude(status=Order.Status.PENDING_PAYMENT)
         .values('status').annotate(count=Count('id')).order_by('-count')
     )

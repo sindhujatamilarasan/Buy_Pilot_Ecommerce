@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 
+from stores.models import default_store_id
+
 
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='addresses')
@@ -34,6 +36,8 @@ class Order(models.Model):
         REFUND_PENDING = 'refund_pending', 'Refund pending'
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='orders')
+    # One order = one store (the cart only holds one store's items), so that store manages it
+    store = models.ForeignKey('stores.Store', on_delete=models.PROTECT, related_name='orders', default=default_store_id)
     # Address is COPIED, so old orders keep the address even if the user edits or deletes it
     ship_name = models.CharField(max_length=100)
     ship_phone = models.CharField(max_length=15)

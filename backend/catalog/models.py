@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 
+from stores.models import default_store_id
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -15,6 +17,8 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    # Which seller this product belongs to (existing products → "ShopKart Official")
+    store = models.ForeignKey('stores.Store', on_delete=models.PROTECT, related_name='products', default=default_store_id)
     # PROTECT: a category that still has products cannot be deleted
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
     name = models.CharField(max_length=200)

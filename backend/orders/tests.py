@@ -13,6 +13,7 @@ from catalog.models import Category, Product, ProductVariant
 from coupons.models import Coupon, CouponUsage
 
 from .models import Order
+from stores.models import default_store_id
 
 
 class OrderFlowTests(APITestCase):
@@ -162,7 +163,7 @@ class RazorpaySignatureTests(APITestCase):
 
 class DashboardSalesTests(APITestCase):
     def test_paid_order_counted_today(self):
-        admin = User.objects.create_user(username='ad@t.com', email='ad@t.com', password='x', role='admin')
+        admin = User.objects.create_user(username='ad@t.com', email='ad@t.com', password='x', role='admin', store_id=default_store_id())
         Order.objects.create(user=admin, ship_name='A', ship_phone='9876543210', ship_address='a', ship_city='c',
                              ship_pincode='600001', subtotal=100, tax=18, shipping=49, total=167,
                              status='placed', payment_status='paid')

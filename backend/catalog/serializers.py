@@ -32,6 +32,7 @@ class ProductListSerializer(serializers.ModelSerializer):
     """Small version for the product grid."""
 
     category = CategorySerializer(read_only=True)
+    store = serializers.SerializerMethodField()  # "Sold by …"
     image = serializers.SerializerMethodField()
     # min_price and total_stock are calculated in the view's queryset (annotate)
     min_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
@@ -39,7 +40,10 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'slug', 'category', 'rating', 'image', 'min_price', 'total_stock']
+        fields = ['id', 'name', 'slug', 'category', 'store', 'rating', 'image', 'min_price', 'total_stock']
+
+    def get_store(self, product):
+        return {'id': product.store_id, 'name': product.store.name, 'slug': product.store.slug}
 
     def get_image(self, product):
         first = product.images.first()

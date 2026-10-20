@@ -7,12 +7,13 @@ from rest_framework.test import APITestCase
 from accounts.models import User
 from catalog.models import Category, Product, ProductVariant
 from orders.models import Order
+from stores.models import default_store_id
 
 
 class BackofficeTests(APITestCase):
     def setUp(self):
-        self.admin = User.objects.create_user(username='a@t.com', email='a@t.com', password='x', role='admin')
-        self.staff = User.objects.create_user(username='s@t.com', email='s@t.com', password='x', role='staff')
+        self.admin = User.objects.create_user(username='a@t.com', email='a@t.com', password='x', role='admin', store_id=default_store_id())
+        self.staff = User.objects.create_user(username='s@t.com', email='s@t.com', password='x', role='staff', store_id=default_store_id())
         self.customer = User.objects.create_user(username='c@t.com', email='c@t.com', password='x', role='customer')
         self.category = Category.objects.create(name='Shoes', slug='shoes')
 
@@ -68,7 +69,11 @@ class BackofficeTests(APITestCase):
 
     # ----- coupons -----
     def test_coupon_crud_and_validation(self):
+        # Coupons are shop-wide offers → only the super admin manages them
         self.client.force_authenticate(self.admin)
+        self.assertEqual(self.client.get('/api/manage/coupons/').status_code, 403)
+        boss = User.objects.create_user(username='boss@t.com', email='boss@t.com', password='x', role='superadmin')
+        self.client.force_authenticate(boss)
         res = self.client.post('/api/manage/coupons/', {'code': 'fest20', 'type': 'percent', 'value': 20,
                                                         'min_order': 999, 'is_active': True}, format='json')
         self.assertEqual(res.data['code'], 'FEST20')

@@ -12,10 +12,10 @@ from .serializers import CategorySerializer, ProductDetailSerializer, ProductLis
 
 
 def product_queryset():
-    """Active products + their lowest price and total stock (calculated by the database)."""
+    """Active products of active stores + their lowest price and total stock (calculated by the database)."""
     return (
-        Product.objects.filter(is_active=True)
-        .select_related('category')
+        Product.objects.filter(is_active=True, store__is_active=True)
+        .select_related('category', 'store')
         .prefetch_related('images')
         .annotate(min_price=Min('variants__price'), total_stock=Sum('variants__stock'))
     )
@@ -53,6 +53,9 @@ class ProductList(generics.ListAPIView):
         category = self.request.query_params.get('category')
         if category:
             queryset = queryset.filter(category__slug=category)
+        store = self.request.query_params.get('store')
+        if store:
+            queryset = queryset.filter(store__slug=store)
 
         # Price range uses the product's LOWEST variant price ("from ₹…")
         params = self.request.query_params

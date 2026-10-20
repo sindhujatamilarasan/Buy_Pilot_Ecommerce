@@ -43,13 +43,18 @@ class Command(BaseCommand):
 
         customers = [self.demo_customer(i, name) for i, name in enumerate(DEMO_NAMES, start=1)]
         # Cheaper products sell more often (weights), like a real shop
-        variants = list(ProductVariant.objects.select_related('product').prefetch_related('product__images'))
-        weights = [1 / max(float(v.price), 100) ** 0.5 for v in variants]
+        # One order = one store, so group the variants by store first
+        by_store = {}
+        for v in ProductVariant.objects.select_related('product').prefetch_related('product__images'):
+            by_store.setdefault(v.product.store_id, []).append(v)
+        stores = list(by_store)
         now = timezone.now()
 
         for _ in range(count):
             age = int(random.triangular(0, days, 0))  # more orders in recent days
             created = now - timedelta(days=age, hours=random.randint(0, 12), minutes=random.randint(0, 59))
+            variants = by_store[random.choice(stores)]
+            weights = [1 / max(float(v.price), 100) ** 0.5 for v in variants]  # cheaper items sell more often
             self.create_order(random.choice(customers), random.choices(variants, weights, k=random.randint(1, 3)),
                               created, age)
 
@@ -68,7 +73,7 @@ class Command(BaseCommand):
         city, pincode = random.choice(CITIES)
 
         order = Order.objects.create(
-            user=user, ship_name=user.first_name, ship_phone='9876543210', ship_address='12 Demo Street',
+            user=user, store_id=picked[0].product.store_id, ship_name=user.first_name, ship_phone='9876543210', ship_address='12 Demo Street',
             ship_city=city, ship_pincode=pincode, subtotal=summary['subtotal'], discount=summary['discount'],
             tax=summary['tax'], shipping=summary['shipping'], total=summary['total'],
             status=status, payment_status=Order.PaymentStatus.PAID,

@@ -74,6 +74,7 @@ def create_order(request):
     with transaction.atomic():
         order = Order.objects.create(
             user=request.user,
+            store_id=quote['lines'][0]['store_id'],  # all lines are from one store (checked in build_quote)
             ship_name=address.name, ship_phone=address.phone, ship_address=address.address,
             ship_city=address.city, ship_pincode=address.pincode,
             subtotal=summary['subtotal'], discount=summary['discount'], tax=summary['tax'],

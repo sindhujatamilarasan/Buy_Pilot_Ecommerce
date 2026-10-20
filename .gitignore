@@ -17,3 +17,7 @@ dist/
 .idea/
 Thumbs.db
 .DS_Store
+
+# Database backups (contain password hashes and tokens)
+backend/sqlite-backup.json
+backend/.env.sqlite.bak

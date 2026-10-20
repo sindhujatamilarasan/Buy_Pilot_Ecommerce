@@ -9,7 +9,7 @@ pay (Razorpay test mode) and track orders. Admin and staff manage products, stoc
 |---|---|
 | Frontend | React (Vite), React Router, Tailwind CSS, axios |
 | Backend | Python, Django, Django REST Framework |
-| Database | PostgreSQL (SQLite as a temporary fallback) |
+| Database | PostgreSQL 16 (Docker) |
 
 ## Project structure
 
@@ -36,6 +36,12 @@ ecommerce-shop/
 ```
 
 ## Setup
+
+### Database (PostgreSQL in Docker – no installer or admin rights needed)
+```bash
+docker run -d --name shopkart-db --restart unless-stopped -e POSTGRES_DB=shopkart -e POSTGRES_USER=shopkart -e POSTGRES_PASSWORD=change-me -p 127.0.0.1:5434:5432 -v shopkart-pgdata:/var/lib/postgresql/data postgres:16
+```
+Port **5434** is used so it does not clash with other local PostgreSQL containers. Put the same password in `backend/.env`.
 
 ### Backend (Windows, Command Prompt)
 ```bash
@@ -89,7 +95,7 @@ App: http://localhost:5173
 | GET | `/api/manage/orders/?status=&search=` · POST `/next-status/` | Staff + admin |
 | POST | `/api/manage/orders/<id>/cancel/` · `/api/manage/users/` + PATCH `/<id>/role/` | Admin |
 
-Run backend tests: `.venv\Scripts\python manage.py test`
+Run backend tests: `.venv\Scripts\python manage.py test` (57 tests, including a real two-thread "last item" race on PostgreSQL)
 
 ## Payments (Razorpay test mode)
 

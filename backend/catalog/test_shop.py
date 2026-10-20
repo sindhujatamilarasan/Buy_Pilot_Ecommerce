@@ -47,3 +47,31 @@ class WishlistTests(APITestCase):
         self.assertEqual([p['name'] for p in self.client.get('/api/wishlist/').data], ['Novel'])
         self.assertEqual(self.client.delete(f'/api/wishlist/{self.product.id}/').status_code, 204)
         self.assertEqual(self.client.get('/api/wishlist/').data, [])
+
+
+class UploadedImageUrlTests(APITestCase):
+    """Uploaded images are saved as /media/… and must reach React as FULL urls on every API."""
+
+    def setUp(self):
+        from catalog.models import ProductImage
+        self.user = User.objects.create_user(username='u@t.com', email='u@t.com', password='Pass@12345')
+        books = Category.objects.create(name='Books', slug='books')
+        self.product = make_product(books, 'Uploaded', 499, 4.0)
+        ProductImage.objects.create(product=self.product, path='/media/products/x.webp')
+        self.variant = self.product.variants.first()
+        self.client.force_authenticate(self.user)
+
+    def assertFullUrl(self, url):
+        self.assertEqual(url, 'http://testserver/media/products/x.webp')
+
+    def test_wishlist_image(self):
+        self.client.post('/api/wishlist/', {'product_id': self.product.id})
+        self.assertFullUrl(self.client.get('/api/wishlist/').data[0]['image'])
+
+    def test_saved_cart_image(self):
+        item = {'variant_id': self.variant.id, 'qty': 1, 'saved_for_later': False}
+        self.assertFullUrl(self.client.put('/api/cart/', {'items': [item]}, format='json').data['items'][0]['image'])
+
+    def test_quote_image(self):
+        res = self.client.post('/api/cart/quote/', {'items': [{'variant_id': self.variant.id, 'qty': 1}]}, format='json')
+        self.assertFullUrl(res.data['lines'][0]['image'])

@@ -94,7 +94,8 @@ def wishlist(request):
     # Keep "most recently saved first" (the order of the wishlist rows)
     order = {product_id: index for index, product_id in enumerate(ids)}
     products = sorted(products, key=lambda p: order[p.id])
-    return Response(ProductListSerializer(products, many=True).data)
+    # context={'request'} lets the serializer turn /media/… paths into full URLs
+    return Response(ProductListSerializer(products, many=True, context={'request': request}).data)
 
 
 @api_view(['DELETE'])

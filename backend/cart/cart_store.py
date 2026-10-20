@@ -2,12 +2,14 @@
 from django.db import transaction
 
 from catalog.models import ProductVariant
+from catalog.utils import absolute_media
 
 from .models import Cart, CartItem
 
 
-def cart_payload(user):
-    """The cart in the SAME shape the React cart uses, so it can replace the local cart directly."""
+def cart_payload(user, request=None):
+    """The cart in the SAME shape the React cart uses, so it can replace the local cart directly.
+    `request` is used to turn uploaded image paths (/media/…) into full URLs."""
     cart, _ = Cart.objects.get_or_create(user=user)
     items = cart.items.select_related('variant__product').prefetch_related('variant__product__images')
     payload = []
@@ -18,7 +20,7 @@ def cart_payload(user):
             'variantId': variant.id,
             'slug': variant.product.slug,
             'name': variant.product.name,
-            'image': images[0].path if images else '',
+            'image': absolute_media(request, images[0].path) if images else '',
             'size': variant.size,
             'color': variant.color,
             'price': float(variant.price),
@@ -39,7 +41,7 @@ def _buyable_variants(items):
 
 
 @transaction.atomic
-def replace_cart(user, items):
+def replace_cart(user, items, request=None):
     """Make the saved cart exactly match `items` (used on every change while logged in)."""
     cart, _ = Cart.objects.get_or_create(user=user)
     variants = _buyable_variants(items)
@@ -50,11 +52,11 @@ def replace_cart(user, items):
                  saved_for_later=item['saved_for_later'])
         for item in items if item['variant_id'] in variants
     )
-    return cart_payload(user)
+    return cart_payload(user, request)
 
 
 @transaction.atomic
-def merge_cart(user, guest_items):
+def merge_cart(user, guest_items, request=None):
     """After login: ADD the guest cart into the account cart.
 
     Same variant in both → quantities are added, but capped at the stock.
@@ -77,4 +79,4 @@ def merge_cart(user, guest_items):
                 cart=cart, variant=variant, qty=min(guest['qty'], variant.stock),
                 saved_for_later=guest['saved_for_later'],
             )
-    return cart_payload(user)
+    return cart_payload(user, request)

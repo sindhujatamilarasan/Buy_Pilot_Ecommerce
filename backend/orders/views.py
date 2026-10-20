@@ -67,7 +67,7 @@ def create_order(request):
 
     quote = build_quote(data['items'], data.get('coupon_code', ''), request.user)
     if quote['problems'] or quote['coupon_error'] or not quote['lines']:
-        return Response({'detail': 'Please fix your cart before paying.', **quote_to_json(quote)},
+        return Response({'detail': 'Please fix your cart before paying.', **quote_to_json(quote, request)},
                         status=status.HTTP_400_BAD_REQUEST)
 
     summary = quote['summary']

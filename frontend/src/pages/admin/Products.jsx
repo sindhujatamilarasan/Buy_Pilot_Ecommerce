@@ -1,12 +1,13 @@
 import { Package, Pencil, Plus, Search, Trash } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { deleteProduct, getAdminProducts } from '../../api/manage'
 import { getCategories } from '../../api/products'
 import { adminCard, adminInput } from '../../components/admin/adminStyles'
 import PageHeader from '../../components/admin/PageHeader'
 import Spinner from '../../components/Spinner'
 import { useApi } from '../../hooks/useApi'
+import { useAuth } from '../../hooks/useAuth'
 import { formatPrice, getErrorMessage } from '../../utils/format'
 import { useConfirm } from '../../hooks/useConfirm'
 
@@ -25,7 +26,11 @@ const Products = () => {
   const [page, setPage] = useState(1)
   const [version, setVersion] = useState(0) // bump to reload the list
   const categories = useApi(getCategories)
-  const { data, loading } = useApi(getAdminProducts, { search, category, page }, version)
+  const { user } = useAuth()
+  const isSuper = user.role === 'superadmin'
+  const [searchParams, setSearchParams] = useSearchParams()
+  const store = searchParams.get('store') || '' // super admin: ?store=urban-threads (link from the Stores page)
+  const { data, loading } = useApi(getAdminProducts, { search, category, page, store }, version)
 
   const pick = slug => {
     setCategory(slug)
@@ -48,7 +53,8 @@ const Products = () => {
   return (
     <div className="space-y-5">
       {dialog}
-      <PageHeader title="Products" subtitle={data ? `${data.count} products in this view` : ' '}>
+      <PageHeader title="Products" subtitle={data ? `${data.count} products${store ? ` · store: ${store}` : user.store_name ? ` in ${user.store_name}` : ''}` : ' '}>
+        {store && <button onClick={() => setSearchParams({})} className="rounded-full bg-brand-50 px-3 py-2 text-xs font-bold text-brand-800">✕ All stores</button>}
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
           <input value={search} onChange={e => { setSearch(e.target.value); setPage(1) }} placeholder="Search name or SKU…" className={`${adminInput} pl-9`} />
@@ -72,7 +78,7 @@ const Products = () => {
           ) : (
             <table className="w-full text-left text-sm">
               <thead className="bg-[#f6f8f7] text-xs font-semibold uppercase tracking-wider text-ink-400">
-                <tr><th className="px-5 py-3">Product</th><th className="px-5 py-3">Price</th><th className="px-5 py-3">Variants</th><th className="px-5 py-3">Stock</th><th className="px-5 py-3">Status</th><th className="px-5 py-3 text-right">Actions</th></tr>
+                <tr><th className="px-5 py-3">Product</th>{isSuper && <th className="px-5 py-3">Store</th>}<th className="px-5 py-3">Price</th><th className="px-5 py-3">Variants</th><th className="px-5 py-3">Stock</th><th className="px-5 py-3">Status</th><th className="px-5 py-3 text-right">Actions</th></tr>
               </thead>
               <tbody className="divide-y divide-ink-300/20">
                 {data.results.map(product => (
@@ -86,6 +92,7 @@ const Products = () => {
                         </div>
                       </div>
                     </td>
+                    {isSuper && <td className="whitespace-nowrap px-5 py-3 text-xs font-semibold text-ink-600">{product.store_name}</td>}
                     <td className="whitespace-nowrap px-5 py-3 font-semibold text-ink-800">{priceRange(product.variants)}</td>
                     <td className="px-5 py-3 text-ink-600">{product.variants.length}</td>
                     <td className="px-5 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-bold ${stockStyle(product.total_stock)}`}>{product.total_stock === 0 ? 'Sold out' : `${product.total_stock} in stock`}</span></td>

@@ -30,5 +30,11 @@ export const adminCancelOrder = async id => (await client.post(`/manage/orders/$
 export const getUsers = params => get('/manage/users/', params)
 export const setUserRole = async (id, role) => (await client.patch(`/manage/users/${id}/role/`, { role })).data
 
+// Stores (super admin)
+export const getStores = () => get('/manage/stores/')
+export const createStore = async data => (await client.post('/manage/stores/', data)).data
+export const updateStore = async (id, data) => (await client.patch(`/manage/stores/${id}/`, data)).data
+export const addStoreAdmin = async (storeId, data) => (await client.post(`/manage/stores/${storeId}/admins/`, data)).data
+
 // Reports (admin)
 export const getSalesReport = days => get('/manage/reports/sales/', { days })

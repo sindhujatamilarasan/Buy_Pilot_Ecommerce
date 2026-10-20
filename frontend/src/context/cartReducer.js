@@ -50,6 +50,13 @@ export const cartReducer = (state, action) => {
       // After a successful order: remove the bought items, keep "saved for later"
       return { ...state, items: state.items.filter(i => i.savedForLater) }
 
+    case 'START_NEW_CART':
+      // One store per order: move the current cart to "Saved for later", then add the new item
+      return cartReducer(
+        { ...state, items: state.items.map(i => ({ ...i, savedForLater: true })) },
+        { type: 'ADD', item: action.item, qty: action.qty },
+      )
+
     case 'REPLACE':
       // Whole cart from the server (after login) or from another browser tab
       return { items: action.items, owner: action.owner }

@@ -90,7 +90,7 @@ const Checkout = () => {
         {problems.length > 0 && (
           <div className="rounded-3xl bg-rose-50 p-5 text-sm text-rose-700 ring-1 ring-rose-200">
             <p className="font-bold">Some items need your attention:</p>
-            <ul className="mt-2 list-disc space-y-1 pl-5">{problems.map(p => <li key={p.variant_id}>{p.message}</li>)}</ul>
+            <ul className="mt-2 list-disc space-y-1 pl-5">{problems.map(p => <li key={p.variant_id ?? p.code}>{p.message}</li>)}</ul>
             <Link to="/cart" className="mt-3 inline-block font-bold underline">Update cart</Link>
           </div>
         )}

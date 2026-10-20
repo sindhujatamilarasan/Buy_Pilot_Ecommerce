@@ -7,7 +7,7 @@ const MAX_ITEMS = 8
 // Only what ProductCard needs – not the whole product with all images and variants
 const toCardData = p => ({
   id: p.id, slug: p.slug, name: p.name, image: p.image, rating: p.rating,
-  min_price: p.min_price, total_stock: p.total_stock, category: p.category,
+  min_price: p.min_price, total_stock: p.total_stock, category: p.category, store: p.store,
 })
 
 export const useRecentlyViewed = () => {

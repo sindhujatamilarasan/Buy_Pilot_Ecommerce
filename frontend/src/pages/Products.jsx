@@ -45,7 +45,7 @@ const Products = () => {
   const updateParam = (name, value) => updateParams({ [name]: value })
   const updatePrice = useCallback(({ min, max }) => updateParams({ min_price: min, max_price: max }), [updateParams])
 
-  const hasFilters = ['category', 'min_price', 'max_price', 'min_rating', 'search'].some(name => params[name])
+  const hasFilters = ['category', 'store', 'min_price', 'max_price', 'min_rating', 'search'].some(name => params[name])
   const clearFilters = () => {
     setSearchParams(params.ordering ? { ordering: params.ordering } : {})
     setResetKey(k => k + 1)

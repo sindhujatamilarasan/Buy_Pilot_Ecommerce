@@ -18,7 +18,7 @@ const UserMenu = () => {
   }, [])
 
   const links = [
-    ...(user.role === 'admin' ? [{ to: '/admin', label: 'Admin dashboard', icon: LayoutDashboard }] : []),
+    ...(['admin', 'superadmin'].includes(user.role) ? [{ to: '/admin', label: user.role === 'superadmin' ? 'Super admin console' : 'Store dashboard', icon: LayoutDashboard }] : []),
     ...(user.role === 'staff' ? [{ to: '/staff/orders', label: 'Staff orders', icon: LayoutDashboard }] : []),
     { to: '/account', label: 'My account', icon: UserRound },
     { to: '/orders', label: 'My orders', icon: ReceiptText },

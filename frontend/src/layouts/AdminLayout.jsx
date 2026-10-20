@@ -1,23 +1,28 @@
 // Admin / staff frame: grouped sidebar + top bar. Menu items list which roles can see them.
-import { ChartColumn, ExternalLink, LayoutDashboard, LogOut, Menu, Package, ReceiptText, ShoppingBag, Tag, Users } from 'lucide-react'
+import { ChartColumn, ExternalLink, LayoutDashboard, LogOut, Menu, Package, ReceiptText, ShoppingBag, Store, Tag, Users } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { ROLE_LABEL } from '../utils/roles'
 
+const ADMINS = ['admin', 'superadmin']
 const MENU = [
   { group: 'Overview', items: [
-    { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin'] },
-    { to: '/admin/reports', label: 'Reports', icon: ChartColumn, roles: ['admin'] },
+    { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, roles: ADMINS },
+    { to: '/admin/reports', label: 'Reports', icon: ChartColumn, roles: ADMINS },
+  ] },
+  { group: 'Marketplace', items: [
+    { to: '/admin/stores', label: 'Stores', icon: Store, roles: ['superadmin'] },
+    { to: '/admin/coupons', label: 'Coupons', icon: Tag, roles: ['superadmin'] },
   ] },
   { group: 'Catalog', items: [
-    { to: '/admin/products', label: 'Products', icon: Package, roles: ['admin'] },
-    { to: '/admin/coupons', label: 'Coupons', icon: Tag, roles: ['admin'] },
+    { to: '/admin/products', label: 'Products', icon: Package, roles: ADMINS },
   ] },
   { group: 'Sales', items: [
-    { to: '/admin/orders', label: 'Orders', icon: ReceiptText, roles: ['admin'] },
+    { to: '/admin/orders', label: 'Orders', icon: ReceiptText, roles: ADMINS },
     { to: '/staff/orders', label: 'Orders', icon: ReceiptText, roles: ['staff'] },
   ] },
-  { group: 'People', items: [{ to: '/admin/users', label: 'Users', icon: Users, roles: ['admin'] }] },
+  { group: 'People', items: [{ to: '/admin/users', label: 'Users', icon: Users, roles: ADMINS }] },
 ]
 
 const itemClass = ({ isActive }) =>
@@ -47,7 +52,9 @@ const AdminLayout = () => {
           <span className="bg-brand flex h-9 w-9 items-center justify-center rounded-xl text-white"><ShoppingBag size={19} /></span>
           <div>
             <p className="font-display text-lg font-extrabold leading-none text-ink-900">ShopKart</p>
-            <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-ink-400">{user.role} console</p>
+            <p className="mt-1 max-w-[150px] truncate text-[11px] font-semibold uppercase tracking-wider text-ink-400">
+              {user.role === 'superadmin' ? 'All stores' : user.store_name || ROLE_LABEL[user.role]}
+            </p>
           </div>
         </div>
 
@@ -88,7 +95,7 @@ const AdminLayout = () => {
         <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-ink-300/20 bg-white/85 px-4 py-3 backdrop-blur md:px-8">
           <button onClick={() => setMenuOpen(true)} aria-label="Open menu" className="rounded-lg p-2 text-ink-700 hover:bg-ink-300/10 md:hidden"><Menu size={22} /></button>
           <p className="text-sm text-ink-400">
-            {user.role === 'staff' ? 'Staff' : 'Admin'} <span className="mx-1">/</span>
+            {ROLE_LABEL[user.role]}{user.store_name && <span className="font-semibold text-brand-700"> · {user.store_name}</span>} <span className="mx-1">/</span>
             <span className="font-semibold text-ink-800">{current?.label || 'Products'}</span>
           </p>
           <Link to="/" className="ml-auto flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-brand-700 ring-1 ring-brand-200 hover:bg-brand-50">

@@ -7,6 +7,7 @@ import QtyStepper from '../components/QtyStepper'
 import Spinner from '../components/Spinner'
 import VariantPicker from '../components/VariantPicker'
 import { useApi } from '../hooks/useApi'
+import { useAddToCart } from '../hooks/useAddToCart'
 import { useCart } from '../hooks/useCart'
 import { useRecentlyViewed } from '../hooks/useRecentlyViewed'
 import { categoryStyle } from '../utils/categoryStyle'
@@ -32,7 +33,8 @@ const ProductView = ({ product }) => {
   )
   const [qty, setQty] = useState(1)
   const [notice, setNotice] = useState(null) // message after "Add to cart"
-  const { addItem, quantityOf } = useCart()
+  const { quantityOf } = useCart()
+  const { add, dialog } = useAddToCart(product, variant)
   const { remember } = useRecentlyViewed()
 
   // Opening a product adds it to "Recently viewed" – runs once, because neither
@@ -52,20 +54,9 @@ const ProductView = ({ product }) => {
     setNotice(null)
   }
 
-  // What we store in the cart for this variant
-  const cartItem = () => ({
-    variantId: variant.id,
-    slug: product.slug,
-    name: product.name,
-    image: product.images[0]?.path,
-    size: variant.size,
-    color: variant.color,
-    price: Number(variant.price),
-    stock: variant.stock,
-  })
-
-  const addToCart = () => {
-    const added = addItem(cartItem(), qty)
+  const addToCart = async () => {
+    const added = await add(qty)
+    if (added === null) return // the user kept their other store's cart
     setNotice(
       added === 0
         ? { type: 'warn', text: `You already have all ${variant.stock} in your cart.` }
@@ -77,13 +68,14 @@ const ProductView = ({ product }) => {
   }
 
   // Buy now = add to cart, then checkout (protected → login first if needed)
-  const buyNow = () => {
-    if (canAdd > 0) addItem(cartItem(), qty)
+  const buyNow = async () => {
+    if (canAdd > 0 && (await add(qty)) === null) return
     navigate('/checkout')
   }
 
   return (
     <div className="grid gap-10 md:grid-cols-2">
+      {dialog}
       <div>
         <div className={`overflow-hidden rounded-3xl ${style.soft}`}>
         <img src={product.images[imageIndex]?.path} alt={product.name} className="aspect-square w-full object-contain p-8 mix-blend-multiply" />
@@ -100,6 +92,7 @@ const ProductView = ({ product }) => {
       <div>
         <p className={`text-sm font-bold ${style.text}`}>{style.emoji} {product.category.name}</p>
         <h1 className="mt-2 text-4xl font-extrabold text-ink-900">{product.name}</h1>
+        <p className="mt-1 text-sm text-ink-500">Sold by <Link to={`/products?store=${product.store.slug}`} className="font-bold text-brand-700 hover:underline">{product.store.name}</Link></p>
         <div className="mt-3 flex items-center gap-3">
           <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-sm font-bold text-amber-800"><span className="text-amber-500">★</span> {product.rating}</span>
           <HeartButton product={product} className="ring-1 ring-ink-300/30" />

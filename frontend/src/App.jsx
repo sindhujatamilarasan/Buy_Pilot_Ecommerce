@@ -15,6 +15,7 @@ import Dashboard from './pages/admin/Dashboard'
 import ManageOrders from './pages/admin/Orders'
 import ProductForm from './pages/admin/ProductForm'
 import AdminProducts from './pages/admin/Products'
+import Stores from './pages/admin/Stores'
 import Users from './pages/admin/Users'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
@@ -57,17 +58,21 @@ const App = () => (
       </Route>
     </Route>
 
-    {/* Admin only */}
-    <Route element={<ProtectedRoute roles={['admin']} />}>
+    {/* Store admin + super admin (the backend limits a store admin to their own store) */}
+    <Route element={<ProtectedRoute roles={['admin', 'superadmin']} />}>
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<Dashboard />} />
         <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/products/new" element={<ProductForm />} />
         <Route path="/admin/products/:id" element={<ProductForm />} />
-        <Route path="/admin/coupons" element={<Coupons />} />
         <Route path="/admin/orders" element={<ManageOrders />} />
         <Route path="/admin/users" element={<Users />} />
         <Route path="/admin/reports" element={<Suspense fallback={<Spinner />}><Reports /></Suspense>} />
+        {/* Super admin only */}
+        <Route element={<ProtectedRoute roles={['superadmin']} />}>
+          <Route path="/admin/stores" element={<Stores />} />
+          <Route path="/admin/coupons" element={<Coupons />} />
+        </Route>
       </Route>
     </Route>
 

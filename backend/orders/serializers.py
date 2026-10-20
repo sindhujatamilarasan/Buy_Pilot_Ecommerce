@@ -50,13 +50,14 @@ class OrderSerializer(serializers.ModelSerializer):
     logs = StatusLogSerializer(many=True, read_only=True)
     status_label = serializers.CharField(source='get_status_display', read_only=True)
     payment_status_label = serializers.CharField(source='get_payment_status_display', read_only=True)
+    store_name = serializers.CharField(source='store.name', read_only=True)  # "Sold by …"
     customer = serializers.CharField(source='user.email', read_only=True)
     can_cancel = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
         fields = [
-            'id', 'customer', 'status', 'status_label', 'payment_status', 'payment_status_label',
+            'id', 'customer', 'store_name', 'status', 'status_label', 'payment_status', 'payment_status_label',
             'subtotal', 'discount', 'tax', 'shipping', 'total', 'coupon_code',
             'ship_name', 'ship_phone', 'ship_address', 'ship_city', 'ship_pincode',
             'items', 'logs', 'can_cancel', 'created_at',

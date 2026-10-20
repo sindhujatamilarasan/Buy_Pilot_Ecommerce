@@ -97,6 +97,8 @@ export const CartProvider = ({ children }) => {
 
   const cartItems = state.items.filter(i => !i.savedForLater)
   const savedItems = state.items.filter(i => i.savedForLater)
+  // One store per order: the store of the items already in the cart (null = empty / unknown)
+  const cartStore = cartItems.find(i => i.storeId)
 
   // Returns how many were really added (can be less because of the stock limit)
   const addItem = (item, qty = 1) => {
@@ -115,6 +117,8 @@ export const CartProvider = ({ children }) => {
     setQty: (variantId, qty) => dispatch({ type: 'SET_QTY', variantId, qty }),
     removeItem: variantId => dispatch({ type: 'REMOVE', variantId }),
     toggleSaveForLater: variantId => dispatch({ type: 'TOGGLE_SAVE_FOR_LATER', variantId }),
+    cartStore: cartStore ? { id: cartStore.storeId, name: cartStore.storeName } : null,
+    startNewCart: (item, qty = 1) => dispatch({ type: 'START_NEW_CART', item, qty: Math.min(qty, item.stock) }),
     clearCart: () => dispatch({ type: 'CLEAR' }),
   }
 

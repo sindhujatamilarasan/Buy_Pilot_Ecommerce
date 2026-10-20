@@ -39,6 +39,7 @@ const ProductCard = ({ product }) => {
           {style.emoji} {product.category.name}
         </p>
         <h3 className="mt-1 line-clamp-1 text-base font-semibold text-ink-900">{product.name}</h3>
+        {product.store && <p className="truncate text-xs text-ink-400">by {product.store.name}</p>}
         <div className="mt-2 flex items-center justify-between">
           <p className="font-display text-lg font-bold text-ink-900">{formatPrice(product.min_price)}</p>
           <span className="bg-brand rounded-full px-3 py-1 text-xs font-bold text-white opacity-0 transition group-hover:opacity-100">

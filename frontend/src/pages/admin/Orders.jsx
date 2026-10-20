@@ -40,7 +40,7 @@ const Orders = () => {
   return (
     <div className="space-y-5">
       {dialog}
-      <PageHeader title="Orders" subtitle={user.role === 'staff' ? 'Pack, ship and deliver customer orders' : 'All customer orders'}>
+      <PageHeader title="Orders" subtitle={user.role === 'superadmin' ? 'Orders of all stores' : `${user.store_name} · ${user.role === 'staff' ? 'pack, ship and deliver customer orders' : 'customer orders'}`}>
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Order #, name or email…" className={`${adminInput} pl-9`} />
@@ -73,6 +73,7 @@ const Orders = () => {
                           #{order.id} <ChevronDown size={15} className={`text-ink-400 transition ${open === order.id ? 'rotate-180' : ''}`} />
                         </button>
                         <p className="text-xs text-ink-400">{new Date(order.created_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}</p>
+                        {user.role === 'superadmin' && <p className="mt-1 inline-block rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-bold text-brand-800">{order.store_name}</p>}
                       </td>
                       <td className="px-5 py-3">
                         <p className="font-semibold text-ink-800">{order.ship_name}</p>
@@ -91,7 +92,7 @@ const Orders = () => {
                         {NEXT_LABEL[order.status] && (
                           <button onClick={() => act(() => nextOrderStatus(order.id))} className="bg-brand rounded-full px-4 py-2 text-xs font-bold text-white">{NEXT_LABEL[order.status]}</button>
                         )}
-                        {user.role === 'admin' && order.can_cancel && (
+                        {['admin', 'superadmin'].includes(user.role) && order.can_cancel && (
                           <button onClick={async () => (await confirm({ title: `Cancel order #${order.id}?`, message: `The customer’s ${formatPrice(order.total)} will be marked for refund and the items go back into stock.`, confirmLabel: 'Cancel order', cancelLabel: 'Keep order' })) && act(() => adminCancelOrder(order.id))} className="ml-3 text-xs font-semibold text-ink-400 hover:text-rose-600">Cancel</button>
                         )}
                       </td>

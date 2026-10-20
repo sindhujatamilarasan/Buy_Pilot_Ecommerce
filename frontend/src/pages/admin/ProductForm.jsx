@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { createProduct, getAdminProduct, updateProduct } from '../../api/manage'
 import { getCategories } from '../../api/products'
 import ImagesEditor from '../../components/admin/ImagesEditor'
+import StoreSelect from '../../components/admin/StoreSelect'
 import { adminCard, adminInput, newVariant } from '../../components/admin/adminStyles'
 import VariantsEditor from '../../components/admin/VariantsEditor'
 import Spinner from '../../components/Spinner'
@@ -25,6 +26,7 @@ const ProductForm = () => {
 // Server data → form state (rows get a "key" so React can track them)
 const toForm = product => ({
   name: product?.name || '',
+  store: product?.store || '',
   category: product?.category || '',
   description: product?.description || '',
   is_active: product?.is_active ?? true,
@@ -44,8 +46,10 @@ const ProductFormView = ({ product, categories }) => {
     setSaving(true)
     setError('')
     // Remove the UI-only "key" / "url" fields before sending
+    const { store, ...fields } = form
     const payload = {
-      ...form,
+      ...fields,
+      ...(store ? { store } : {}), // only the super admin picks a store; the server ignores it for store admins
       variants: form.variants.map(({ key, ...v }) => ({ ...v, stock: Number(v.stock) })), // eslint-disable-line no-unused-vars
       images: form.images.map(({ id, path }) => (id ? { id, path } : { path })),
     }
@@ -105,6 +109,7 @@ const ProductFormView = ({ product, categories }) => {
                 <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${form.is_active ? 'left-[22px]' : 'left-0.5'}`} />
               </span>
             </button>
+            <StoreSelect value={form.store} onChange={value => set('store', value)} />
             <label className="mt-4 block text-sm font-semibold text-ink-700">Category
               <select required value={form.category} onChange={e => set('category', Number(e.target.value))} className={`${adminInput} mt-1 w-full`}>
                 <option value="">Choose…</option>

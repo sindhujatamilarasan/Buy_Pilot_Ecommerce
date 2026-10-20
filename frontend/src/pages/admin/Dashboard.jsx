@@ -37,7 +37,7 @@ const Dashboard = () => {
         <div>
           <p className="text-sm font-semibold text-brand-700">{now.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
           <h1 className="mt-1 text-3xl font-extrabold text-ink-900">{greeting(now)}, {user.name}</h1>
-          <p className="text-sm text-ink-500">Here’s what’s happening in your store.</p>
+          <p className="text-sm text-ink-500">Here’s what’s happening in <span className="font-bold text-brand-700">{data.store}</span>.</p>
         </div>
         <div className="flex gap-2">
           <Link to="/admin/orders" className="flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-bold text-ink-700 shadow-sm ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]"><ReceiptText size={16} /> Orders</Link>

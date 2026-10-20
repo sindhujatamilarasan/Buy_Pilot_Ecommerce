@@ -51,6 +51,7 @@ python -m venv .venv
 copy .env.example .env
 .venv\Scripts\python manage.py migrate
 .venv\Scripts\python manage.py seed_products
+.venv\Scripts\python manage.py seed_stores    # second demo store: Urban Threads
 .venv\Scripts\python manage.py seed_users
 .venv\Scripts\python manage.py seed_orders   # optional: demo orders for the sales report
 .venv\Scripts\python manage.py runserver 127.0.0.1:8000
@@ -59,24 +60,21 @@ API: http://127.0.0.1:8000/api/health/
 
 > Use `127.0.0.1` (not `localhost`): Docker also listens on port 8000 on this machine.
 
-### Demo accounts (created by `seed_users`)
+### Demo accounts (created by `seed_stores` + `seed_users`)
 
-| Role | Email | Password |
-|---|---|---|
-| Admin | admin@shopkart.test | Shop@1234 |
-| Staff | staff@shopkart.test | Shop@1234 |
-| Customer | customer@shopkart.test | Shop@1234 |
+| Role | Email | Password | Sees |
+|---|---|---|---|
+| Super admin | superadmin@shopkart.test | Shop@1234 | All stores · creates stores and store admins · coupons |
+| Store admin | admin@shopkart.test | Shop@1234 | ShopKart Official only |
+| Store admin | urban@shopkart.test | Shop@1234 | Urban Threads only |
+| Staff | staff@shopkart.test | Shop@1234 | ShopKart Official orders |
+| Customer | customer@shopkart.test | Shop@1234 | Shop |
 
-> Note: use `.venv\Scripts\python -m pip` (not `pip`) – direct `pip.exe` may be blocked by Device Guard.
+### Multiple stores
 
-### Frontend
-```bash
-cd frontend
-npm install
-copy .env.example .env
-npm run dev
-```
-App: http://localhost:5173
+- **Super admin** creates stores and their **store admins** (Admin → Stores).
+- A **store admin** only sees and manages their own store's products, orders, staff, dashboard and reports.
+- **One store per order**: adding an item from another store asks to start a new cart (the old items move to *Saved for later*).
 
 ## API
 
@@ -125,3 +123,4 @@ The backend always verifies the payment (HMAC signature) before reducing stock.
 - [x] Week 3 – My orders with timeline + cancel; admin panel (products, coupons, orders, users); staff orders
 - [x] Guest cart merge into the account cart (saved in the DB) and cross-tab cart sync
 - [x] Sales report – daily revenue, top products, revenue by category (Recharts, lazy-loaded)
+- [x] Multiple stores: super admin, store admins, one store per order

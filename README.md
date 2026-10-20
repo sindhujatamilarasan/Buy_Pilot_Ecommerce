@@ -46,6 +46,7 @@ copy .env.example .env
 .venv\Scripts\python manage.py migrate
 .venv\Scripts\python manage.py seed_products
 .venv\Scripts\python manage.py seed_users
+.venv\Scripts\python manage.py seed_orders   # optional: demo orders for the sales report
 .venv\Scripts\python manage.py runserver 127.0.0.1:8000
 ```
 API: http://127.0.0.1:8000/api/health/
@@ -103,12 +104,18 @@ Run backend tests: `.venv\Scripts\python manage.py test`
 Without keys the app uses a **mock payment screen** (Pay successfully / Make payment fail).
 The backend always verifies the payment (HMAC signature) before reducing stock.
 
+## Database schema
+
+![Database schema](docs/database-schema.png)
+
 ## Progress
 
 - [x] Day 1 – Project setup, DB design, seed data (100 products with real photos from DummyJSON)
 - [x] Day 2 – Auth with customer / staff / admin roles; role-based routes and API protection; product list, detail and admin dashboard
-- [ ] Day 3 – Product list with search, filters, sort
-- [ ] Day 4 – Product detail, variants, wishlist
+- [x] Day 3 – Product list with search, category, price range, rating filters and sort (filters in the URL)
+- [x] Day 4 – Product detail with images and variants; wishlist
 - [x] Day 5 – Cart with Context + useReducer, stock limit, guest cart in localStorage
 - [x] Week 2 – Coupons, price summary, checkout with addresses, Razorpay / mock payment, stock lock
 - [x] Week 3 – My orders with timeline + cancel; admin panel (products, coupons, orders, users); staff orders
+- [x] Guest cart merge into the account cart (saved in the DB) and cross-tab cart sync
+- [x] Sales report – daily revenue, top products, revenue by category (Recharts, lazy-loaded)

@@ -8,6 +8,7 @@ import StatusTimeline from '../components/StatusTimeline'
 import { useApi } from '../hooks/useApi'
 import { usePaymentFlow } from '../hooks/usePaymentFlow'
 import { formatPrice, getErrorMessage } from '../utils/format'
+import { useConfirm } from '../hooks/useConfirm'
 
 const OrderDetail = () => {
   const { id } = useParams()
@@ -15,6 +16,8 @@ const OrderDetail = () => {
   const { data, loading, error } = useApi(getOrder, id)
   const [updated, setUpdated] = useState(null) // newer copy after cancel / retry
   const [notice, setNotice] = useState(location.state?.paymentError || '')
+  const [success, setSuccess] = useState('')
+  const { confirm, dialog } = useConfirm()
 
   const { startPayment, paymentModal, paying } = usePaymentFlow({
     onSuccess: order => {
@@ -39,9 +42,20 @@ const OrderDetail = () => {
   }
 
   const cancel = async () => {
-    if (!window.confirm('Cancel this order? The amount will be refunded.')) return
+    const paid = order.payment_status === 'paid'
+    const ok = await confirm({
+      title: `Cancel order #${order.id}?`,
+      message: paid
+        ? `Your ${formatPrice(order.total)} will be refunded to the original payment method. This cannot be undone.`
+        : 'This order has not been paid yet. Cancelling removes it from your orders in progress.',
+      confirmLabel: 'Yes, cancel order',
+      cancelLabel: 'Keep order',
+    })
+    if (!ok) return
     try {
       setUpdated(await cancelOrder(order.id))
+      setNotice('')
+      setSuccess(paid ? `Order cancelled. ${formatPrice(order.total)} will be refunded in 5–7 working days.` : 'Order cancelled.')
     } catch (err) {
       setNotice(getErrorMessage(err))
     }
@@ -51,6 +65,7 @@ const OrderDetail = () => {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
+      {dialog}
       {location.state?.placed && !updated && (
         <div className="bg-brand-soft rounded-3xl p-6 text-center">
           <p className="text-4xl">🎉</p>
@@ -68,6 +83,7 @@ const OrderDetail = () => {
       </div>
 
       {notice && <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">{notice}</p>}
+      {success && <p role="status" className="rounded-2xl bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-800">✓ {success}</p>}
 
       {unpaid ? (
         <div className="rounded-3xl bg-mango-100 p-5 text-sm text-ink-700">

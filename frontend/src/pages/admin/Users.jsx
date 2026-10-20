@@ -7,6 +7,7 @@ import Spinner from '../../components/Spinner'
 import { useApi } from '../../hooks/useApi'
 import { useAuth } from '../../hooks/useAuth'
 import { getErrorMessage } from '../../utils/format'
+import { useConfirm } from '../../hooks/useConfirm'
 
 const ROLE_STYLE = { admin: 'bg-violet-100 text-violet-700', staff: 'bg-sky-100 text-sky-700', customer: 'bg-brand-100 text-brand-800' }
 
@@ -16,19 +17,22 @@ const Users = () => {
   const [search, setSearch] = useState('')
   const [version, setVersion] = useState(0)
   const { data, loading } = useApi(getUsers, { role, search }, version)
+  const { confirm, notify, dialog } = useConfirm()
 
   const changeRole = async (user, newRole) => {
-    if (!window.confirm(`Make ${user.email} a ${newRole}?`)) return
+    const ok = await confirm({ title: `Make this user ${newRole === 'admin' ? 'an' : 'a'} ${newRole}?`, message: `${user.email} will ${newRole === 'customer' ? 'lose access to the staff and admin pages' : `get ${newRole} access`} the next time they load a page.`, confirmLabel: `Make ${newRole}`, cancelLabel: 'Cancel', tone: newRole === 'customer' ? 'danger' : 'info' })
+    if (!ok) return
     try {
       await setUserRole(user.id, newRole)
       setVersion(v => v + 1)
     } catch (error) {
-      window.alert(getErrorMessage(error))
+      notify(getErrorMessage(error), 'Could not change the role')
     }
   }
 
   return (
     <div className="space-y-6">
+      {dialog}
       <PageHeader title="Users" subtitle="Customers, staff and admins – give staff access to the orders page">
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />

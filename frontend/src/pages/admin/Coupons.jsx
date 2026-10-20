@@ -6,6 +6,7 @@ import PageHeader from '../../components/admin/PageHeader'
 import Spinner from '../../components/Spinner'
 import { useApi } from '../../hooks/useApi'
 import { formatPrice } from '../../utils/format'
+import { useConfirm } from '../../hooks/useConfirm'
 
 const Coupons = () => {
   const [version, setVersion] = useState(0)
@@ -17,8 +18,11 @@ const Coupons = () => {
     reload()
   }
 
+  const { confirm, dialog } = useConfirm()
+
   const remove = async coupon => {
-    if (!window.confirm(`Delete coupon ${coupon.code}?`)) return
+    const ok = await confirm({ title: `Delete coupon ${coupon.code}?`, message: 'Customers will no longer be able to use this code. Orders that already used it are not changed.', confirmLabel: 'Delete coupon', cancelLabel: 'Keep it' })
+    if (!ok) return
     await deleteCoupon(coupon.id)
     reload()
   }
@@ -27,6 +31,7 @@ const Coupons = () => {
 
   return (
     <div className="space-y-6">
+      {dialog}
       <PageHeader title="Coupons" subtitle="Flat or % discounts · minimum order · expiry · one use per customer" />
 
       <div className={`${adminCard} p-6`}><CouponForm onCreated={reload} /></div>

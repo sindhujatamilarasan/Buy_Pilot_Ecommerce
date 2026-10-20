@@ -8,6 +8,7 @@ import PageHeader from '../../components/admin/PageHeader'
 import Spinner from '../../components/Spinner'
 import { useApi } from '../../hooks/useApi'
 import { formatPrice, getErrorMessage } from '../../utils/format'
+import { useConfirm } from '../../hooks/useConfirm'
 
 const stockStyle = stock =>
   stock === 0 ? 'bg-rose-50 text-rose-700' : stock <= 5 ? 'bg-mango-100 text-mango-600' : 'bg-brand-50 text-brand-700'
@@ -31,18 +32,22 @@ const Products = () => {
     setPage(1)
   }
 
+  const { confirm, notify, dialog } = useConfirm()
+
   const remove = async product => {
-    if (!window.confirm(`Delete "${product.name}"? This cannot be undone.`)) return
+    const ok = await confirm({ title: 'Delete this product?', message: `"${product.name}" and all its variants and images will be deleted. This cannot be undone. Tip: hide it instead to keep its history.`, confirmLabel: 'Delete product', cancelLabel: 'Keep it' })
+    if (!ok) return
     try {
       await deleteProduct(product.id)
       setVersion(v => v + 1)
     } catch (error) {
-      window.alert(getErrorMessage(error))
+      notify(getErrorMessage(error), 'Could not delete the product')
     }
   }
 
   return (
     <div className="space-y-5">
+      {dialog}
       <PageHeader title="Products" subtitle={data ? `${data.count} products in this view` : ' '}>
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />

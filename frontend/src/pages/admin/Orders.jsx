@@ -9,6 +9,7 @@ import Spinner from '../../components/Spinner'
 import { useApi } from '../../hooks/useApi'
 import { useAuth } from '../../hooks/useAuth'
 import { formatPrice, getErrorMessage } from '../../utils/format'
+import { useConfirm } from '../../hooks/useConfirm'
 
 const TABS = [
   ['placed', 'To pack'], ['packed', 'To ship'], ['shipped', 'Shipped'], ['delivered', 'Delivered'],
@@ -25,18 +26,20 @@ const Orders = () => {
   const [open, setOpen] = useState(null) // order id with details shown
   const [version, setVersion] = useState(0)
   const { data, loading } = useApi(getManageOrders, { status, search }, version)
+  const { confirm, notify, dialog } = useConfirm()
 
   const act = async action => {
     try {
       await action()
       setVersion(v => v + 1)
     } catch (error) {
-      window.alert(getErrorMessage(error))
+      notify(getErrorMessage(error), 'Could not update the order')
     }
   }
 
   return (
     <div className="space-y-5">
+      {dialog}
       <PageHeader title="Orders" subtitle={user.role === 'staff' ? 'Pack, ship and deliver customer orders' : 'All customer orders'}>
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
@@ -89,7 +92,7 @@ const Orders = () => {
                           <button onClick={() => act(() => nextOrderStatus(order.id))} className="bg-brand rounded-full px-4 py-2 text-xs font-bold text-white">{NEXT_LABEL[order.status]}</button>
                         )}
                         {user.role === 'admin' && order.can_cancel && (
-                          <button onClick={() => window.confirm(`Cancel order #${order.id}? Stock goes back.`) && act(() => adminCancelOrder(order.id))} className="ml-3 text-xs font-semibold text-ink-400 hover:text-rose-600">Cancel</button>
+                          <button onClick={async () => (await confirm({ title: `Cancel order #${order.id}?`, message: `The customer’s ${formatPrice(order.total)} will be marked for refund and the items go back into stock.`, confirmLabel: 'Cancel order', cancelLabel: 'Keep order' })) && act(() => adminCancelOrder(order.id))} className="ml-3 text-xs font-semibold text-ink-400 hover:text-rose-600">Cancel</button>
                         )}
                       </td>
                     </tr>

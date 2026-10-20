@@ -4,18 +4,21 @@ import { deleteAddress, getAddresses, updateAddress } from '../../api/orders'
 import AddressForm from '../../components/AddressForm'
 import Spinner from '../../components/Spinner'
 import { useApi } from '../../hooks/useApi'
+import { useConfirm } from '../../hooks/useConfirm'
 
 const Addresses = () => {
   const [version, setVersion] = useState(0) // bump → reload the list
   const { data: addresses, loading } = useApi(getAddresses, version)
   const [editing, setEditing] = useState(null) // 'new' | address id | null
+  const { confirm, dialog } = useConfirm()
   const reload = () => {
     setEditing(null)
     setVersion(v => v + 1)
   }
 
   const remove = async address => {
-    if (!window.confirm(`Delete the address for ${address.name}, ${address.city}?`)) return
+    const ok = await confirm({ title: 'Delete this address?', message: `${address.name}, ${address.city} – ${address.pincode} will be removed from your saved addresses.`, confirmLabel: 'Delete address', cancelLabel: 'Keep it' })
+    if (!ok) return
     await deleteAddress(address.id)
     reload()
   }
@@ -24,6 +27,7 @@ const Addresses = () => {
 
   return (
     <div>
+      {dialog}
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-extrabold text-ink-900">Addresses</h1>

@@ -1,7 +1,9 @@
 // All routes in one place.
 // Layout routes (no path) wrap pages with a frame; ProtectedRoute guards by login/role.
+import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
+import Spinner from './components/Spinner'
 import AccountLayout from './pages/account/AccountLayout'
 import Addresses from './pages/account/Addresses'
 import Profile from './pages/account/Profile'
@@ -21,11 +23,13 @@ import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import OrderDetail from './pages/OrderDetail'
 import Orders from './pages/Orders'
-import Placeholder from './pages/Placeholder'
 import ProductDetail from './pages/ProductDetail'
 import Products from './pages/Products'
 import Register from './pages/Register'
 import Wishlist from './pages/Wishlist'
+
+// Lazy loading: the Reports page (and its big chart library) downloads only when an admin opens it
+const Reports = lazy(() => import('./pages/admin/Reports'))
 
 const App = () => (
   <Routes>
@@ -63,7 +67,7 @@ const App = () => (
         <Route path="/admin/coupons" element={<Coupons />} />
         <Route path="/admin/orders" element={<ManageOrders />} />
         <Route path="/admin/users" element={<Users />} />
-        <Route path="/admin/reports" element={<Placeholder title="Sales report" when="Day 13" />} />
+        <Route path="/admin/reports" element={<Suspense fallback={<Spinner />}><Reports /></Suspense>} />
       </Route>
     </Route>
 

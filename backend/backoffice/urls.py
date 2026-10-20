@@ -13,4 +13,5 @@ urlpatterns = [
     path('orders/<int:pk>/cancel/', views.order_cancel),
     path('users/', views.UserList.as_view()),
     path('users/<int:pk>/role/', views.update_user_role),
+    path('reports/sales/', views.sales_report_view),
 ]

@@ -18,6 +18,7 @@ from orders.models import Order
 from orders.serializers import OrderSerializer
 from orders.services import advance_status, cancel_order
 
+from .reports import ALLOWED_DAYS, sales_report
 from .serializers import CouponSerializer, ProductAdminSerializer, UserAdminSerializer
 
 ALLOWED_IMAGE_TYPES = {'.jpg', '.jpeg', '.png', '.webp'}
@@ -146,3 +147,17 @@ def update_user_role(request, pk):
     user.role = role
     user.save(update_fields=['role'])
     return Response(UserAdminSerializer(user).data)
+
+
+# ---------- Reports (admin) ----------
+@api_view(['GET'])
+@permission_classes([IsAdminRole])
+def sales_report_view(request):
+    """GET /api/manage/reports/sales/?days=7|30|90"""
+    try:
+        days = int(request.query_params.get('days', 30))
+    except ValueError:
+        days = 30
+    if days not in ALLOWED_DAYS:
+        days = 30
+    return Response(sales_report(days))

@@ -7,7 +7,7 @@ import { useAuth } from '../hooks/useAuth'
 const MENU = [
   { group: 'Overview', items: [
     { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin'] },
-    { to: '/admin/reports', label: 'Reports', icon: ChartColumn, roles: ['admin'], soon: true },
+    { to: '/admin/reports', label: 'Reports', icon: ChartColumn, roles: ['admin'] },
   ] },
   { group: 'Catalog', items: [
     { to: '/admin/products', label: 'Products', icon: Package, roles: ['admin'] },

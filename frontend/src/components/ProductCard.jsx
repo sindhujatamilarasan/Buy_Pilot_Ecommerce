@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import HeartButton from './HeartButton'
 import { categoryStyle } from '../utils/categoryStyle'
@@ -49,4 +50,6 @@ const ProductCard = ({ product }) => {
   )
 }
 
-export default ProductCard
+// memo: if the parent re-renders but THIS card's `product` is the same object,
+// React skips re-rendering the card. A grid of 12 cards = 12 skipped renders.
+export default memo(ProductCard)

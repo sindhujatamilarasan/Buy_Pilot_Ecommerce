@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProduct } from '../api/products'
 import HeartButton from '../components/HeartButton'
@@ -8,6 +8,7 @@ import Spinner from '../components/Spinner'
 import VariantPicker from '../components/VariantPicker'
 import { useApi } from '../hooks/useApi'
 import { useCart } from '../hooks/useCart'
+import { useRecentlyViewed } from '../hooks/useRecentlyViewed'
 import { categoryStyle } from '../utils/categoryStyle'
 import { formatPrice } from '../utils/format'
 
@@ -32,6 +33,13 @@ const ProductView = ({ product }) => {
   const [qty, setQty] = useState(1)
   const [notice, setNotice] = useState(null) // message after "Add to cart"
   const { addItem, quantityOf } = useCart()
+  const { remember } = useRecentlyViewed()
+
+  // Opening a product adds it to "Recently viewed" – runs once, because neither
+  // `product` (same object while this page is open) nor `remember` (useCallback) changes
+  useEffect(() => {
+    remember(product)
+  }, [product, remember])
 
   const style = categoryStyle(product.category.slug)
   const inCart = quantityOf(variant.id)

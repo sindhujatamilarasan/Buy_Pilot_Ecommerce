@@ -2,12 +2,13 @@
 // so a filtered page can be refreshed, bookmarked or shared.
 import { useCallback, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { getCategories, getProducts } from '../api/products'
+import { getCategories } from '../api/products'
 import Message from '../components/Message'
 import ProductCard from '../components/ProductCard'
 import { PriceFilter, RatingFilter } from '../components/ProductFilters'
 import Spinner from '../components/Spinner'
 import { useApi } from '../hooks/useApi'
+import { useProducts } from '../hooks/useProducts'
 import { categoryStyle } from '../utils/categoryStyle'
 
 const SORT_OPTIONS = [
@@ -23,7 +24,7 @@ const Products = () => {
   const page = Number(params.page || 1)
 
   const categories = useApi(getCategories)
-  const { data, loading, error } = useApi(getProducts, params)
+  const { products, count, hasNext, hasPrevious, loading, error } = useProducts(params)
 
   const [resetKey, setResetKey] = useState(0) // changes → the price boxes start empty again
 
@@ -84,7 +85,7 @@ const Products = () => {
             {params.search ? `Results for "${params.search}"` : 'All products'}
           </h1>
           <div className="flex items-center gap-3">
-            {data && <span className="text-sm text-ink-500">{data.count} products</span>}
+            {!loading && <span className="text-sm text-ink-500">{count} products</span>}
             {hasFilters && (
               <button onClick={clearFilters} className="rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-600 hover:bg-rose-100">
                 ✕ Clear filters
@@ -95,18 +96,18 @@ const Products = () => {
 
         {loading && <Spinner />}
         {error && <Message type="error" icon="⚠️" title="Could not load products" />}
-        {data?.results.length === 0 && <Message icon="😕" title="No products found">Try a different search, price or category.</Message>}
+        {!loading && !error && products.length === 0 && <Message icon="😕" title="No products found">Try a different search, price or category.</Message>}
 
-        {data?.results.length > 0 && (
+        {!loading && products.length > 0 && (
           <>
             <div className="grid grid-cols-2 gap-5 lg:grid-cols-3">
-              {data.results.map(product => <ProductCard key={product.id} product={product} />)}
+              {products.map(product => <ProductCard key={product.id} product={product} />)}
             </div>
 
             <div className="mt-8 flex items-center justify-center gap-4">
-              <button disabled={!data.previous} onClick={() => updateParam('page', String(page - 1))} className="rounded-full bg-white px-5 py-2 text-sm font-bold text-brand-600 shadow-sm ring-1 ring-brand-100 hover:bg-brand-50 disabled:opacity-40">← Prev</button>
-              <span className="text-sm text-ink-600">Page {page} of {Math.ceil(data.count / 12)}</span>
-              <button disabled={!data.next} onClick={() => updateParam('page', String(page + 1))} className="rounded-full bg-white px-5 py-2 text-sm font-bold text-brand-600 shadow-sm ring-1 ring-brand-100 hover:bg-brand-50 disabled:opacity-40">Next →</button>
+              <button disabled={!hasPrevious} onClick={() => updateParam('page', String(page - 1))} className="rounded-full bg-white px-5 py-2 text-sm font-bold text-brand-600 shadow-sm ring-1 ring-brand-100 hover:bg-brand-50 disabled:opacity-40">← Prev</button>
+              <span className="text-sm text-ink-600">Page {page} of {Math.ceil(count / 12)}</span>
+              <button disabled={!hasNext} onClick={() => updateParam('page', String(page + 1))} className="rounded-full bg-white px-5 py-2 text-sm font-bold text-brand-600 shadow-sm ring-1 ring-brand-100 hover:bg-brand-50 disabled:opacity-40">Next →</button>
             </div>
           </>
         )}

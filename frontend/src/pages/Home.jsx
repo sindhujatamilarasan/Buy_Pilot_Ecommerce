@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
-import { getCategories, getProducts } from '../api/products'
+import { getCategories } from '../api/products'
 import ProductCard from '../components/ProductCard'
+import RecentlyViewed from '../components/RecentlyViewed'
 import Spinner from '../components/Spinner'
 import { useApi } from '../hooks/useApi'
+import { useProducts } from '../hooks/useProducts'
 import { categoryStyle } from '../utils/categoryStyle'
 
 const PERKS = [
@@ -16,8 +18,8 @@ const TILTS = ['-rotate-6', 'rotate-3', '-rotate-2']
 
 const Home = () => {
   const categories = useApi(getCategories)
-  const topRated = useApi(getProducts, { ordering: '-rating' }) // "-" = highest first
-  const products = topRated.data?.results || []
+  const topRated = useProducts({ ordering: '-rating' }) // "-" = highest first
+  const { products } = topRated
 
   return (
     <div className="space-y-16">
@@ -116,6 +118,8 @@ const Home = () => {
           </div>
         )}
       </section>
+
+      <RecentlyViewed />
     </div>
   )
 }

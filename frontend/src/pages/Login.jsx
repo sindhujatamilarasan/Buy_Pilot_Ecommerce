@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import AuthCard, { buttonClass, inputClass } from '../components/AuthCard'
 import { useAuth } from '../hooks/useAuth'
+import { homeForRole } from '../utils/roles'
 import { getErrorMessage } from '../utils/format'
 
 const Login = () => {
@@ -22,9 +23,9 @@ const Login = () => {
     setError('')
     setSubmitting(true)
     try {
-      await login(form)
-      // Go back to where they were going (e.g. /checkout), otherwise the shop's home page
-      navigate(from?.pathname || '/', { replace: true, state: from?.state })
+      const user = await login(form)
+      // Go back to where they were going (e.g. /checkout), otherwise: admin / staff → their console, customer → shop
+      navigate(from?.pathname || homeForRole(user.role), { replace: true, state: from?.state })
     } catch (err) {
       setError(getErrorMessage(err))
     } finally {

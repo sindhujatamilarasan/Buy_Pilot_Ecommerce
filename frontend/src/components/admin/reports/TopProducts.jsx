@@ -1,14 +1,18 @@
 // Top 5 products by revenue – horizontal bars
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { useThemeColors } from '../../../hooks/useSite'
 import { formatPrice } from '../../../utils/format'
+import { shade } from '../../../utils/themes'
 import Message from '../../Message'
 import { adminCard } from '../adminStyles'
-import { PALETTE, compactRupees, tooltipStyle } from './chartFormat'
+import { compactRupees, paletteFor, tooltipStyle } from './chartFormat'
 
 const shorten = name => (name.length > 22 ? `${name.slice(0, 21)}…` : name)
 
 const TopProducts = ({ products }) => {
   const data = products.map(p => ({ ...p, revenue: Number(p.revenue) }))
+  const theme = useThemeColors()
+  const palette = paletteFor(theme)
 
   return (
     <section className={`${adminCard} p-5`}>
@@ -24,11 +28,11 @@ const TopProducts = ({ products }) => {
               <YAxis type="category" dataKey="product_name" tickFormatter={shorten} width={170} tick={{ fontSize: 12, fill: '#33364a' }} />
               <Tooltip
                 contentStyle={tooltipStyle}
-                cursor={{ fill: '#ecfdf5' }}
+                cursor={{ fill: shade(theme, 50) }}
                 formatter={(value, _name, item) => [`${formatPrice(value)} · ${item.payload.units} sold`, 'Revenue']}
               />
               <Bar isAnimationActive={false} dataKey="revenue" radius={[0, 8, 8, 0]} maxBarSize={28}>
-                {data.map((row, index) => <Cell key={row.product_name} fill={PALETTE[index % PALETTE.length]} />)}
+                {data.map((row, index) => <Cell key={row.product_name} fill={palette[index % palette.length]} />)}
               </Bar>
             </BarChart>
           </ResponsiveContainer>

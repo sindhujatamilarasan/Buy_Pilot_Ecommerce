@@ -24,7 +24,7 @@ class SiteContentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SiteSettings
-        fields = ['announcement_enabled', 'announcement_text', 'hero_badge', 'hero_title', 'hero_highlight',
+        fields = ['theme', 'announcement_enabled', 'announcement_text', 'hero_badge', 'hero_title', 'hero_highlight',
                   'hero_subtitle', 'footer_tagline', 'perks', 'footer_links', 'updated_at']
         read_only_fields = ['updated_at']
 

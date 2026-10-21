@@ -4,6 +4,7 @@ import { useSite } from '../../hooks/useSite'
 import { getErrorMessage } from '../../utils/format'
 import { adminCard, adminInput } from './adminStyles'
 import ListEditor from './ListEditor'
+import ThemePicker from './ThemePicker'
 
 // React needs a stable key per row; the server does not need it, so it is added here and removed on save
 const withKeys = rows => rows.map(row => ({ key: crypto.randomUUID(), ...row }))
@@ -61,6 +62,10 @@ const SiteContentForm = ({ initial }) => {
 
   return (
     <form onSubmit={submit} className="space-y-6">
+      <Section title="Theme" hint="Colours of buttons, links, banners and the admin panel. Shoppers see it after you save.">
+        <ThemePicker value={form.theme} onChange={theme => set('theme', theme)} />
+      </Section>
+
       <Section title="Announcement strip" hint="The thin bar above the shop menu. Only promise what the shop really does.">
         <label className="flex items-center gap-2 text-sm font-semibold text-ink-700">
           <input type="checkbox" checked={form.announcement_enabled} onChange={e => set('announcement_enabled', e.target.checked)} className="h-4 w-4 accent-brand-600" />

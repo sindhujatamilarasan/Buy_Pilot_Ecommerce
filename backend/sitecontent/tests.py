@@ -4,7 +4,7 @@ from accounts.models import User
 from stores.models import default_store_id
 
 VALID = {
-    'announcement_enabled': False, 'announcement_text': 'Diwali sale!', 'hero_badge': '', 'hero_title': 'Big sale',
+    'theme': 'ocean', 'announcement_enabled': False, 'announcement_text': 'Diwali sale!', 'hero_badge': '', 'hero_title': 'Big sale',
     'hero_highlight': 'up to 50% off', 'hero_subtitle': '', 'footer_tagline': 'Hi',
     'perks': [{'icon': '🚚', 'title': 'Fast delivery', 'text': '2 days'}],
     'footer_links': [{'group': 'Help', 'label': 'Orders', 'url': '/orders'},
@@ -31,6 +31,7 @@ class SiteContentTests(APITestCase):
         self.assertEqual(self.client.put('/api/manage/site/', VALID, format='json').status_code, 200)
         data = self.client.get('/api/site/').data
         self.assertEqual((data['hero_title'], data['announcement_enabled'], len(data['perks'])), ('Big sale', False, 1))
+        self.assertEqual(data['theme'], 'ocean')
         self.assertEqual([link['label'] for link in data['footer_links']], ['Orders', 'Instagram'])
 
     def test_unsafe_links_are_rejected_and_nothing_is_saved(self):
@@ -39,3 +40,8 @@ class SiteContentTests(APITestCase):
             payload = {**VALID, 'footer_links': [{'group': 'X', 'label': 'Bad', 'url': bad}]}
             self.assertEqual(self.client.put('/api/manage/site/', payload, format='json').status_code, 400, bad)
         self.assertEqual(len(self.client.get('/api/site/').data['footer_links']), 8)  # defaults untouched
+
+    def test_only_known_themes_are_allowed(self):
+        self.client.force_authenticate(self.boss)
+        self.assertEqual(self.client.put('/api/manage/site/', {**VALID, 'theme': 'neon'}, format='json').status_code, 400)
+        self.assertEqual(self.client.get('/api/site/').data['theme'], 'emerald')

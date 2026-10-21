@@ -8,10 +8,13 @@ import { markPaymentFailed, verifyPayment } from '../api/orders'
 import MockPaymentModal from '../components/MockPaymentModal'
 import { getErrorMessage } from '../utils/format'
 import { loadRazorpay } from '../utils/razorpay'
+import { shade } from '../utils/themes'
 import { useAuth } from './useAuth'
+import { useThemeColors } from './useSite'
 
 export const usePaymentFlow = ({ onSuccess, onFailure }) => {
   const { user } = useAuth()
+  const theme = useThemeColors()
   const [mock, setMock] = useState(null) // { order, payment } while the mock screen is open
   const [paying, setPaying] = useState(false)
 
@@ -42,7 +45,7 @@ export const usePaymentFlow = ({ onSuccess, onFailure }) => {
       name: 'ShopKart',
       description: `Order #${order.id}`,
       prefill: { name: user.name, email: user.email },
-      theme: { color: '#10b981' },
+      theme: { color: shade(theme, 500) }, // popup matches the shop theme
       // Razorpay calls this after a successful payment → verify the signature on our server
       handler: response => verify(order, { payment_id: payment.payment_id, ...response }),
       modal: {

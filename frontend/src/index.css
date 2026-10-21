@@ -18,7 +18,7 @@
   --color-ink-800: #252838;
   --color-ink-900: #1a1c2b;
 
-  /* Brand – emerald green. Change these to re-colour the whole shop. */
+  /* Brand – emerald green by default. The super admin's theme (utils/themes.js) overwrites these at runtime. */
   --color-brand-50: #ecfdf5;
   --color-brand-100: #d1fae5;
   --color-brand-200: #a7f3d0;
@@ -29,6 +29,7 @@
   --color-brand-700: #047857;
   --color-brand-800: #065f46;
   --color-brand-900: #064e3b;
+  --color-brand-alt: #0d9488; /* 2nd colour of the gradients */
 
   /* Mango – warm accent for offers, badges and ratings */
   --color-mango-100: #fef3c7;
@@ -52,18 +53,19 @@
   }
 }
 
-/* Bright emerald → teal: ONLY for small things (buttons, active menu, logo) */
+/* The gradients use the variables too, so they follow the chosen theme */
+/* Bright brand → alt: ONLY for small things (buttons, active menu, logo) */
 @utility bg-brand {
-  background-image: linear-gradient(120deg, #10b981 0%, #0d9488 100%);
+  background-image: linear-gradient(120deg, var(--color-brand-500) 0%, var(--color-brand-alt) 100%);
 }
 
-/* Soft mint → mango cream: for BIG areas (hero, top strip, sidebar, banners) */
+/* Soft brand → mango cream: for BIG areas (hero, top strip, sidebar, banners) */
 @utility bg-brand-soft {
-  background-image: linear-gradient(120deg, #d1fae5 0%, #ecfdf5 45%, #fef3c7 100%);
+  background-image: linear-gradient(120deg, var(--color-brand-100) 0%, var(--color-brand-50) 45%, var(--color-mango-100) 100%);
 }
 
 @utility text-brand {
-  background-image: linear-gradient(120deg, #059669 0%, #0d9488 100%);
+  background-image: linear-gradient(120deg, var(--color-brand-600) 0%, var(--color-brand-alt) 100%);
   background-clip: text;
   color: transparent;
 }

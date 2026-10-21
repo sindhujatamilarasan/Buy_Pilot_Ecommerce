@@ -118,7 +118,7 @@ const Checkout = () => {
           <Spinner />
         ) : (
           <PriceSummary summary={toSummary(quote.data.summary)} itemCount={count}>
-            <p className="mt-4 rounded-2xl bg-brand-50 px-4 py-3 text-xs font-semibold text-brand-800">🔒 Price verified by the server</p>
+            <p className="mt-4 rounded-2xl bg-brand-50 px-4 py-3 text-xs font-semibold text-brand-800">🔒 Safe and secure payment</p>
             {error && <p className="mt-3 text-sm font-semibold text-rose-600">{error}</p>}
             <button onClick={placeOrder} disabled={!canPay} className="bg-brand mt-4 w-full rounded-full py-3.5 font-bold text-white shadow-lg shadow-brand-200 transition hover:scale-[1.02] disabled:opacity-50">
               {placing || paying ? 'Processing…' : `Pay ${formatPrice(quote.data.summary.total)}`}

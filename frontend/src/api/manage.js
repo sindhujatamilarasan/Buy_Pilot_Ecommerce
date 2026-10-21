@@ -15,6 +15,12 @@ export const uploadImage = async file => {
   return (await client.post('/manage/uploads/', form)).data // { path, url }
 }
 
+// Categories (store admins can add; only the super admin renames / deletes)
+export const getAdminCategories = () => get('/manage/categories/')
+export const createCategory = async name => (await client.post('/manage/categories/', { name })).data
+export const renameCategory = async (id, name) => (await client.patch(`/manage/categories/${id}/`, { name })).data
+export const deleteCategory = async id => client.delete(`/manage/categories/${id}/`)
+
 // Coupons
 export const getCoupons = () => get('/manage/coupons/')
 export const createCoupon = async data => (await client.post('/manage/coupons/', data)).data

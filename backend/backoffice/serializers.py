@@ -10,6 +10,36 @@ from coupons.models import Coupon
 from stores.models import Store
 
 
+class CategoryAdminSerializer(serializers.ModelSerializer):
+    """Add (store admin + super admin) or rename (super admin) a category. The slug is made once from the name."""
+
+    product_count = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'slug', 'product_count']
+        read_only_fields = ['slug']  # kept on rename, so old links (/products?category=…) keep working
+        extra_kwargs = {'name': {'validators': []}}  # checked below without caring about capitals
+
+    def validate_name(self, value):
+        name = ' '.join(value.split())  # "  kids   toys " → "kids toys"
+        if not slugify(name):
+            raise serializers.ValidationError('Use letters or numbers in the name.')
+        taken = Category.objects.filter(name__iexact=name)
+        if self.instance:
+            taken = taken.exclude(pk=self.instance.pk)
+        if taken.exists():
+            raise serializers.ValidationError(f'"{name}" already exists – pick it from the list.')
+        return name
+
+    def create(self, data):
+        base = slug = slugify(data['name'])
+        number = 2
+        while Category.objects.filter(slug=slug).exists():  # "toys" taken → "toys-2"
+            slug, number = f'{base}-{number}', number + 1
+        return Category.objects.create(name=data['name'], slug=slug)
+
+
 class VariantWriteSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)  # present = update this variant, missing = new variant
 

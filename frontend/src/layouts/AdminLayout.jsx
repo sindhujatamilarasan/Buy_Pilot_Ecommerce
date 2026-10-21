@@ -1,5 +1,5 @@
 // Admin / staff frame: grouped sidebar + top bar. Menu items list which roles can see them.
-import { ChartColumn, ExternalLink, LayoutDashboard, LogOut, Megaphone, Menu, Package, ReceiptText, ShoppingBag, Store, Tag, Users } from 'lucide-react'
+import { ChartColumn, FolderTree, ExternalLink, LayoutDashboard, LogOut, Megaphone, Menu, Package, ReceiptText, ShoppingBag, Store, Tag, Users } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
@@ -18,6 +18,7 @@ const MENU = [
   ] },
   { group: 'Catalog', items: [
     { to: '/admin/products', label: 'Products', icon: Package, roles: ADMINS },
+    { to: '/admin/categories', label: 'Categories', icon: FolderTree, roles: ['superadmin'] },
   ] },
   { group: 'Sales', items: [
     { to: '/admin/orders', label: 'Orders', icon: ReceiptText, roles: ADMINS },

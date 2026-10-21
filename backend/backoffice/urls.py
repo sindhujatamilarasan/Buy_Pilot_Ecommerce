@@ -6,6 +6,8 @@ urlpatterns = [
     path('products/', views.ProductAdminList.as_view()),
     path('products/<int:pk>/', views.ProductAdminDetail.as_view()),
     path('uploads/', views.upload_image),
+    path('categories/', views.CategoryAdminList.as_view()),
+    path('categories/<int:pk>/', views.CategoryAdminDetail.as_view()),
     path('coupons/', views.CouponList.as_view()),
     path('coupons/<int:pk>/', views.CouponDetail.as_view()),
     path('orders/', views.OrderManageList.as_view()),

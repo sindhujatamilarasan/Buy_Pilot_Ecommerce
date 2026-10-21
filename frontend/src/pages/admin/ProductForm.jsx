@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { createProduct, getAdminProduct, updateProduct } from '../../api/manage'
 import { getCategories } from '../../api/products'
+import CategoryPicker from '../../components/admin/CategoryPicker'
 import ImagesEditor from '../../components/admin/ImagesEditor'
 import StoreSelect from '../../components/admin/StoreSelect'
 import { adminCard, adminInput, newVariant } from '../../components/admin/adminStyles'
@@ -110,12 +111,7 @@ const ProductFormView = ({ product, categories }) => {
               </span>
             </button>
             <StoreSelect value={form.store} onChange={value => set('store', value)} />
-            <label className="mt-4 block text-sm font-semibold text-ink-700">Category
-              <select required value={form.category} onChange={e => set('category', Number(e.target.value))} className={`${adminInput} mt-1 w-full`}>
-                <option value="">Choose…</option>
-                {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-              </select>
-            </label>
+            <CategoryPicker categories={categories} value={form.category} onChange={value => set('category', value)} />
           </div>
 
           <div className={card}>

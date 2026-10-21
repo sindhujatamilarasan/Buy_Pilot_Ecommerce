@@ -10,6 +10,7 @@ import Profile from './pages/account/Profile'
 import Security from './pages/account/Security'
 import AdminLayout from './layouts/AdminLayout'
 import CustomerLayout from './layouts/CustomerLayout'
+import Categories from './pages/admin/Categories'
 import Coupons from './pages/admin/Coupons'
 import Dashboard from './pages/admin/Dashboard'
 import ManageOrders from './pages/admin/Orders'
@@ -72,6 +73,7 @@ const App = () => (
         {/* Super admin only */}
         <Route element={<ProtectedRoute roles={['superadmin']} />}>
           <Route path="/admin/stores" element={<Stores />} />
+          <Route path="/admin/categories" element={<Categories />} />
           <Route path="/admin/coupons" element={<Coupons />} />
           <Route path="/admin/site" element={<SiteContent />} />
         </Route>

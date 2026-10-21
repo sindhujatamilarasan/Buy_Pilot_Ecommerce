@@ -3,7 +3,7 @@ import uuid
 from pathlib import Path
 
 from django.core.files.storage import default_storage
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, parser_classes, permission_classes
@@ -13,7 +13,7 @@ from rest_framework.response import Response
 
 from accounts.models import User
 from accounts.permissions import IsAdminRole, IsStaffOrAdmin, IsSuperAdmin, for_my_store
-from catalog.models import Product
+from catalog.models import Category, Product
 from coupons.models import Coupon
 from orders.models import Order
 from orders.serializers import OrderSerializer
@@ -21,7 +21,7 @@ from orders.services import advance_status, cancel_order
 from stores.models import Store
 
 from .reports import ALLOWED_DAYS, sales_report
-from .serializers import CouponSerializer, ProductAdminSerializer, UserAdminSerializer
+from .serializers import CategoryAdminSerializer, CouponSerializer, ProductAdminSerializer, UserAdminSerializer
 
 ALLOWED_IMAGE_TYPES = {'.jpg', '.jpeg', '.png', '.webp'}
 MAX_IMAGE_SIZE = 3 * 1024 * 1024  # 3 MB
@@ -90,6 +90,30 @@ def upload_image(request):
     path = default_storage.url(saved)  # "/media/products/abc.jpg"
     path = path if path.startswith('/') else f'/{path}'
     return Response({'path': path, 'url': request.build_absolute_uri(path)}, status=status.HTTP_201_CREATED)
+
+
+# ---------- Categories (shared by all stores) ----------
+categories_with_count = Category.objects.annotate(product_count=Count('products')).order_by('name')  # annotate drops Meta.ordering
+
+
+class CategoryAdminList(generics.ListCreateAPIView):
+    """Store admins may ADD a category (e.g. from the product form) when none fits."""
+    queryset = categories_with_count
+    serializer_class = CategoryAdminSerializer
+    permission_classes = [IsAdminRole]
+    pagination_class = None
+
+
+class CategoryAdminDetail(generics.RetrieveUpdateDestroyAPIView):
+    """Only the super admin renames or deletes (it changes the shop for every store)."""
+    queryset = categories_with_count
+    serializer_class = CategoryAdminSerializer
+    permission_classes = [IsSuperAdmin]
+
+    def perform_destroy(self, category):
+        if category.product_count:  # on_delete=PROTECT would crash; explain instead
+            raise ValidationError({'detail': f'"{category.name}" still has {category.product_count} products. Move them to another category first.'})
+        category.delete()
 
 
 # ---------- Coupons (super admin: shop-wide offers) ----------

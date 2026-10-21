@@ -84,6 +84,13 @@ Read `||--o{` as **"one … has many …"**. Example: one STORE sells many PRODU
 | `orders_orderstatuslog` | id, order_id, status, note, changed_by → user, created_at | Builds the tracking timeline |
 | `orders_payment` | id, order_id, provider (razorpay / mock), razorpay_order_id, razorpay_payment_id, amount, status, created_at | One row per payment **attempt** (failed + retry) |
 
+### sitecontent app (texts the super admin changes in Admin → Site content)
+| Table | Columns | Notes |
+|---|---|---|
+| `sitecontent_sitesettings` | id (always 1), announcement_enabled, announcement_text, hero_badge, hero_title, hero_highlight, hero_subtitle, footer_tagline, updated_at | One row only ("singleton") |
+| `sitecontent_perk` | id, icon, title, text, sort_order | Max 6 cards under the home banner |
+| `sitecontent_footerlink` | id, group, label, url, sort_order | `url` must be `/page` or `http(s)://…` (no `javascript:`) |
+
 ## Status values
 
 - `orders_order.status`: `pending_payment` → `placed` → `packed` → `shipped` → `delivered`, or `cancelled`

@@ -7,13 +7,11 @@ import RecentlyViewed from '../components/RecentlyViewed'
 import Spinner from '../components/Spinner'
 import { useApi } from '../hooks/useApi'
 import { useProducts } from '../hooks/useProducts'
+import { useSite } from '../hooks/useSite'
 import { categoryStyle } from '../utils/categoryStyle'
 
-const PERKS = [
-  { icon: '🚚', title: 'Free shipping', text: 'On orders above ₹500', color: 'bg-brand-100' },
-  { icon: '🔒', title: 'Secure payments', text: 'Protected by Razorpay', color: 'bg-violet-100' },
-  { icon: '↩️', title: 'Easy returns', text: '7-day hassle-free returns', color: 'bg-mango-100' },
-]
+// Perk texts come from Super admin → Site content; the colours repeat in this order
+const PERK_COLORS = ['bg-brand-100', 'bg-violet-100', 'bg-mango-100']
 
 // Tilt the collage photos a little for a playful look
 const TILTS = ['-rotate-6', 'rotate-3', '-rotate-2']
@@ -22,6 +20,7 @@ const Home = () => {
   const categories = useApi(getCategories)
   const topRated = useProducts({ ordering: '-rating' }) // "-" = highest first
   const { products } = topRated
+  const { site } = useSite()
 
   return (
     <div className="space-y-16">
@@ -32,13 +31,14 @@ const Home = () => {
 
         <div className="relative grid items-center gap-10 md:grid-cols-2">
           <div>
-            <span className="rounded-full bg-white/80 px-4 py-1.5 text-sm font-bold text-brand-700 shadow-sm">✨ Festive Sale is live</span>
-            <h1 className="mt-6 text-4xl font-extrabold leading-tight text-ink-900 md:text-6xl">
-              Shop the trends <br /> <span className="text-brand">you’ll love</span> 💚
+            {site.hero_badge && (
+              <span className="mb-6 inline-block rounded-full bg-white/80 px-4 py-1.5 text-sm font-bold text-brand-700 shadow-sm">{site.hero_badge}</span>
+            )}
+            <h1 className="text-4xl font-extrabold leading-tight text-ink-900 md:text-6xl">
+              {site.hero_title}
+              {site.hero_highlight && <><br /> <span className="text-brand">{site.hero_highlight}</span></>}
             </h1>
-            <p className="mt-4 max-w-md text-lg text-ink-600">
-              Phones, fashion, shoes, beauty and more – all in one happy place.
-            </p>
+            {site.hero_subtitle && <p className="mt-4 max-w-md text-lg text-ink-600">{site.hero_subtitle}</p>}
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/products" className="bg-brand rounded-full px-7 py-3.5 font-bold text-white shadow-lg shadow-brand-200 transition hover:scale-105">
                 Start shopping →
@@ -66,17 +66,19 @@ const Home = () => {
       </section>
 
       {/* Perks */}
-      <section className="grid gap-4 md:grid-cols-3">
-        {PERKS.map(perk => (
-          <div key={perk.title} className={`flex items-center gap-4 rounded-3xl px-6 py-5 ${perk.color}`}>
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm">{perk.icon}</span>
-            <div>
-              <p className="font-display font-bold text-ink-900">{perk.title}</p>
-              <p className="text-sm text-ink-600">{perk.text}</p>
+      {site.perks.length > 0 && (
+        <section className="grid gap-4 md:grid-cols-3">
+          {site.perks.map((perk, index) => (
+            <div key={index} className={`flex items-center gap-4 rounded-3xl px-6 py-5 ${PERK_COLORS[index % PERK_COLORS.length]}`}>
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm">{perk.icon}</span>
+              <div>
+                <p className="font-display font-bold text-ink-900">{perk.title}</p>
+                <p className="text-sm text-ink-600">{perk.text}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </section>
+          ))}
+        </section>
+      )}
 
       {/* Categories */}
       <section id="categories">

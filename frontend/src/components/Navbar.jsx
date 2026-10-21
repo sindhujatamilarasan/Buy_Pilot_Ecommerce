@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useCart } from '../hooks/useCart'
+import { useSite } from '../hooks/useSite'
 import { useWishlist } from '../hooks/useWishlist'
 import { PANEL } from '../utils/roles'
 import UserMenu from './UserMenu'
@@ -16,6 +17,7 @@ const Navbar = () => {
   const { user } = useAuth()
   const { count } = useCart()
   const { count: savedCount } = useWishlist()
+  const { site } = useSite()
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
 
@@ -26,9 +28,10 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-20">
-      <div className="bg-brand-soft py-2 text-center text-xs font-bold tracking-wide text-brand-800">
-        🎉 Free shipping on orders above ₹500 · Easy 7-day returns
-      </div>
+      {/* Text comes from Super admin → Site content */}
+      {site.announcement_enabled && site.announcement_text && (
+        <div className="bg-brand-soft px-4 py-2 text-center text-xs font-bold tracking-wide text-brand-800">{site.announcement_text}</div>
+      )}
 
       <div className="border-b border-brand-100 bg-blush/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-4 py-3">

@@ -14,6 +14,7 @@ import Coupons from './pages/admin/Coupons'
 import Dashboard from './pages/admin/Dashboard'
 import ManageOrders from './pages/admin/Orders'
 import ProductForm from './pages/admin/ProductForm'
+import SiteContent from './pages/admin/SiteContent'
 import AdminProducts from './pages/admin/Products'
 import Stores from './pages/admin/Stores'
 import Users from './pages/admin/Users'
@@ -72,6 +73,7 @@ const App = () => (
         <Route element={<ProtectedRoute roles={['superadmin']} />}>
           <Route path="/admin/stores" element={<Stores />} />
           <Route path="/admin/coupons" element={<Coupons />} />
+          <Route path="/admin/site" element={<SiteContent />} />
         </Route>
       </Route>
     </Route>

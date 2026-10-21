@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Our apps
     'stores',
+    'sitecontent',
     'accounts',
     'catalog',
     'dashboard',

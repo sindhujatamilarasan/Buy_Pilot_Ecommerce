@@ -53,7 +53,7 @@ copy .env.example .env
 .venv\Scripts\python manage.py seed_products
 .venv\Scripts\python manage.py seed_stores    # second demo store: Urban Threads
 .venv\Scripts\python manage.py seed_users
-.venv\Scripts\python manage.py seed_orders   # optional: demo orders for the sales report
+.venv\Scripts\python manage.py seed_orders   # optional: 150 FAKE orders to try the charts (remove with --clear)
 .venv\Scripts\python manage.py runserver 127.0.0.1:8000
 ```
 API: http://127.0.0.1:8000/api/health/

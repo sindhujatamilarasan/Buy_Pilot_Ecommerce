@@ -3,6 +3,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from sitecontent import views as site_views
+
 from .views import health
 
 urlpatterns = [
@@ -14,6 +16,8 @@ urlpatterns = [
     path('api/cart/', include('cart.urls')),
     path('api/', include('orders.urls')),
     path('api/manage/stores/', include('stores.urls')),  # super admin only
+    path('api/site/', site_views.site_content),
+    path('api/manage/site/', site_views.manage_site_content),  # super admin only
     path('api/manage/', include('backoffice.urls')),
 ]
 

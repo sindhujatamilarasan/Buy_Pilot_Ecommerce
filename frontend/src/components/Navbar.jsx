@@ -1,8 +1,10 @@
+import { LayoutDashboard } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useCart } from '../hooks/useCart'
 import { useWishlist } from '../hooks/useWishlist'
+import { PANEL } from '../utils/roles'
 import UserMenu from './UserMenu'
 
 const linkClass = ({ isActive }) =>
@@ -54,6 +56,12 @@ const Navbar = () => {
               {count > 0 && <span className="bg-brand ml-1.5 rounded-full px-2 py-0.5 text-xs font-bold text-white">{count}</span>}
             </NavLink>
 
+            {/* Admins and staff shop like everyone else, with one click to their panel */}
+            {PANEL[user?.role] && (
+              <Link to={PANEL[user.role].to} className="ml-1 flex items-center gap-1.5 rounded-full bg-ink-900 px-4 py-2 text-sm font-bold text-white hover:bg-ink-800">
+                <LayoutDashboard size={16} /> {PANEL[user.role].label}
+              </Link>
+            )}
             {user ? (
               <UserMenu />
             ) : (

@@ -108,6 +108,22 @@ Run backend tests: `.venv\Scripts\python manage.py test` (57 tests, including a 
 Without keys the app uses a **mock payment screen** (Pay successfully / Make payment fail).
 The backend always verifies the payment (HMAC signature) before reducing stock.
 
+## Screenshots
+
+| Shop | Product (variants, "Sold by") |
+|---|---|
+| ![Home](docs/screenshots/home.png) | ![Product](docs/screenshots/product.png) |
+| **Product list with filters in the URL** | **Cart (guest cart, stock limits)** |
+| ![Products](docs/screenshots/products.png) | ![Cart](docs/screenshots/cart.png) |
+| **Checkout – price verified by the server** | **Order tracking timeline** |
+| ![Checkout](docs/screenshots/checkout.png) | ![Order](docs/screenshots/order.png) |
+| **Store admin dashboard** | **Sales report (Recharts)** |
+| ![Dashboard](docs/screenshots/admin-dashboard.png) | ![Reports](docs/screenshots/admin-reports.png) |
+| **Super admin – stores and store admins** | **Store admin – own products only** |
+| ![Stores](docs/screenshots/super-stores.png) | ![Admin products](docs/screenshots/admin-products.png) |
+
+All pages were also checked at phone width (390px).
+
 ## Database schema
 
 ![Database schema](docs/database-schema.png)

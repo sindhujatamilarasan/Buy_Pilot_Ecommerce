@@ -1,92 +1,104 @@
 # Database Design – ShopKart
 
-Database: **PostgreSQL** (SQLite is used temporarily during setup).
-Each table below becomes one **Django model** (a Python class). Django creates the
-tables for us with `makemigrations` + `migrate`.
+Database: **PostgreSQL 16** (Docker, port 5434). Every table below is a **Django model**;
+Django creates and changes the tables with `makemigrations` + `migrate`.
+
+![Database schema](database-schema.png)
 
 ## How the tables connect
 
 ```mermaid
 erDiagram
+    STORE ||--o{ USER : "employs (store admin / staff)"
+    STORE ||--o{ PRODUCT : sells
+    STORE ||--o{ ORDER : receives
     USER ||--o{ ADDRESS : has
     USER ||--o| CART : owns
-    USER ||--o{ WISHLIST : saves
+    USER ||--o{ WISHLIST_ITEM : saves
     USER ||--o{ ORDER : places
     CATEGORY ||--o{ PRODUCT : contains
     PRODUCT ||--o{ PRODUCT_IMAGE : has
     PRODUCT ||--o{ PRODUCT_VARIANT : "comes in"
+    PRODUCT ||--o{ WISHLIST_ITEM : "saved as"
     CART ||--o{ CART_ITEM : contains
     PRODUCT_VARIANT ||--o{ CART_ITEM : "added as"
     ORDER ||--o{ ORDER_ITEM : contains
     PRODUCT_VARIANT ||--o{ ORDER_ITEM : "bought as"
-    ORDER ||--o{ ORDER_STATUS_LOG : "history"
-    ORDER ||--o| PAYMENT : "paid by"
+    ORDER ||--o{ ORDER_STATUS_LOG : history
+    ORDER ||--o{ PAYMENT : "paid by (attempts)"
     COUPON ||--o{ COUPON_USAGE : "used in"
     ORDER ||--o| COUPON_USAGE : uses
 ```
 
-Read `||--o{` as **"one … has many …"**. Example: one CATEGORY contains many PRODUCTs.
+Read `||--o{` as **"one … has many …"**. Example: one STORE sells many PRODUCTs.
 
-## Why variants are a separate table
+## Roles
 
-A T-shirt has ONE name and description, but **each size/colour has its own price and stock**:
+| Role | Store | Can do |
+|---|---|---|
+| `superadmin` | – | All stores; creates stores and store admins; coupons |
+| `admin` (store admin) | required | Only their store: products, stock, orders, staff, dashboard, reports |
+| `staff` | required | Only their store's orders: move status forward |
+| `customer` | – | Shop, cart, wishlist, orders |
 
-| product | size | color | price | stock |
-|---|---|---|---|---|
-| Cotton T-Shirt | M | Black | 499 | 12 |
-| Cotton T-Shirt | L | Black | 499 | 0 |
-| Cotton T-Shirt | M | White | 549 | 7 |
+## Tables (Django names: `app_model`)
 
-So the **cart and orders point to a variant**, not to the product.
-"Can't add more than available stock" is checked against `product_variants.stock`.
-
-## Tables
+### stores app
+| Table | Columns | Notes |
+|---|---|---|
+| `stores_store` | id, name (unique), slug (unique), description, is_active, created_at | Inactive → products hidden from the shop, data kept |
 
 ### accounts app
 | Table | Columns | Notes |
 |---|---|---|
-| `users` | id, username, email, password, **role** | Django's built-in user + role (customer / staff / admin). ✅ Created on Day 1 |
-| `addresses` | id, user_id → users, name, phone, address, city, pincode, is_default | One user, many saved addresses |
+| `accounts_user` | id, username, email (unique), password (hashed), first_name, **role**, **store_id → stores** | Django's built-in user + role + store |
+| `authtoken_token` | key, user_id | Login token sent as `Authorization: Token …` |
 
 ### catalog app
 | Table | Columns | Notes |
 |---|---|---|
-| `categories` | id, name, slug | slug = URL-friendly name (`mens-clothing`) |
-| `products` | id, category_id → categories, name, slug, description, rating, is_active | No price here – price lives on the variant |
-| `product_images` | id, product_id → products, path, sort_order | Many images per product |
-| `product_variants` | id, product_id → products, size, color, sku, price, stock | sku = unique stock code |
-| `wishlists` | id, user_id → users, product_id → products | Unique per (user, product) |
+| `catalog_category` | id, name, slug | |
+| `catalog_product` | id, **store_id**, category_id, name, slug, description, rating, is_active, created_at | No price here – the price is on the variant |
+| `catalog_productimage` | id, product_id, path, sort_order | `path` = full URL (seed) or `/media/…` (upload) |
+| `catalog_productvariant` | id, product_id, size, color, sku (unique), price, stock | Cart and orders point to a **variant** |
+| `catalog_wishlistitem` | id, user_id, product_id, created_at | UNIQUE (user, product) |
 
 ### cart app
 | Table | Columns | Notes |
 |---|---|---|
-| `carts` | id, user_id → users | Guest cart lives in localStorage, merged on login |
-| `cart_items` | id, cart_id → carts, variant_id → product_variants, qty, saved_for_later | |
+| `cart_cart` | id, user_id (1 : 1), updated_at | Logged-in users only; guests use localStorage |
+| `cart_cartitem` | id, cart_id, variant_id, qty, saved_for_later, added_at | UNIQUE (cart, variant) |
 
 ### coupons app
 | Table | Columns | Notes |
 |---|---|---|
-| `coupons` | id, code, type (flat / percent), value, min_order, expires_at, is_active | |
-| `coupon_usages` | id, coupon_id → coupons, user_id → users, order_id → orders | Unique per (coupon, user) = one use per user |
+| `coupons_coupon` | id, code (unique, CAPITALS), type (flat / percent), value, min_order, expires_at, is_active, created_at | Shop-wide, managed by the super admin |
+| `coupons_couponusage` | id, coupon_id, user_id, order_id (1 : 1), used_at | UNIQUE (coupon, user) = one use per user |
 
 ### orders app
 | Table | Columns | Notes |
 |---|---|---|
-| `orders` | id, user_id, address_id, subtotal, discount, tax, shipping, total, status, payment_status | Prices are **copied** at order time (they may change later) |
-| `order_items` | id, order_id, variant_id, qty, price | price = price at the moment of buying |
-| `order_status_logs` | id, order_id, status, changed_by → users, created_at | Builds the status timeline |
-| `payments` | id, order_id, razorpay_order_id, razorpay_payment_id, status | |
+| `orders_address` | id, user_id, name, phone, address, city, pincode, is_default | Saved addresses |
+| `orders_order` | id, user_id, **store_id**, ship_name / phone / address / city / pincode, subtotal, discount, tax, shipping, total, coupon_code, status, payment_status, created_at | One order = one store. The address is **copied** so old orders never change |
+| `orders_orderitem` | id, order_id, variant_id (null if deleted), product_name, variant_label, image, price, qty | `price` = the price paid, not today's price |
+| `orders_orderstatuslog` | id, order_id, status, note, changed_by → user, created_at | Builds the tracking timeline |
+| `orders_payment` | id, order_id, provider (razorpay / mock), razorpay_order_id, razorpay_payment_id, amount, status, created_at | One row per payment **attempt** (failed + retry) |
 
-## Rules the database helps with
+## Status values
 
-| Business rule | How |
+- `orders_order.status`: `pending_payment` → `placed` → `packed` → `shipped` → `delivered`, or `cancelled`
+- `orders_order.payment_status`: `pending`, `paid`, `failed`, `refund_pending`
+- `orders_payment.status`: `created`, `success`, `failed`
+
+## Business rules the database enforces
+
+| Rule | How |
 |---|---|
-| Two users buy the last item | `transaction.atomic()` + `select_for_update()` locks the variant row |
-| One coupon use per user | Unique constraint on (coupon, user) |
-| Price never trusted from frontend | Backend recalculates from `product_variants.price` |
-| Order history stays correct | `order_items.price` stores the price paid, not a link to today's price |
-
-## Build order
-1. ✅ `users` (Day 1 – needed before the first migration)
-2. ⏭️ `categories`, `products`, `product_images`, `product_variants` → load seed data
-3. `addresses`, `wishlists` → `carts`, `cart_items` → `coupons` → `orders`, `payments`
+| Two users buy the last item | `transaction.atomic()` + `select_for_update()` locks the variant row; stock is reduced with `UPDATE … WHERE stock >= qty` |
+| Stock never negative | `stock` is a positive integer + the conditional update above |
+| One coupon use per user | UNIQUE (coupon, user) on `coupons_couponusage` |
+| One wishlist row per product | UNIQUE (user, product) on `catalog_wishlistitem` |
+| One cart row per variant | UNIQUE (cart, variant) on `cart_cartitem` |
+| A store or category with products can't be deleted | `on_delete=PROTECT` on `store_id` / `category_id` |
+| Old orders stay correct | `orderitem.price`, `orderitem.product_name` and `order.ship_*` are **copies** |
+| Price never trusted from the browser | The backend recalculates from `productvariant.price` at checkout |

@@ -96,9 +96,18 @@ class BackofficeTests(APITestCase):
         self.assertEqual(self.client.get('/api/manage/orders/').status_code, 403)
 
     # ----- users -----
-    def test_admin_assigns_staff_role_but_not_own(self):
+    def test_admin_creates_staff_but_cannot_turn_a_customer_into_staff(self):
         self.client.force_authenticate(self.admin)
         res = self.client.patch(f'/api/manage/users/{self.customer.id}/role/', {'role': 'staff'}, format='json')
-        self.assertEqual(res.data['role'], 'staff')
+        self.assertEqual(res.status_code, 400)
+        new = self.client.post('/api/manage/staff/', {'name': 'Ravi', 'email': 'Ravi@T.com', 'password': 'Packing@2026'}, format='json')
+        self.assertEqual((new.status_code, new.data['role'], new.data['store'], new.data['email']), (201, 'staff', default_store_id(), 'ravi@t.com'))
+        again = self.client.post('/api/manage/staff/', {'name': 'R', 'email': 'ravi@t.com', 'password': 'Packing@2026'}, format='json')
+        self.assertEqual(again.status_code, 400)  # email already used
+        removed = self.client.patch(f'/api/manage/users/{new.data["id"]}/role/', {'role': 'customer'}, format='json')
+        self.assertEqual(removed.data['role'], 'customer')
+        self.client.force_authenticate(self.staff)
+        self.assertEqual(self.client.post('/api/manage/staff/', {'name': 'X', 'email': 'x@t.com', 'password': 'Packing@2026'}).status_code, 403)
+        self.client.force_authenticate(self.admin)
         own = self.client.patch(f'/api/manage/users/{self.admin.id}/role/', {'role': 'customer'}, format='json')
         self.assertEqual(own.status_code, 400)

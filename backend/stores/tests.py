@@ -74,12 +74,14 @@ class MultiStoreTests(APITestCase):
         self.client.force_authenticate(self.boss)  # super admin: all stores
         self.assertEqual(self.client.get('/api/admin/dashboard/').data['stats']['revenue'], 6000)
 
-    def test_store_admin_can_only_give_staff_access(self):
+    def test_store_admin_adds_staff_only_to_own_store(self):
         self.client.force_authenticate(self.admin_a)
-        url = f'/api/manage/users/{self.customer.id}/role/'
-        self.assertEqual(self.client.patch(url, {'role': 'admin'}, format='json').status_code, 403)
-        res = self.client.patch(url, {'role': 'staff'}, format='json')
+        data = {'name': 'Meena', 'email': 'meena@t.com', 'password': 'Packing@2026', 'store': self.store_b.id}
+        res = self.client.post('/api/manage/staff/', data, format='json')  # the store sent is ignored
         self.assertEqual((res.data['role'], res.data['store']), ('staff', self.store_a.id))
+        other = User.objects.create_user(username='o@t.com', email='o@t.com', password='x', role='staff', store=self.store_b)
+        url = f'/api/manage/users/{other.id}/role/'
+        self.assertEqual(self.client.patch(url, {'role': 'customer'}, format='json').status_code, 403)  # not my staff
 
     # ----- shop rules -----
     def test_cart_with_two_stores_cannot_be_ordered(self):

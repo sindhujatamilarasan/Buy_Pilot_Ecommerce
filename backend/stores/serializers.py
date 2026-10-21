@@ -32,7 +32,10 @@ class StoreSerializer(serializers.ModelSerializer):
 
 
 class StoreAdminCreateSerializer(serializers.Serializer):
-    """Super admin creates a store admin account (email + password) for one store."""
+    """Creates a NEW login (email + password) for one store: a store admin (default) or staff.
+
+    context = {'store': store, 'role': User.Role.STAFF}  (role is optional, default = store admin)
+    """
 
     name = serializers.CharField(max_length=150)
     email = serializers.EmailField()
@@ -50,5 +53,5 @@ class StoreAdminCreateSerializer(serializers.Serializer):
     def create(self, data):
         return User.objects.create_user(
             username=data['email'], email=data['email'], password=data['password'],
-            first_name=data['name'], role=User.Role.ADMIN, store=self.context['store'],
+            first_name=data['name'], role=self.context.get('role', User.Role.ADMIN), store=self.context['store'],
         )

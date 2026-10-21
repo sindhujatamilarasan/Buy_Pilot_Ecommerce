@@ -19,6 +19,7 @@ from orders.models import Order
 from orders.serializers import OrderSerializer
 from orders.services import advance_status, cancel_order
 from stores.models import Store
+from stores.serializers import StoreAdminCreateSerializer
 
 from .reports import ALLOWED_DAYS, sales_report
 from .serializers import CategoryAdminSerializer, CouponSerializer, ProductAdminSerializer, UserAdminSerializer
@@ -189,26 +190,44 @@ class UserList(generics.ListAPIView):
         return queryset
 
 
+@api_view(['POST'])
+@permission_classes([IsAdminRole])
+def add_staff(request):
+    """POST /api/manage/staff/ { name, email, password } → a NEW staff login for the admin's store.
+
+    Staff are always new accounts: a shopper's customer account is never turned into staff.
+    The super admin also sends { store: id }.
+    """
+    me = request.user
+    store = me.store if me.role != 'superadmin' else get_object_or_404(Store, pk=request.data.get('store'))
+    serializer = StoreAdminCreateSerializer(data=request.data, context={'store': store, 'role': User.Role.STAFF})
+    serializer.is_valid(raise_exception=True)
+    return Response(UserAdminSerializer(serializer.save()).data, status=status.HTTP_201_CREATED)
+
+
 @api_view(['PATCH'])
 @permission_classes([IsAdminRole])
 def update_user_role(request, pk):
     user = get_object_or_404(User, pk=pk)
     if user == request.user:
         return Response({'detail': 'You cannot change your own role.'}, status=status.HTTP_400_BAD_REQUEST)
+    if user.role == User.Role.CUSTOMER:
+        return Response({'detail': 'Customer accounts cannot become staff or admins. Create a new staff account instead.'},
+                        status=status.HTTP_400_BAD_REQUEST)
     role = request.data.get('role')
     me = request.user
 
     if me.role == 'superadmin':
+        # admin ⇄ staff (with a store), or remove access (→ customer)
         if role not in (User.Role.CUSTOMER, User.Role.ADMIN, User.Role.STAFF) or user.role == User.Role.SUPERADMIN:
             return Response({'detail': 'This role change is not allowed.'}, status=status.HTTP_400_BAD_REQUEST)
         store = get_object_or_404(Store, pk=request.data.get('store')) if role != User.Role.CUSTOMER else None
     else:
-        # Store admin: only customer ⇄ staff, and only for people in their own store (or customers)
-        allowed_target = user.role == User.Role.CUSTOMER or (user.role == User.Role.STAFF and user.store_id == me.store_id)
-        if role not in (User.Role.CUSTOMER, User.Role.STAFF) or not allowed_target:
-            return Response({'detail': 'Store admins can only give or remove staff access in their own store.'},
+        # Store admin: can only REMOVE staff access, and only for staff of their own store
+        if role != User.Role.CUSTOMER or user.role != User.Role.STAFF or user.store_id != me.store_id:
+            return Response({'detail': 'Store admins can only remove staff access in their own store.'},
                             status=status.HTTP_403_FORBIDDEN)
-        store = me.store if role == User.Role.STAFF else None
+        store = None
 
     user.role, user.store = role, store
     user.save(update_fields=['role', 'store'])

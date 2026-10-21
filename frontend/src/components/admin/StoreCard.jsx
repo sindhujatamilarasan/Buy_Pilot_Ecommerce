@@ -3,7 +3,8 @@ import { Package, ReceiptText, UserPlus } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ROLE_LABEL } from '../../utils/roles'
-import AddStoreAdminForm from './AddStoreAdminForm'
+import { addStoreAdmin } from '../../api/manage'
+import NewAccountForm from './NewAccountForm'
 import { adminCard } from './adminStyles'
 
 const StoreCard = ({ store, onToggleActive, onAdminAdded }) => {
@@ -45,7 +46,13 @@ const StoreCard = ({ store, onToggleActive, onAdminAdded }) => {
       </div>
 
       {adding ? (
-        <AddStoreAdminForm store={store} onCancel={() => setAdding(false)} onDone={message => { setAdding(false); onAdminAdded(message) }} />
+        <NewAccountForm
+          title={`New admin for ${store.name}`}
+          buttonLabel="Create store admin"
+          onSave={form => addStoreAdmin(store.id, form)}
+          onCancel={() => setAdding(false)}
+          onDone={email => { setAdding(false); onAdminAdded(`${email} can now log in as the admin of ${store.name}.`) }}
+        />
       ) : (
         <button onClick={() => setAdding(true)} className="mt-4 flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold text-brand-700 ring-1 ring-brand-200 hover:bg-brand-50">
           <UserPlus size={16} /> Add store admin

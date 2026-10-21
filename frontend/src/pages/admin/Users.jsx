@@ -1,6 +1,6 @@
-import { Search } from 'lucide-react'
+import { Search, UserPlus } from 'lucide-react'
 import { useState } from 'react'
-import { getUsers, setUserRole } from '../../api/manage'
+import { addStaff, getUsers, setUserRole } from '../../api/manage'
 import { adminCard, adminInput } from '../../components/admin/adminStyles'
 import PageHeader from '../../components/admin/PageHeader'
 import Spinner from '../../components/Spinner'
@@ -10,6 +10,7 @@ import { getErrorMessage } from '../../utils/format'
 import { ROLE_LABEL } from '../../utils/roles'
 import { useConfirm } from '../../hooks/useConfirm'
 import LoadError from '../../components/LoadError'
+import NewAccountForm from '../../components/admin/NewAccountForm'
 import Pagination from '../../components/admin/Pagination'
 
 const ROLE_STYLE = {
@@ -24,19 +25,19 @@ const Users = () => {
   const [version, setVersion] = useState(0)
   const { data, loading, error } = useApi(getUsers, { role, search, page }, version)
   const { confirm, notify, dialog } = useConfirm()
+  const [adding, setAdding] = useState(false)
+  const [added, setAdded] = useState('')
 
-  const changeRole = async (user, newRole) => {
-    const removing = newRole === 'customer'
+  // Staff / store admin → normal customer (customers themselves are never turned into staff)
+  const removeAccess = async user => {
     const ok = await confirm({
-      title: removing ? `Remove ${ROLE_LABEL[user.role].toLowerCase()} access?` : `Make ${user.email} staff?`,
-      message: removing
-        ? `${user.email} becomes a normal customer and loses access to the admin pages the next time they load a page.`
-        : `They will see and update ${me.store_name}’s orders. They cannot change products, prices or users.`,
-      confirmLabel: removing ? 'Remove access' : 'Make staff', cancelLabel: 'Cancel', tone: removing ? 'danger' : 'info',
+      title: `Remove ${ROLE_LABEL[user.role].toLowerCase()} access?`,
+      message: `${user.email} becomes a normal customer and loses access to the admin pages the next time they load a page.`,
+      confirmLabel: 'Remove access', cancelLabel: 'Cancel', tone: 'danger',
     })
     if (!ok) return
     try {
-      await setUserRole(user.id, newRole)
+      await setUserRole(user.id, 'customer')
       setVersion(v => v + 1)
     } catch (error) {
       notify(getErrorMessage(error), 'Could not change the role')
@@ -46,7 +47,7 @@ const Users = () => {
   return (
     <div className="space-y-6">
       {dialog}
-      <PageHeader title="Users" subtitle={me.role === 'superadmin' ? 'Everyone on ShopKart – add store admins on the Stores page' : `Customers and the staff of ${me.store_name} – give staff access to your orders page`}>
+      <PageHeader title="Users" subtitle={me.role === 'superadmin' ? 'Everyone on ShopKart – add store admins on the Stores page' : `Customers and the staff of ${me.store_name} – add staff to handle your orders`}>
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
           <input value={search} onChange={e => { setSearch(e.target.value); setPage(1) }} placeholder="Name or email…" className={`${adminInput} pl-9`} />
@@ -57,7 +58,23 @@ const Users = () => {
           <option value="staff">Staff</option>
           {me.role === 'superadmin' && <option value="admin">Store admins</option>}
         </select>
+        {me.role === 'admin' && (
+          <button onClick={() => { setAdding(true); setAdded('') }} className="bg-brand flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white">
+            <UserPlus size={16} /> Add staff
+          </button>
+        )}
       </PageHeader>
+
+      {adding && (
+        <NewAccountForm
+          title={`New staff login for ${me.store_name}`}
+          buttonLabel="Create staff"
+          onSave={addStaff}
+          onCancel={() => setAdding(false)}
+          onDone={email => { setAdding(false); setAdded(`${email} can now log in and handle ${me.store_name}’s orders.`); setVersion(v => v + 1) }}
+        />
+      )}
+      {added && <p className="rounded-2xl bg-brand-50 px-4 py-3 text-sm font-semibold text-brand-800">✓ {added}</p>}
 
       {loading ? <Spinner /> : error ? <LoadError what="users" onRetry={() => setVersion(v => v + 1)} /> : (
         <div className={`${adminCard} overflow-x-auto`}>
@@ -81,21 +98,13 @@ const Users = () => {
                   <td className="px-5 py-3 text-ink-600">{user.orders}</td>
                   <td className="px-5 py-3 text-xs font-semibold text-ink-600">{user.store_name || '—'}</td>
                   <td className="px-5 py-3">
-                    {user.id === me.id || user.role === 'superadmin' || (me.role === 'superadmin' && user.role === 'customer') ? (
-                      // Nothing to change here (the super admin adds store admins on the Stores page)
+                    <span className="flex items-center gap-2">
                       <span className={`rounded-full px-3 py-1 text-xs font-bold ${ROLE_STYLE[user.role]}`}>{ROLE_LABEL[user.role]}{user.id === me.id && ' (you)'}</span>
-                    ) : me.role === 'superadmin' ? (
-                      <span className="flex items-center gap-2">
-                        <span className={`rounded-full px-3 py-1 text-xs font-bold ${ROLE_STYLE[user.role]}`}>{ROLE_LABEL[user.role]}</span>
-                        <button onClick={() => changeRole(user, 'customer')} className="text-xs font-semibold text-ink-400 hover:text-rose-600">Remove access</button>
-                      </span>
-                    ) : (
-                      // Store admin: customer ⇄ staff of their own store only
-                      <select value={user.role} onChange={e => changeRole(user, e.target.value)} className={`rounded-full px-3 py-1 text-xs font-bold outline-none ${ROLE_STYLE[user.role]}`}>
-                        <option value="customer">Customer</option>
-                        <option value="staff">Staff</option>
-                      </select>
-                    )}
+                      {/* Remove access: super admin → any admin / staff; store admin → only their own staff (the API checks it too) */}
+                      {user.id !== me.id && ['admin', 'staff'].includes(user.role) && (me.role === 'superadmin' || user.role === 'staff') && (
+                        <button onClick={() => removeAccess(user)} className="text-xs font-semibold text-ink-400 hover:text-rose-600">Remove access</button>
+                      )}
+                    </span>
                   </td>
                 </tr>
               ))}

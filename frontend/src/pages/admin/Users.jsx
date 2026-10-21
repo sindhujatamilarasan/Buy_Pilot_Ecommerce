@@ -10,6 +10,7 @@ import { getErrorMessage } from '../../utils/format'
 import { ROLE_LABEL } from '../../utils/roles'
 import { useConfirm } from '../../hooks/useConfirm'
 import LoadError from '../../components/LoadError'
+import Pagination from '../../components/admin/Pagination'
 
 const ROLE_STYLE = {
   superadmin: 'bg-ink-900 text-white', admin: 'bg-violet-100 text-violet-700', staff: 'bg-sky-100 text-sky-700', customer: 'bg-brand-100 text-brand-800',
@@ -19,8 +20,9 @@ const Users = () => {
   const { user: me } = useAuth()
   const [role, setRole] = useState('')
   const [search, setSearch] = useState('')
+  const [page, setPage] = useState(1)
   const [version, setVersion] = useState(0)
-  const { data, loading, error } = useApi(getUsers, { role, search }, version)
+  const { data, loading, error } = useApi(getUsers, { role, search, page }, version)
   const { confirm, notify, dialog } = useConfirm()
 
   const changeRole = async (user, newRole) => {
@@ -47,9 +49,9 @@ const Users = () => {
       <PageHeader title="Users" subtitle={me.role === 'superadmin' ? 'Everyone on ShopKart – add store admins on the Stores page' : `Customers and the staff of ${me.store_name} – give staff access to your orders page`}>
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Name or email…" className={`${adminInput} pl-9`} />
+          <input value={search} onChange={e => { setSearch(e.target.value); setPage(1) }} placeholder="Name or email…" className={`${adminInput} pl-9`} />
         </div>
-        <select value={role} onChange={e => setRole(e.target.value)} className={adminInput}>
+        <select value={role} onChange={e => { setRole(e.target.value); setPage(1) }} className={adminInput}>
           <option value="">All roles</option>
           <option value="customer">Customers</option>
           <option value="staff">Staff</option>
@@ -101,6 +103,7 @@ const Users = () => {
           </table>
         </div>
       )}
+      {data && <Pagination page={page} count={data.count} onChange={setPage} />}
     </div>
   )
 }

@@ -1,4 +1,5 @@
-// Product list. Filters live in the URL (?search=&category=&min_price=&max_price=&min_rating=&ordering=&page=)
+// Product list. Filters live in the URL (?search=&category=&min_price=&max_price=&min_rating=&ordering=)
+// and more products load automatically while scrolling (infinite scroll).
 // so a filtered page can be refreshed, bookmarked or shared.
 import { useCallback, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -8,7 +9,8 @@ import ProductCard from '../components/ProductCard'
 import { PriceFilter, RatingFilter } from '../components/ProductFilters'
 import Spinner from '../components/Spinner'
 import { useApi } from '../hooks/useApi'
-import { useProducts } from '../hooks/useProducts'
+import { useInfiniteProducts } from '../hooks/useInfiniteProducts'
+import LoadMoreTrigger from '../components/LoadMoreTrigger'
 import { categoryStyle } from '../utils/categoryStyle'
 
 const SORT_OPTIONS = [
@@ -20,11 +22,11 @@ const SORT_OPTIONS = [
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const params = Object.fromEntries(searchParams) // URL → { search: 'mug', page: '2' }
-  const page = Number(params.page || 1)
+  // URL → { search: 'mug', category: 'footwear' }  (an old ?page= link is ignored – we scroll now)
+  const { page: _ignoredPage, ...params } = Object.fromEntries(searchParams)
 
   const categories = useApi(getCategories)
-  const { products, count, hasNext, hasPrevious, loading, error } = useProducts(params)
+  const { products, count, hasNext, loading, loadingMore, error, loadMore } = useInfiniteProducts(params)
 
   const [resetKey, setResetKey] = useState(0) // changes → the price boxes start empty again
 
@@ -104,11 +106,7 @@ const Products = () => {
               {products.map(product => <ProductCard key={product.id} product={product} />)}
             </div>
 
-            <div className="mt-8 flex items-center justify-center gap-4">
-              <button disabled={!hasPrevious} onClick={() => updateParam('page', String(page - 1))} className="rounded-full bg-white px-5 py-2 text-sm font-bold text-brand-600 shadow-sm ring-1 ring-brand-100 hover:bg-brand-50 disabled:opacity-40">← Prev</button>
-              <span className="text-sm text-ink-600">Page {page} of {Math.ceil(count / 12)}</span>
-              <button disabled={!hasNext} onClick={() => updateParam('page', String(page + 1))} className="rounded-full bg-white px-5 py-2 text-sm font-bold text-brand-600 shadow-sm ring-1 ring-brand-100 hover:bg-brand-50 disabled:opacity-40">Next →</button>
-            </div>
+            <LoadMoreTrigger onVisible={loadMore} loading={loadingMore} hasMore={hasNext} shown={products.length} total={count} />
           </>
         )}
       </section>

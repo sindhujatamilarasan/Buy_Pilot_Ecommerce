@@ -11,6 +11,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { formatPrice, getErrorMessage } from '../../utils/format'
 import { useConfirm } from '../../hooks/useConfirm'
 import LoadError from '../../components/LoadError'
+import Pagination from '../../components/admin/Pagination'
 
 const stockStyle = stock =>
   stock === 0 ? 'bg-rose-50 text-rose-700' : stock <= 5 ? 'bg-mango-100 text-mango-600' : 'bg-brand-50 text-brand-700'
@@ -113,15 +114,9 @@ const Products = () => {
               </tbody>
             </table>
           )}
-          <div className="flex items-center justify-between gap-3 border-t border-ink-300/20 px-5 py-3 text-sm">
-            <span className="text-ink-500">Page {page} of {Math.max(1, Math.ceil((data.count || 0) / 12))}</span>
-            <div className="flex gap-2">
-              <button disabled={!data.previous} onClick={() => setPage(p => p - 1)} className="rounded-full px-4 py-1.5 font-semibold text-ink-700 ring-1 ring-ink-300/30 disabled:opacity-40">Previous</button>
-              <button disabled={!data.next} onClick={() => setPage(p => p + 1)} className="rounded-full px-4 py-1.5 font-semibold text-ink-700 ring-1 ring-ink-300/30 disabled:opacity-40">Next</button>
-            </div>
-          </div>
         </div>
       )}
+      {data && <Pagination page={page} count={data.count} onChange={setPage} />}
     </div>
   )
 }

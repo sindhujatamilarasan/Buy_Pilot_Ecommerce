@@ -11,6 +11,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { formatPrice, getErrorMessage } from '../../utils/format'
 import { useConfirm } from '../../hooks/useConfirm'
 import LoadError from '../../components/LoadError'
+import Pagination from '../../components/admin/Pagination'
 
 const TABS = [
   ['placed', 'To pack'], ['packed', 'To ship'], ['shipped', 'Shipped'], ['delivered', 'Delivered'],
@@ -24,9 +25,10 @@ const Orders = () => {
   const { user } = useAuth()
   const [status, setStatus] = useState('placed')
   const [search, setSearch] = useState('')
+  const [page, setPage] = useState(1)
   const [open, setOpen] = useState(null) // order id with details shown
   const [version, setVersion] = useState(0)
-  const { data, loading, error } = useApi(getManageOrders, { status, search }, version)
+  const { data, loading, error } = useApi(getManageOrders, { status, search, page }, version)
   const { confirm, notify, dialog } = useConfirm()
 
   const act = async action => {
@@ -44,13 +46,13 @@ const Orders = () => {
       <PageHeader title="Orders" subtitle={user.role === 'superadmin' ? 'Orders of all stores' : `${user.store_name} · ${user.role === 'staff' ? 'pack, ship and deliver customer orders' : 'customer orders'}`}>
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Order #, name or email…" className={`${adminInput} pl-9`} />
+          <input value={search} onChange={e => { setSearch(e.target.value); setPage(1) }} placeholder="Order #, name or email…" className={`${adminInput} pl-9`} />
         </div>
       </PageHeader>
 
       <div className="flex gap-2 overflow-x-auto pb-1">
         {TABS.map(([value, label]) => (
-          <button key={value} onClick={() => setStatus(value)} className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${status === value ? 'bg-ink-900 text-white' : 'bg-white text-ink-600 ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]'}`}>
+          <button key={value} onClick={() => { setStatus(value); setPage(1) }} className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${status === value ? 'bg-ink-900 text-white' : 'bg-white text-ink-600 ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]'}`}>
             {label}
           </button>
         ))}
@@ -125,6 +127,7 @@ const Orders = () => {
           )}
         </div>
       )}
+      {data && <Pagination page={page} count={data.count} onChange={setPage} />}
     </div>
   )
 }

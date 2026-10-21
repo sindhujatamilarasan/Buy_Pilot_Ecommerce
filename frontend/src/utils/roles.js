@@ -8,6 +8,17 @@ export const PANEL = {
 
 export const homeForRole = role => PANEL[role]?.to || '/'
 
+// Where to go after login. `from` = the page that sent them to /login (e.g. /wishlist).
+// Customers go back there. Admin / staff go back only if it is inside THEIR console, otherwise to the console.
+// Returns a location: { pathname, state? }
+export const pageAfterLogin = (role, from) => {
+  const home = { pathname: homeForRole(role) }
+  if (!from) return home
+  const consolePrefix = home.pathname.split('/').slice(0, 2).join('/') // '/admin' or '/staff'
+  const allowed = !PANEL[role] || from.pathname.startsWith(consolePrefix)
+  return allowed ? from : home
+}
+
 // Store admin or super admin → can open the admin panel
 export const isAdmin = user => ['admin', 'superadmin'].includes(user?.role)
 

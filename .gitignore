@@ -22,3 +22,5 @@ Thumbs.db
 backend/sqlite-backup.json
 backend/.env.sqlite.bak
 backend/pg-backup-*.sql
+frontend/public/__shot.html
+frontend/public/__frame.html

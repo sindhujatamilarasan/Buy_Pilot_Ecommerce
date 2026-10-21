@@ -8,7 +8,7 @@ import { PANEL } from '../utils/roles'
 import UserMenu from './UserMenu'
 
 const linkClass = ({ isActive }) =>
-  `rounded-full px-3 py-1.5 text-sm font-semibold transition ${
+  `flex items-center whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold transition ${
     isActive ? 'bg-brand-100 text-brand-700' : 'text-ink-600 hover:bg-brand-50 hover:text-brand-700'
   }`
 
@@ -47,25 +47,25 @@ const Navbar = () => {
 
           <nav className="ml-auto flex items-center gap-1">
             <NavLink to="/products" className={linkClass}>Shop</NavLink>
-            <NavLink to="/wishlist" className={linkClass}>
-              ❤️ Wishlist
+            <NavLink to="/wishlist" className={linkClass} aria-label="Wishlist">
+              ❤️<span className="ml-1 hidden sm:inline">Wishlist</span>
               {savedCount > 0 && <span className="ml-1.5 rounded-full bg-rose-500 px-2 py-0.5 text-xs font-bold text-white">{savedCount}</span>}
             </NavLink>
-            <NavLink to="/cart" className={linkClass}>
-              🛒 Cart
+            <NavLink to="/cart" className={linkClass} aria-label="Cart">
+              🛒<span className="ml-1 hidden sm:inline">Cart</span>
               {count > 0 && <span className="bg-brand ml-1.5 rounded-full px-2 py-0.5 text-xs font-bold text-white">{count}</span>}
             </NavLink>
 
             {/* Admins and staff shop like everyone else, with one click to their panel */}
             {PANEL[user?.role] && (
-              <Link to={PANEL[user.role].to} className="ml-1 flex items-center gap-1.5 rounded-full bg-ink-900 px-4 py-2 text-sm font-bold text-white hover:bg-ink-800">
-                <LayoutDashboard size={16} /> {PANEL[user.role].label}
+              <Link to={PANEL[user.role].to} aria-label={PANEL[user.role].label} className="ml-1 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-ink-900 px-3 py-2 text-sm font-bold text-white hover:bg-ink-800 sm:px-4">
+                <LayoutDashboard size={16} /> <span className="hidden sm:inline">{PANEL[user.role].label}</span>
               </Link>
             )}
             {user ? (
               <UserMenu />
             ) : (
-              <Link to="/login" className="bg-brand ml-2 rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-brand-200 transition hover:scale-105">
+              <Link to="/login" className="bg-brand ml-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-brand-200 transition hover:scale-105">
                 Sign in
               </Link>
             )}

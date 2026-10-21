@@ -23,9 +23,9 @@ const RevenueTrend = ({ daily }) => {
               labelFormatter={shortDate}
               formatter={(value, name) => (name === 'Revenue' ? [formatPrice(value), name] : [value, name])}
             />
-            <Legend iconType="circle" wrapperStyle={{ fontSize: 13 }} />
-            <Bar yAxisId="count" dataKey="orders" name="Orders" fill="#fcd34d" radius={[6, 6, 0, 0]} maxBarSize={18} />
-            <Area yAxisId="money" type="monotone" dataKey="revenue" name="Revenue" stroke="#059669" strokeWidth={2.5} fill="#10b981" fillOpacity={0.15} />
+            <Legend iconType="circle" wrapperStyle={{ fontSize: 13 }} formatter={label => <span style={{ color: "#45485c" }}>{label}</span>} />
+            <Bar isAnimationActive={false} yAxisId="count" dataKey="orders" name="Orders" fill="#fcd34d" radius={[6, 6, 0, 0]} maxBarSize={18} />
+            <Area isAnimationActive={false} yAxisId="money" type="monotone" dataKey="revenue" name="Revenue" stroke="#059669" strokeWidth={2.5} fill="#10b981" fillOpacity={0.15} />
           </ComposedChart>
         </ResponsiveContainer>
       </div>

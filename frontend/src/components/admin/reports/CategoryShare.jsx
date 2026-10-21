@@ -15,7 +15,7 @@ const CategoryShare = ({ categories }) => {
         <div className="h-56" aria-hidden="true">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={data} dataKey="revenue" nameKey="name" innerRadius="58%" outerRadius="90%" paddingAngle={2} stroke="none">
+              <Pie isAnimationActive={false} data={data} dataKey="revenue" nameKey="name" innerRadius="58%" outerRadius="90%" paddingAngle={2} stroke="none">
                 {data.map((row, index) => <Cell key={row.name} fill={PALETTE[index % PALETTE.length]} />)}
               </Pie>
               <Tooltip contentStyle={tooltipStyle} formatter={value => formatPrice(value)} />

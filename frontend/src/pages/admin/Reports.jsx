@@ -52,9 +52,9 @@ const Reports = () => {
       {data && (
         <>
           <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
-            <StatCard icon={IndianRupee} label="Revenue" value={formatPrice(data.summary.revenue)} hint={changeText(data.summary.revenue_change, days)} tone="brand" />
+            <StatCard icon={IndianRupee} label="Revenue" value={formatPrice(Math.round(data.summary.revenue))} hint={changeText(data.summary.revenue_change, days)} tone="brand" />
             <StatCard icon={ReceiptText} label="Orders" value={data.summary.orders} hint={changeText(data.summary.orders_change, days)} tone="sky" />
-            <StatCard icon={ShoppingBag} label="Average order" value={formatPrice(data.summary.avg_order)} hint="Revenue ÷ orders" tone="mango" />
+            <StatCard icon={ShoppingBag} label="Average order" value={formatPrice(Math.round(data.summary.avg_order))} hint="Revenue ÷ orders" tone="mango" />
             <StatCard icon={Package} label="Items sold" value={data.summary.items_sold} hint="Units across all orders" tone="violet" />
           </div>
 

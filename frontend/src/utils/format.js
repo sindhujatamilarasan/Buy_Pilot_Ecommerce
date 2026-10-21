@@ -2,7 +2,8 @@
 export const formatPrice = value => {
   const amount = Number(value)
   const decimals = Number.isInteger(amount) ? 0 : 2
-  return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: 2 })}`
+  const text = Math.abs(amount).toLocaleString('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: 2 })
+  return `${amount < 0 ? '− ' : ''}₹${text}` // -764.9 → "− ₹764.90" (not "₹-764.90")
 }
 
 // Find the first text message inside Django's error JSON (it can be nested: {variants: [{sku: ['…']}]})

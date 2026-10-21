@@ -47,7 +47,7 @@ const Dashboard = () => {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
-        <StatCard icon={IndianRupee} label="Revenue" value={formatPrice(stats.revenue)} hint="All paid orders" tone="brand" />
+        <StatCard icon={IndianRupee} label="Revenue" value={formatPrice(Math.round(stats.revenue))} hint="All paid orders" tone="brand" />
         <StatCard icon={ReceiptText} label="Orders" value={stats.orders} hint="Paid + cancelled" tone="sky" />
         <StatCard icon={Truck} label="To ship" value={stats.to_ship} hint="Placed or packed" tone="mango" />
         <StatCard icon={UserRound} label="Customers" value={stats.customers} hint={`${stats.staff} staff members`} tone="violet" />

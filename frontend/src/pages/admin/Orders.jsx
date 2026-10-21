@@ -10,6 +10,7 @@ import { useApi } from '../../hooks/useApi'
 import { useAuth } from '../../hooks/useAuth'
 import { formatPrice, getErrorMessage } from '../../utils/format'
 import { useConfirm } from '../../hooks/useConfirm'
+import LoadError from '../../components/LoadError'
 
 const TABS = [
   ['placed', 'To pack'], ['packed', 'To ship'], ['shipped', 'Shipped'], ['delivered', 'Delivered'],
@@ -25,7 +26,7 @@ const Orders = () => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(null) // order id with details shown
   const [version, setVersion] = useState(0)
-  const { data, loading } = useApi(getManageOrders, { status, search }, version)
+  const { data, loading, error } = useApi(getManageOrders, { status, search }, version)
   const { confirm, notify, dialog } = useConfirm()
 
   const act = async action => {
@@ -55,7 +56,7 @@ const Orders = () => {
         ))}
       </div>
 
-      {loading ? <Spinner /> : (
+      {loading ? <Spinner /> : error ? <LoadError what="orders" onRetry={() => setVersion(v => v + 1)} /> : (
         <div className={`${adminCard} overflow-x-auto`}>
           {data.results.length === 0 ? (
             <div className="p-12 text-center text-ink-500"><ReceiptText className="mx-auto text-ink-300" size={40} /><p className="mt-2 font-semibold">No orders here</p></div>

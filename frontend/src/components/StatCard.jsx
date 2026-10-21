@@ -13,7 +13,7 @@ const StatCard = ({ icon: Icon, label, value, hint, tone = 'brand' }) => (
       <p className="text-sm font-semibold text-ink-500">{label}</p>
       <span className={`flex h-10 w-10 items-center justify-center rounded-2xl ${tones[tone]}`}><Icon size={20} /></span>
     </div>
-    <p className="mt-3 font-display text-3xl font-extrabold tracking-tight text-ink-900">{value}</p>
+    <p className="mt-3 break-words font-display text-2xl font-extrabold tracking-tight text-ink-900 sm:text-3xl">{value}</p>
     {hint && <p className="mt-1 text-xs text-ink-400">{hint}</p>}
   </div>
 )

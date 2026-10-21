@@ -27,7 +27,7 @@ const TopProducts = ({ products }) => {
                 cursor={{ fill: '#ecfdf5' }}
                 formatter={(value, _name, item) => [`${formatPrice(value)} · ${item.payload.units} sold`, 'Revenue']}
               />
-              <Bar dataKey="revenue" radius={[0, 8, 8, 0]} maxBarSize={28}>
+              <Bar isAnimationActive={false} dataKey="revenue" radius={[0, 8, 8, 0]} maxBarSize={28}>
                 {data.map((row, index) => <Cell key={row.product_name} fill={PALETTE[index % PALETTE.length]} />)}
               </Bar>
             </BarChart>

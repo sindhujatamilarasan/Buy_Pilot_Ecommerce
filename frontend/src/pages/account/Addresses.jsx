@@ -5,10 +5,11 @@ import AddressForm from '../../components/AddressForm'
 import Spinner from '../../components/Spinner'
 import { useApi } from '../../hooks/useApi'
 import { useConfirm } from '../../hooks/useConfirm'
+import LoadError from '../../components/LoadError'
 
 const Addresses = () => {
   const [version, setVersion] = useState(0) // bump → reload the list
-  const { data: addresses, loading } = useApi(getAddresses, version)
+  const { data: addresses, loading, error } = useApi(getAddresses, version)
   const [editing, setEditing] = useState(null) // 'new' | address id | null
   const { confirm, dialog } = useConfirm()
   const reload = () => {
@@ -24,6 +25,7 @@ const Addresses = () => {
   }
 
   if (loading) return <Spinner />
+  if (error) return <LoadError what="your addresses" onRetry={reload} />
 
   return (
     <div>

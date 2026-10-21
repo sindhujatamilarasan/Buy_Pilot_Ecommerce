@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
 import Message from '../components/Message'
 import ProductCard from '../components/ProductCard'
+import Spinner from '../components/Spinner'
 import { useWishlist } from '../hooks/useWishlist'
 
 const Wishlist = () => {
-  const { products } = useWishlist()
+  const { products, loading } = useWishlist()
+
+  if (loading) return <Spinner />
 
   return (
     <div>

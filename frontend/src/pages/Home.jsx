@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { getCategories } from '../api/products'
+import LoadError from '../components/LoadError'
+import Message from '../components/Message'
 import ProductCard from '../components/ProductCard'
 import RecentlyViewed from '../components/RecentlyViewed'
 import Spinner from '../components/Spinner'
@@ -110,6 +112,10 @@ const Home = () => {
         </div>
         {topRated.loading ? (
           <Spinner />
+        ) : topRated.error ? (
+          <div className="mt-6"><LoadError what="products" /></div>
+        ) : products.length === 0 ? (
+          <div className="mt-6"><Message icon="🛍️" title="No products yet">New products are coming soon – check back later.</Message></div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-5 md:grid-cols-4">
             {products.slice(0, 8).map(product => (

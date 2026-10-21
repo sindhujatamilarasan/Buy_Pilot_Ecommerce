@@ -9,6 +9,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { getErrorMessage } from '../../utils/format'
 import { ROLE_LABEL } from '../../utils/roles'
 import { useConfirm } from '../../hooks/useConfirm'
+import LoadError from '../../components/LoadError'
 
 const ROLE_STYLE = {
   superadmin: 'bg-ink-900 text-white', admin: 'bg-violet-100 text-violet-700', staff: 'bg-sky-100 text-sky-700', customer: 'bg-brand-100 text-brand-800',
@@ -19,7 +20,7 @@ const Users = () => {
   const [role, setRole] = useState('')
   const [search, setSearch] = useState('')
   const [version, setVersion] = useState(0)
-  const { data, loading } = useApi(getUsers, { role, search }, version)
+  const { data, loading, error } = useApi(getUsers, { role, search }, version)
   const { confirm, notify, dialog } = useConfirm()
 
   const changeRole = async (user, newRole) => {
@@ -56,7 +57,7 @@ const Users = () => {
         </select>
       </PageHeader>
 
-      {loading ? <Spinner /> : (
+      {loading ? <Spinner /> : error ? <LoadError what="users" onRetry={() => setVersion(v => v + 1)} /> : (
         <div className={`${adminCard} overflow-x-auto`}>
           <table className="w-full text-left text-sm">
             <thead className="bg-[#f6f8f7] text-xs font-semibold uppercase tracking-wider text-ink-400">

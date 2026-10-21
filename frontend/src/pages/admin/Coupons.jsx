@@ -7,10 +7,11 @@ import Spinner from '../../components/Spinner'
 import { useApi } from '../../hooks/useApi'
 import { formatPrice } from '../../utils/format'
 import { useConfirm } from '../../hooks/useConfirm'
+import LoadError from '../../components/LoadError'
 
 const Coupons = () => {
   const [version, setVersion] = useState(0)
-  const { data: coupons, loading } = useApi(getCoupons, version)
+  const { data: coupons, loading, error } = useApi(getCoupons, version)
   const reload = () => setVersion(v => v + 1)
 
   const toggle = async coupon => {
@@ -36,7 +37,7 @@ const Coupons = () => {
 
       <div className={`${adminCard} p-6`}><CouponForm onCreated={reload} /></div>
 
-      {loading ? <Spinner /> : (
+      {loading ? <Spinner /> : error ? <LoadError what="coupons" onRetry={reload} /> : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {coupons.map(coupon => {
             const [label, colour] = status(coupon)

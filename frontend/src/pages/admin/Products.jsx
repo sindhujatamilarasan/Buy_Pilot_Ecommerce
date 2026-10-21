@@ -10,6 +10,7 @@ import { useApi } from '../../hooks/useApi'
 import { useAuth } from '../../hooks/useAuth'
 import { formatPrice, getErrorMessage } from '../../utils/format'
 import { useConfirm } from '../../hooks/useConfirm'
+import LoadError from '../../components/LoadError'
 
 const stockStyle = stock =>
   stock === 0 ? 'bg-rose-50 text-rose-700' : stock <= 5 ? 'bg-mango-100 text-mango-600' : 'bg-brand-50 text-brand-700'
@@ -30,7 +31,7 @@ const Products = () => {
   const isSuper = user.role === 'superadmin'
   const [searchParams, setSearchParams] = useSearchParams()
   const store = searchParams.get('store') || '' // super admin: ?store=urban-threads (link from the Stores page)
-  const { data, loading } = useApi(getAdminProducts, { search, category, page, store }, version)
+  const { data, loading, error } = useApi(getAdminProducts, { search, category, page, store }, version)
 
   const pick = slug => {
     setCategory(slug)
@@ -71,7 +72,7 @@ const Products = () => {
         ))}
       </div>
 
-      {loading ? <Spinner /> : (
+      {loading ? <Spinner /> : error ? <LoadError what="products" onRetry={() => setVersion(v => v + 1)} /> : (
         <div className={`${adminCard} overflow-x-auto`}>
           {data.results.length === 0 ? (
             <div className="p-12 text-center text-ink-500"><Package className="mx-auto text-ink-300" size={40} /><p className="mt-2 font-semibold">No products found</p></div>

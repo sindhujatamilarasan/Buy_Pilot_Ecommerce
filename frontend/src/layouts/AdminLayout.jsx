@@ -94,12 +94,12 @@ const AdminLayout = () => {
         {/* Top bar */}
         <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-ink-300/20 bg-white/85 px-4 py-3 backdrop-blur md:px-8">
           <button onClick={() => setMenuOpen(true)} aria-label="Open menu" className="rounded-lg p-2 text-ink-700 hover:bg-ink-300/10 md:hidden"><Menu size={22} /></button>
-          <p className="text-sm text-ink-400">
-            {ROLE_LABEL[user.role]}{user.store_name && <span className="font-semibold text-brand-700"> · {user.store_name}</span>} <span className="mx-1">/</span>
+          <p className="min-w-0 truncate text-sm text-ink-400">
+            <span className="hidden sm:inline">{ROLE_LABEL[user.role]}{user.store_name && <span className="font-semibold text-brand-700"> · {user.store_name}</span>} <span className="mx-1">/</span></span>
             <span className="font-semibold text-ink-800">{current?.label || 'Products'}</span>
           </p>
-          <Link to="/" className="ml-auto flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-brand-700 ring-1 ring-brand-200 hover:bg-brand-50">
-            View store <ExternalLink size={15} />
+          <Link to="/" aria-label="View store" className="ml-auto flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold text-brand-700 ring-1 ring-brand-200 hover:bg-brand-50 sm:px-4">
+            <span className="hidden sm:inline">View store</span> <ExternalLink size={15} />
           </Link>
         </header>
 

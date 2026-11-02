@@ -1,4 +1,5 @@
-// Create a NEW login (name + email + temporary password): a store admin (Stores page) or staff (Users page)
+// Create a NEW login (name + email + temporary password): a store admin (Stores page) or staff /
+// warehouse manager (Users page). Pass `roles` = [[value, label], …] to show a role choice.
 import { useState } from 'react'
 import { getErrorMessage } from '../../utils/format'
 import { adminInput } from './adminStyles'
@@ -6,8 +7,8 @@ import { adminInput } from './adminStyles'
 const EMPTY = { name: '', email: '', password: '' }
 
 // onSave(form) calls the API; onDone(message) runs after it worked
-const NewAccountForm = ({ title, buttonLabel, onSave, onDone, onCancel }) => {
-  const [form, setForm] = useState(EMPTY)
+const NewAccountForm = ({ title, buttonLabel, roles, onSave, onDone, onCancel }) => {
+  const [form, setForm] = useState(roles ? { ...EMPTY, role: roles[0][0] } : EMPTY)
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
   const change = e => setForm({ ...form, [e.target.name]: e.target.value })
@@ -40,6 +41,15 @@ const NewAccountForm = ({ title, buttonLabel, onSave, onDone, onCancel }) => {
           <input name="password" type="password" required minLength={8} value={form.password} onChange={change} className={`${adminInput} mt-1 w-full`} />
         </label>
       </div>
+      {roles && (
+        <div className="flex flex-wrap gap-2">
+          {roles.map(([value, label]) => (
+            <label key={value} className={`flex cursor-pointer items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold ring-1 ${form.role === value ? 'bg-brand-50 text-brand-800 ring-brand-200' : 'bg-white text-ink-600 ring-ink-300/30'}`}>
+              <input type="radio" name="role" value={value} checked={form.role === value} onChange={change} className="accent-brand-600" /> {label}
+            </label>
+          ))}
+        </div>
+      )}
       {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700">{error}</p>}
       <div className="flex justify-end gap-2">
         <button type="button" onClick={onCancel} className="rounded-full px-4 py-2 text-sm font-bold text-ink-600 hover:bg-white">Cancel</button>

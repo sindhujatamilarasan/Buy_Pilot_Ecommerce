@@ -1,11 +1,12 @@
 // Admin / staff frame: grouped sidebar + top bar. Menu items list which roles can see them.
-import { ChartColumn, FolderTree, ExternalLink, LayoutDashboard, LogOut, Megaphone, Menu, Package, ReceiptText, ShoppingBag, Store, Tag, Users } from 'lucide-react'
+import { ArrowLeftRight, Boxes, ChartColumn, FolderTree, ExternalLink, FileClock, LayoutDashboard, LogOut, Megaphone, Menu, Package, PackagePlus, ReceiptText, ShoppingBag, SlidersHorizontal, Store, Tag, Users, Warehouse } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { ROLE_LABEL } from '../utils/roles'
+import { INVENTORY_ROLES, ROLE_LABEL } from '../utils/roles'
 
 const ADMINS = ['admin', 'superadmin']
+const EXACT = ['/admin', '/inventory'] // these menu items match only their own page, not sub-pages
 const MENU = [
   { group: 'Overview', items: [
     { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, roles: ADMINS },
@@ -19,6 +20,15 @@ const MENU = [
   { group: 'Catalog', items: [
     { to: '/admin/products', label: 'Products', icon: Package, roles: ADMINS },
     { to: '/admin/categories', label: 'Categories', icon: FolderTree, roles: ['superadmin'] },
+  ] },
+  { group: 'Inventory', items: [
+    { to: '/inventory', label: 'Overview', icon: Boxes, roles: INVENTORY_ROLES },
+    { to: '/inventory/stock', label: 'Stock levels', icon: Package, roles: INVENTORY_ROLES },
+    { to: '/inventory/receipts', label: 'Goods receipts', icon: PackagePlus, roles: INVENTORY_ROLES },
+    { to: '/inventory/transfers', label: 'Transfers', icon: ArrowLeftRight, roles: INVENTORY_ROLES },
+    { to: '/inventory/adjustments', label: 'Adjustments', icon: SlidersHorizontal, roles: INVENTORY_ROLES },
+    { to: '/inventory/movements', label: 'Stock history', icon: FileClock, roles: INVENTORY_ROLES },
+    { to: '/inventory/warehouses', label: 'Warehouses', icon: Warehouse, roles: INVENTORY_ROLES },
   ] },
   { group: 'Sales', items: [
     { to: '/admin/orders', label: 'Orders', icon: ReceiptText, roles: ADMINS },
@@ -39,7 +49,7 @@ const AdminLayout = () => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const groups = MENU.map(g => ({ ...g, items: g.items.filter(i => i.roles.includes(user.role)) })).filter(g => g.items.length)
-  const current = groups.flatMap(g => g.items).find(i => (i.to === '/admin' ? pathname === i.to : pathname.startsWith(i.to)))
+  const current = groups.flatMap(g => g.items).find(i => (EXACT.includes(i.to) ? pathname === i.to : pathname.startsWith(i.to)))
 
   const handleLogout = async () => {
     await logout()
@@ -66,7 +76,7 @@ const AdminLayout = () => {
               <p className="px-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-ink-400">{group.group}</p>
               <div className="space-y-0.5">
                 {group.items.map(({ icon: Icon, ...item }) => (
-                  <NavLink key={item.to} to={item.to} end={item.to === '/admin'} onClick={() => setMenuOpen(false)} className={itemClass}>
+                  <NavLink key={item.to} to={item.to} end={EXACT.includes(item.to)} onClick={() => setMenuOpen(false)} className={itemClass}>
                     <Icon size={18} strokeWidth={2} className="shrink-0" />
                     <span className="flex-1">{item.label}</span>
                     {item.soon && <span className="rounded-md bg-mango-100 px-1.5 py-0.5 text-[10px] font-bold text-mango-600">Soon</span>}

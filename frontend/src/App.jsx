@@ -30,6 +30,15 @@ import ProductDetail from './pages/ProductDetail'
 import Products from './pages/Products'
 import Register from './pages/Register'
 import Wishlist from './pages/Wishlist'
+// Inventory pages are loaded only when opened (smaller first download for shoppers)
+const Adjustments = lazy(() => import('./pages/inventory/Adjustments'))
+const Movements = lazy(() => import('./pages/inventory/Movements'))
+const InventoryOverview = lazy(() => import('./pages/inventory/Overview'))
+const PickList = lazy(() => import('./pages/inventory/PickList'))
+const Receipts = lazy(() => import('./pages/inventory/Receipts'))
+const StockLevels = lazy(() => import('./pages/inventory/Stock'))
+const Transfers = lazy(() => import('./pages/inventory/Transfers'))
+const Warehouses = lazy(() => import('./pages/inventory/Warehouses'))
 
 // Lazy loading: the Reports page (and its big chart library) downloads only when an admin opens it
 const Reports = lazy(() => import('./pages/admin/Reports'))
@@ -78,6 +87,24 @@ const App = () => (
           <Route path="/admin/site" element={<SiteContent />} />
         </Route>
       </Route>
+    </Route>
+
+    {/* Inventory: warehouse managers + store admins + super admin (the backend limits each to their store) */}
+    <Route element={<ProtectedRoute roles={['warehouse', 'admin', 'superadmin']} />}>
+      <Route element={<AdminLayout />}>
+        <Route path="/inventory" element={<Suspense fallback={<Spinner />}><InventoryOverview /></Suspense>} />
+        <Route path="/inventory/stock" element={<Suspense fallback={<Spinner />}><StockLevels /></Suspense>} />
+        <Route path="/inventory/receipts" element={<Suspense fallback={<Spinner />}><Receipts /></Suspense>} />
+        <Route path="/inventory/transfers" element={<Suspense fallback={<Spinner />}><Transfers /></Suspense>} />
+        <Route path="/inventory/adjustments" element={<Suspense fallback={<Spinner />}><Adjustments /></Suspense>} />
+        <Route path="/inventory/movements" element={<Suspense fallback={<Spinner />}><Movements /></Suspense>} />
+        <Route path="/inventory/warehouses" element={<Suspense fallback={<Spinner />}><Warehouses /></Suspense>} />
+      </Route>
+    </Route>
+
+    {/* Pick list (printable, no sidebar): everyone who packs orders */}
+    <Route element={<ProtectedRoute roles={['staff', 'warehouse', 'admin', 'superadmin']} />}>
+      <Route path="/pick-list/:orderId" element={<Suspense fallback={<Spinner />}><PickList /></Suspense>} />
     </Route>
 
     {/* Staff only */}

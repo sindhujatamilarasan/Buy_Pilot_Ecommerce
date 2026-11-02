@@ -1,5 +1,6 @@
 // Used by admin (/admin/orders) and staff (/staff/orders). Staff can only move the status forward.
-import { ChevronDown, ReceiptText, Search } from 'lucide-react'
+import { ChevronDown, ClipboardList, ReceiptText, Search } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { Fragment, useState } from 'react'
 import { adminCancelOrder, getManageOrders, nextOrderStatus } from '../../api/manage'
 import { adminCard, adminInput } from '../../components/admin/adminStyles'
@@ -92,6 +93,9 @@ const Orders = () => {
                       </td>
                       <td className="px-5 py-3"><OrderStatusBadge status={order.status} label={order.status_label} /></td>
                       <td className="whitespace-nowrap px-5 py-3 text-right">
+                        {['placed', 'packed'].includes(order.status) && (
+                          <Link to={`/pick-list/${order.id}`} title="Pick list" className="mr-2 inline-flex items-center gap-1 rounded-full px-3 py-2 text-xs font-semibold text-ink-600 ring-1 ring-ink-300/30 hover:bg-[#f6f8f7]"><ClipboardList size={14} /> Pick list</Link>
+                        )}
                         {NEXT_LABEL[order.status] && (
                           <button onClick={() => act(() => nextOrderStatus(order.id))} className="bg-brand rounded-full px-4 py-2 text-xs font-bold text-white">{NEXT_LABEL[order.status]}</button>
                         )}

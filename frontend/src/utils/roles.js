@@ -4,6 +4,7 @@ export const PANEL = {
   superadmin: { to: '/admin', label: 'Super admin' },
   admin: { to: '/admin', label: 'Store admin' },
   staff: { to: '/staff/orders', label: 'Staff orders' },
+  warehouse: { to: '/inventory', label: 'Warehouse' },
 }
 
 export const homeForRole = role => PANEL[role]?.to || '/'
@@ -14,7 +15,7 @@ export const homeForRole = role => PANEL[role]?.to || '/'
 export const pageAfterLogin = (role, from) => {
   const home = { pathname: homeForRole(role) }
   if (!from) return home
-  const consolePrefix = home.pathname.split('/').slice(0, 2).join('/') // '/admin' or '/staff'
+  const consolePrefix = home.pathname.split('/').slice(0, 2).join('/') // '/admin', '/staff' or '/inventory'
   const allowed = !PANEL[role] || from.pathname.startsWith(consolePrefix)
   return allowed ? from : home
 }
@@ -22,4 +23,7 @@ export const pageAfterLogin = (role, from) => {
 // Store admin or super admin → can open the admin panel
 export const isAdmin = user => ['admin', 'superadmin'].includes(user?.role)
 
-export const ROLE_LABEL = { superadmin: 'Super admin', admin: 'Store admin', staff: 'Staff', customer: 'Customer' }
+export const ROLE_LABEL = { superadmin: 'Super admin', admin: 'Store admin', staff: 'Staff', warehouse: 'Warehouse manager', customer: 'Customer' }
+
+// Warehouse manager, store admin or super admin → can open Inventory
+export const INVENTORY_ROLES = ['warehouse', 'admin', 'superadmin']

@@ -1,4 +1,6 @@
-// Editable table of variants: each row has its own size / colour / SKU / price / stock
+// Editable table of variants: each row has its own size / colour / SKU / price / stock.
+// Stock: a NEW variant gets opening stock (into the default warehouse). Existing stock is read-only here –
+// it changes only in Inventory (receipts, adjustments, transfers), so every change is logged.
 import { Plus, X } from 'lucide-react'
 import { adminInput, newVariant } from './adminStyles'
 
@@ -10,7 +12,7 @@ const VariantsEditor = ({ variants, onChange }) => {
   return (
     <div className="space-y-2">
       <div className="hidden grid-cols-[1fr_1fr_1.4fr_1fr_0.8fr_32px] gap-2 px-1 text-xs font-bold uppercase text-ink-400 md:grid">
-        <span>Size</span><span>Colour</span><span>SKU *</span><span>Price ₹ *</span><span>Stock *</span><span />
+        <span>Size</span><span>Colour</span><span>SKU *</span><span>Price ₹ *</span><span>Stock</span><span />
       </div>
       {variants.map(v => (
         <div key={v.key} className="grid grid-cols-2 gap-2 rounded-2xl bg-brand-50/60 p-2 md:grid-cols-[1fr_1fr_1.4fr_1fr_0.8fr_32px] md:bg-transparent md:p-0">
@@ -18,7 +20,11 @@ const VariantsEditor = ({ variants, onChange }) => {
           <input value={v.color} onChange={e => update(v.key, 'color', e.target.value)} placeholder="e.g. Black" className={cell} />
           <input value={v.sku} onChange={e => update(v.key, 'sku', e.target.value)} placeholder="Unique code" required className={`${cell} uppercase`} />
           <input type="number" min="1" step="0.01" value={v.price} onChange={e => update(v.key, 'price', e.target.value)} placeholder="999" required className={cell} />
-          <input type="number" min="0" value={v.stock} onChange={e => update(v.key, 'stock', e.target.value)} required className={cell} />
+          {v.id ? (
+            <span title="Change stock in Inventory → Goods receipts / Adjustments" className={`${cell} cursor-not-allowed bg-[#f6f8f7] text-ink-500`}>{v.stock}</span>
+          ) : (
+            <input type="number" min="0" value={v.stock} onChange={e => update(v.key, 'stock', e.target.value)} required aria-label="Opening stock" placeholder="Opening" className={cell} />
+          )}
           <button
             type="button"
             disabled={variants.length === 1}

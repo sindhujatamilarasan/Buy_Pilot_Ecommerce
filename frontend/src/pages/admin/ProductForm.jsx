@@ -95,7 +95,7 @@ const ProductFormView = ({ product, categories }) => {
 
           <div className={card}>
             <h2 className="text-base font-bold text-ink-900">Variants, price & stock</h2>
-            <p className="mb-4 text-sm text-ink-500">Each size / colour has its own price and stock.</p>
+            <p className="mb-4 text-sm text-ink-500">Each size / colour has its own price and stock. New variants start with <b>opening stock</b> in the default warehouse; after that, stock changes in <b>Inventory</b> (receipts, adjustments, transfers).</p>
             <VariantsEditor variants={form.variants} onChange={variants => set('variants', variants)} />
           </div>
         </div>

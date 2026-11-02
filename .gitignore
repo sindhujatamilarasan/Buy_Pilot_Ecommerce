@@ -22,3 +22,7 @@ Thumbs.db
 backend/sqlite-backup.json
 backend/.env.sqlite.bak
 backend/pg-backup-*.sql
+
+# Local backups and Office temporary lock files
+*.zip
+~$*

@@ -1,5 +1,6 @@
 // Layout = the frame around pages. <Outlet /> is where the current page appears.
 import { Outlet } from 'react-router-dom'
+import ChatBot from '../components/ChatBot'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 
@@ -10,6 +11,7 @@ const CustomerLayout = () => (
       <Outlet />
     </main>
     <Footer />
+    <ChatBot />
   </div>
 )
 

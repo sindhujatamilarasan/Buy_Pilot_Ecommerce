@@ -32,7 +32,12 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'dev-only-insecure-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# Extra addresses come from .env, e.g. ALLOWED_HOSTS=localhost,127.0.0.1,.trycloudflare.com for a demo tunnel
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
+# Behind a tunnel the page is https → build image links with https too (the tunnel sends X-Forwarded-Proto)
+if os.getenv('BEHIND_HTTPS_PROXY') == 'True':
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
@@ -58,6 +63,7 @@ INSTALLED_APPS = [
     'coupons',
     'orders',
     'backoffice',
+    'chatbot',
 ]
 
 MIDDLEWARE = [

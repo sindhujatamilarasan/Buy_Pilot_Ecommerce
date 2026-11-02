@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/manage/stores/', include('stores.urls')),  # super admin only
     path('api/site/', site_views.site_content),
     path('api/manage/site/', site_views.manage_site_content),  # super admin only
+    path('api/chat/', include('chatbot.urls')),
     path('api/manage/', include('backoffice.urls')),
 ]
 

@@ -12,7 +12,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 from accounts.models import User
-from accounts.permissions import IsAdminRole, IsStaffOrAdmin, IsSuperAdmin, for_my_store
+from accounts.permissions import STORE_TEAM_ROLES, IsAdminRole, IsStaffOrAdmin, IsSuperAdmin, for_my_store
 from catalog.models import Category, Product
 from coupons.models import Coupon
 from orders.models import Order
@@ -180,7 +180,7 @@ class UserList(generics.ListAPIView):
         me = self.request.user
         if me.role != 'superadmin':
             # A store admin sees customers + the staff of THEIR store (not other stores' people or admins)
-            queryset = queryset.filter(Q(role=User.Role.CUSTOMER) | Q(role=User.Role.STAFF, store=me.store_id))
+            queryset = queryset.filter(Q(role=User.Role.CUSTOMER) | Q(role__in=STORE_TEAM_ROLES, store=me.store_id))
         role = self.request.query_params.get('role')
         if role:
             queryset = queryset.filter(role=role)
@@ -193,14 +193,19 @@ class UserList(generics.ListAPIView):
 @api_view(['POST'])
 @permission_classes([IsAdminRole])
 def add_staff(request):
-    """POST /api/manage/staff/ { name, email, password } → a NEW staff login for the admin's store.
+    """POST /api/manage/staff/ { name, email, password, role? } → a NEW staff or warehouse-manager login.
+
+    role = 'staff' (default) or 'warehouse'.
 
     Staff are always new accounts: a shopper's customer account is never turned into staff.
     The super admin also sends { store: id }.
     """
     me = request.user
     store = me.store if me.role != 'superadmin' else get_object_or_404(Store, pk=request.data.get('store'))
-    serializer = StoreAdminCreateSerializer(data=request.data, context={'store': store, 'role': User.Role.STAFF})
+    role = request.data.get('role') or User.Role.STAFF
+    if role not in STORE_TEAM_ROLES:
+        return Response({'detail': 'Choose staff or warehouse manager.'}, status=status.HTTP_400_BAD_REQUEST)
+    serializer = StoreAdminCreateSerializer(data=request.data, context={'store': store, 'role': role})
     serializer.is_valid(raise_exception=True)
     return Response(UserAdminSerializer(serializer.save()).data, status=status.HTTP_201_CREATED)
 
@@ -219,13 +224,13 @@ def update_user_role(request, pk):
 
     if me.role == 'superadmin':
         # admin ⇄ staff (with a store), or remove access (→ customer)
-        if role not in (User.Role.CUSTOMER, User.Role.ADMIN, User.Role.STAFF) or user.role == User.Role.SUPERADMIN:
+        if role not in (User.Role.CUSTOMER, User.Role.ADMIN, *STORE_TEAM_ROLES) or user.role == User.Role.SUPERADMIN:
             return Response({'detail': 'This role change is not allowed.'}, status=status.HTTP_400_BAD_REQUEST)
         store = get_object_or_404(Store, pk=request.data.get('store')) if role != User.Role.CUSTOMER else None
     else:
-        # Store admin: can only REMOVE staff access, and only for staff of their own store
-        if role != User.Role.CUSTOMER or user.role != User.Role.STAFF or user.store_id != me.store_id:
-            return Response({'detail': 'Store admins can only remove staff access in their own store.'},
+        # Store admin: can only REMOVE staff / warehouse-manager access, and only in their own store
+        if role != User.Role.CUSTOMER or user.role not in STORE_TEAM_ROLES or user.store_id != me.store_id:
+            return Response({'detail': 'Store admins can only remove staff or warehouse-manager access in their own store.'},
                             status=status.HTTP_403_FORBIDDEN)
         store = None
 

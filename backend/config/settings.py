@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'orders',
     'backoffice',
     'chatbot',
+    'inventory',
 ]
 
 MIDDLEWARE = [

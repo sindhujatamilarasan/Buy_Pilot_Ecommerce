@@ -12,6 +12,7 @@ class User(AbstractUser):
     class Role(models.TextChoices):
         CUSTOMER = 'customer', 'Customer'
         STAFF = 'staff', 'Staff'  # orders of their store
+        WAREHOUSE = 'warehouse', 'Warehouse manager'  # stock of their store's warehouses
         ADMIN = 'admin', 'Store admin'  # everything of their store
         SUPERADMIN = 'superadmin', 'Super admin'  # all stores; creates stores + store admins
 

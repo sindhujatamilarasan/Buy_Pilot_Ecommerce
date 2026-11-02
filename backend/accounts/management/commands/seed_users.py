@@ -13,6 +13,7 @@ DEMO_USERS = [
     ('Admin User', 'admin@shopkart.test', 'admin', DEFAULT_STORE_SLUG),
     ('Urban Admin', 'urban@shopkart.test', 'admin', 'urban-threads'),
     ('Staff User', 'staff@shopkart.test', 'staff', DEFAULT_STORE_SLUG),
+    ('Warehouse Manager', 'warehouse@shopkart.test', 'warehouse', DEFAULT_STORE_SLUG),
     ('Customer User', 'customer@shopkart.test', 'customer', None),
 ]
 PASSWORD = 'Shop@1234'

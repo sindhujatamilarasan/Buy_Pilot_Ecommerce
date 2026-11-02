@@ -20,7 +20,7 @@ class StoreSerializer(serializers.ModelSerializer):
         read_only_fields = ['slug', 'created_at']
 
     def get_admins(self, store):
-        people = store.members.filter(role__in=[User.Role.ADMIN, User.Role.STAFF]).order_by('role', 'first_name')
+        people = store.members.filter(role__in=[User.Role.ADMIN, User.Role.STAFF, User.Role.WAREHOUSE]).order_by('role', 'first_name')
         return [{'id': u.id, 'name': u.first_name, 'email': u.email, 'role': u.role} for u in people]
 
     def create(self, data):

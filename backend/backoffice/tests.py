@@ -38,7 +38,13 @@ class BackofficeTests(APITestCase):
         self.assertEqual(res.data['total_stock'], 4)
         self.assertEqual({v['sku'] for v in res.data['variants']}, {'RUN-8', 'RUN-9'})
 
-        # edit: change stock of one variant, remove the other, add a new one
+        # Opening stock went into the store's default warehouse, with a history entry
+        run_8 = ProductVariant.objects.get(sku='RUN-8')
+        self.assertEqual(run_8.warehouse_stock.get().quantity, 4)
+        self.assertEqual(run_8.movements.get().kind, 'opening')
+
+        # edit: try to change stock of one variant (ignored – stock changes only through Inventory),
+        # remove the other, add a new one with opening stock 2
         keep = next(v for v in res.data['variants'] if v['sku'] == 'RUN-8')
         update = self.product_payload(variants=[
             {**keep, 'stock': 10},
@@ -46,7 +52,7 @@ class BackofficeTests(APITestCase):
         ])
         res = self.client.put(f"/api/manage/products/{res.data['id']}/", update, format='json')
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(res.data['total_stock'], 12)
+        self.assertEqual(res.data['total_stock'], 6)  # 4 (unchanged) + 2 (new variant)
         self.assertFalse(ProductVariant.objects.filter(sku='RUN-9').exists())
         self.assertEqual(ProductVariant.objects.get(sku='RUN-8').id, keep['id'])  # same row updated
 

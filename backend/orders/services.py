@@ -1,10 +1,10 @@
 """Order business rules: payment start, payment success (stock), cancel."""
 from django.conf import settings
 from django.db import IntegrityError, transaction
-from django.db.models import F
 
 from catalog.models import ProductVariant
 from coupons.models import Coupon, CouponUsage
+from inventory.services import StockError, allocate_order_item, return_order_item
 
 from .models import Order, OrderStatusLog, Payment
 from .payments import create_razorpay_order, payment_mode, to_paise
@@ -54,9 +54,10 @@ def mark_payment_failed(payment, reason='Payment failed'):
 def complete_payment(payment, razorpay_payment_id=''):
     """Payment verified → reduce stock. Returns True if the order is placed.
 
-    Stock is reduced ONLY here (after payment). The update below only succeeds while
-    stock >= qty, and the database runs it as one step – so if two people pay for the
-    LAST item at the same time, only one update succeeds and the other order is cancelled.
+    Stock is reduced ONLY here (after payment). The variant row is locked first, then the
+    warehouse stock is taken (default warehouse first) with updates that only succeed while
+    enough is left – so if two people pay for the LAST item at the same time, only one
+    succeeds and the other order is cancelled.
     """
     order = payment.order
     try:
@@ -66,12 +67,13 @@ def complete_payment(payment, razorpay_payment_id=''):
                 return True  # already done (e.g. double click) – do nothing twice
 
             for item in locked.items.all():
-                # Lock the variant row (PostgreSQL) and reduce only if enough stock is left
+                if item.variant_id is None:
+                    raise OutOfStock(item.product_name)  # the product was deleted
+                # Lock the variant row (PostgreSQL): a second buyer of the same item waits here
                 ProductVariant.objects.select_for_update().filter(pk=item.variant_id).first()
-                updated = ProductVariant.objects.filter(pk=item.variant_id, stock__gte=item.qty).update(
-                    stock=F('stock') - item.qty
-                )
-                if not updated:
+                try:
+                    allocate_order_item(item, locked)  # inventory: picks the warehouse(s), logs the sale
+                except StockError:
                     raise OutOfStock(item.product_name)
 
             payment.status = Payment.Status.SUCCESS
@@ -109,8 +111,7 @@ def cancel_order(order, user, note='Cancelled'):
         if locked.status not in CANCELLABLE:
             return False
         for item in locked.items.all():
-            if item.variant_id:
-                ProductVariant.objects.filter(pk=item.variant_id).update(stock=F('stock') + item.qty)
+            return_order_item(item, locked, user)  # back to the warehouse(s) it came from
         locked.status = Order.Status.CANCELLED
         locked.payment_status = Order.PaymentStatus.REFUND_PENDING
         locked.save(update_fields=['status', 'payment_status'])

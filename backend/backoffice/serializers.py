@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from accounts.models import User
 from catalog.models import Category, Product, ProductImage, ProductVariant
+from inventory.services import add_opening_stock
 from catalog.utils import absolute_media
 from coupons.models import Coupon
 from stores.models import Store
@@ -46,7 +47,9 @@ class VariantWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductVariant
         fields = ['id', 'size', 'color', 'sku', 'price', 'stock']
-        extra_kwargs = {'sku': {'validators': []}}  # uniqueness is checked in ProductAdminSerializer
+        # stock: only used as OPENING stock for a new variant. Existing stock changes only through
+        # Inventory (receipts, adjustments, transfers), so every change is logged.
+        extra_kwargs = {'sku': {'validators': []}, 'stock': {'required': False}}
 
 
 class ImageWriteSerializer(serializers.ModelSerializer):
@@ -117,6 +120,7 @@ class ProductAdminSerializer(serializers.ModelSerializer):
         for index, row in enumerate(rows):
             row = {**row, **extra(index)}
             obj_id = row.pop('id', None)
+            opening = row.pop('stock', 0) if model is ProductVariant else 0  # never set stock directly
             if obj_id in existing:
                 obj = existing[obj_id]
                 for field, value in row.items():
@@ -124,6 +128,8 @@ class ProductAdminSerializer(serializers.ModelSerializer):
                 obj.save()
             else:
                 obj = model.objects.create(product=product, **row)
+                if model is ProductVariant:
+                    add_opening_stock(obj, opening, self.context['request'].user)
             keep.append(obj.id)
         model.objects.filter(product=product).exclude(id__in=keep).delete()
 

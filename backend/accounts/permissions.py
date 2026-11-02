@@ -3,10 +3,14 @@
 #
 #   superadmin → every store          admin → their own store (store admin)
 #   staff      → orders of their store customer → shopping only
+#   warehouse  → warehouses + stock of their store (warehouse manager)
 from rest_framework.permissions import BasePermission
 
 ADMIN_ROLES = ('admin', 'superadmin')
 STAFF_ROLES = ('staff', 'admin', 'superadmin')
+WAREHOUSE_ROLES = ('warehouse', 'admin', 'superadmin')  # inventory team
+FULFILMENT_ROLES = ('staff', 'warehouse', 'admin', 'superadmin')  # can open pick lists
+STORE_TEAM_ROLES = ('staff', 'warehouse')  # created by a store admin, belong to one store
 
 
 class IsSuperAdmin(BasePermission):
@@ -24,6 +28,18 @@ class IsAdminRole(BasePermission):
 class IsStaffOrAdmin(BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated and request.user.role in STAFF_ROLES
+
+
+class IsWarehouseTeam(BasePermission):
+    """Warehouse manager, store admin or super admin."""
+
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role in WAREHOUSE_ROLES
+
+
+class IsFulfilmentTeam(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role in FULFILMENT_ROLES
 
 
 def for_my_store(queryset, user, field='store'):

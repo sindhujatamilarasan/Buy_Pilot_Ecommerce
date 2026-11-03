@@ -31,7 +31,7 @@ const Navbar = () => {
     <header className="sticky top-0 z-20">
       {/* Text comes from Super admin → Site content */}
       {site.announcement_enabled && site.announcement_text && (
-        <div className="bg-brand-900 px-4 py-2 text-center text-xs font-bold tracking-wide text-mango-400">{site.announcement_text}</div>
+        <div className="bg-brand-soft px-4 py-2 text-center text-xs font-bold tracking-wide text-brand-800">{site.announcement_text}</div>
       )}
 
       <div className="border-b border-brand-100 bg-blush/90 backdrop-blur">

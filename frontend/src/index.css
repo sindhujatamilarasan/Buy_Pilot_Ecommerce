@@ -18,28 +18,28 @@
   --color-ink-800: #252838;
   --color-ink-900: #1a1c2b;
 
-  /* Brand – Buy Pilot navy (from the logo). The theme (utils/themes.js) overwrites these at runtime. */
-  --color-brand-50: #f1f5fa;
-  --color-brand-100: #e1e9f4;
-  --color-brand-200: #c3d2e8;
-  --color-brand-300: #93aed6;
-  --color-brand-400: #5b82bd;
-  --color-brand-500: #2a559a;
-  --color-brand-600: #1d3f7a;
-  --color-brand-700: #142d5b;
-  --color-brand-800: #0f2347;
-  --color-brand-900: #0a1a38;
-  --brand-from: #142d5b; /* button gradient: dark → light */
-  --brand-to: #2a559a;
+  /* Brand – emerald green. The theme (utils/themes.js) overwrites these at runtime. */
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
+  --brand-from: #047857; /* button gradient: dark → light */
+  --brand-to: #10b981;
 
-  /* Mango – the logo's orange, for offers, badges and ratings */
-  --color-mango-100: #fdeed9;
-  --color-mango-400: #f5b45a;
-  --color-mango-500: #ed9720;
-  --color-mango-600: #c2610f;
+  /* Mango – warm accent, for offers, badges and ratings */
+  --color-mango-100: #fef3c7;
+  --color-mango-400: #fbbf24;
+  --color-mango-500: #f59e0b;
+  --color-mango-600: #d97706;
 
   /* Warm cream page background (not plain white) */
-  --color-blush: #fdf9ef;
+  --color-blush: #f7fcf9;
 }
 
 @layer base {

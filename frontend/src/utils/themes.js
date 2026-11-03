@@ -3,10 +3,10 @@
 const SHADES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
 
 export const THEMES = {
-  // Buy Pilot: navy from the logo, orange accent, warm cream page. Gradient buttons go dark → light.
+  // Buy Pilot: emerald green, mango accent, light mint page. Gradient buttons go dark → light.
   shopora: {
-    label: 'Buy Pilot', alt: '#2a559a', blush: '#fdf9ef', from: '#142d5b',
-    brand: ['#f1f5fa', '#e1e9f4', '#c3d2e8', '#93aed6', '#5b82bd', '#2a559a', '#1d3f7a', '#142d5b', '#0f2347', '#0a1a38'],
+    label: 'Buy Pilot', alt: '#0d9488', blush: '#f7fcf9', from: '#10b981',
+    brand: ['#ecfdf5', '#d1fae5', '#a7f3d0', '#6ee7b7', '#34d399', '#10b981', '#059669', '#047857', '#065f46', '#064e3b'],
   },
   emerald: {
     label: 'Emerald', alt: '#0d9488', blush: '#f7fcf9',

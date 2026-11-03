@@ -14,12 +14,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from accounts.permissions import ADMIN_ROLES, IsFulfilmentTeam, IsWarehouseTeam, for_my_store
+from accounts.permissions import ADMIN_ROLES, IsFulfilmentTeam, IsWarehouseTeam, for_my_store, for_my_warehouse, my_warehouse_id
 from catalog.models import ProductVariant
 from orders.models import Order
 from stores.models import Store
 
-from .models import StockAdjustment, StockMovement, StockTransfer, Warehouse, WarehouseStock
+from .models import OrderAllocation, StockAdjustment, StockMovement, StockTransfer, Warehouse, WarehouseStock
 from .serializers import MovementSerializer, StockRowSerializer, VariantPickSerializer, WarehouseSerializer
 from .services import ensure_store_stock
 
@@ -28,9 +28,16 @@ def my_store(user):
     return None if user.role == 'superadmin' else user.store
 
 
+def my_transfers(queryset, user):
+    """A tied warehouse manager sees transfers going out of OR into their warehouse."""
+    warehouse_id = my_warehouse_id(user)
+    return queryset.filter(Q(from_warehouse=warehouse_id) | Q(to_warehouse=warehouse_id)) if warehouse_id else queryset
+
+
 def warehouses_with_numbers(user):
     low = Q(stock__quantity__lte=F('stock__reorder_level'))
-    return for_my_store(Warehouse.objects.select_related('store'), user).annotate(
+    mine = for_my_warehouse(Warehouse.objects.select_related('store'), user, field='pk')  # a Chennai manager sees only Chennai
+    return for_my_store(mine, user).annotate(
         units=Sum('stock__quantity', default=0),
         skus=Count('stock', filter=Q(stock__quantity__gt=0)),
         low=Count('stock', filter=low),
@@ -89,8 +96,8 @@ class WarehouseDetail(generics.RetrieveUpdateAPIView):
 def stock_rows(request):
     user, params = request.user, request.query_params
     ensure_store_stock(my_store(user))
-    rows = for_my_store(WarehouseStock.objects.select_related('warehouse', 'variant__product'), user,
-                        field='warehouse__store').order_by('variant__product__name', 'variant__sku', 'warehouse__name')
+    rows = for_my_warehouse(for_my_store(WarehouseStock.objects.select_related('warehouse', 'variant__product'), user,
+                                         field='warehouse__store'), user).order_by('variant__product__name', 'variant__sku', 'warehouse__name')
     if params.get('warehouse'):
         rows = rows.filter(warehouse_id=params['warehouse'])
     if params.get('search'):
@@ -115,7 +122,8 @@ class StockDetail(generics.UpdateAPIView):
     permission_classes = [IsWarehouseTeam]
 
     def get_queryset(self):
-        return for_my_store(WarehouseStock.objects.all(), self.request.user, field='warehouse__store')
+        return for_my_warehouse(for_my_store(WarehouseStock.objects.all(), self.request.user, field='warehouse__store'),
+                                self.request.user)
 
 
 @api_view(['GET'])
@@ -136,8 +144,8 @@ def variant_search(request):
 
 def movement_rows(request):
     user, params = request.user, request.query_params
-    rows = for_my_store(StockMovement.objects.select_related('warehouse', 'variant__product', 'created_by'), user,
-                        field='warehouse__store')
+    rows = for_my_warehouse(for_my_store(StockMovement.objects.select_related('warehouse', 'variant__product', 'created_by'),
+                                         user, field='warehouse__store'), user)
     if params.get('warehouse'):
         rows = rows.filter(warehouse_id=params['warehouse'])
     if params.get('kind'):
@@ -168,13 +176,14 @@ class MovementList(generics.ListAPIView):
 def overview(request):
     user = request.user
     ensure_store_stock(my_store(user))
-    rows = for_my_store(WarehouseStock.objects.filter(warehouse__is_active=True), user, field='warehouse__store')
-    adjustments = for_my_store(StockAdjustment.objects.all(), user, field='warehouse__store')
-    transfers = for_my_store(StockTransfer.objects.all(), user, field='from_warehouse__store')
+    rows = for_my_warehouse(for_my_store(WarehouseStock.objects.filter(warehouse__is_active=True), user,
+                                         field='warehouse__store'), user)
+    adjustments = for_my_warehouse(for_my_store(StockAdjustment.objects.all(), user, field='warehouse__store'), user)
+    transfers = my_transfers(for_my_store(StockTransfer.objects.all(), user, field='from_warehouse__store'), user)
     low = rows.filter(quantity__lte=F('reorder_level')).select_related('warehouse', 'variant__product')
     return Response({
         'stats': {
-            'warehouses': for_my_store(Warehouse.objects.filter(is_active=True), user).count(),
+            'warehouses': for_my_warehouse(for_my_store(Warehouse.objects.filter(is_active=True), user), user, field='pk').count(),
             'units': rows.aggregate(total=Sum('quantity', default=0))['total'],
             'skus': rows.filter(quantity__gt=0).values('variant').distinct().count(),
             'low': low.filter(quantity__gt=0).count(),
@@ -229,15 +238,21 @@ def export_movements(request):
 def pick_list(request, order_id):
     """Which warehouse and shelf to pick each item of a paid order from."""
     order = get_object_or_404(for_my_store(Order.objects.select_related('store'), request.user), pk=order_id)
+    mine = my_warehouse_id(request.user)
+    if mine and not OrderAllocation.objects.filter(item__order=order, warehouse_id=mine).exists():
+        return Response({'detail': 'This order is packed from another warehouse.'}, status=status.HTTP_404_NOT_FOUND)
     bins = {(s.warehouse_id, s.variant_id): s.bin_location
             for s in WarehouseStock.objects.filter(variant__in=order.items.values('variant'))}
     items = []
     for item in order.items.prefetch_related('allocations__warehouse'):
+        allocations = [a for a in item.allocations.all() if not mine or a.warehouse_id == mine]
+        if mine and not allocations:
+            continue  # this line is picked in another warehouse
         items.append({
             'product': item.product_name, 'variant': item.variant_label or 'Standard', 'qty': item.qty,
             'sku': item.variant.sku if item.variant_id else '',
             'picks': [{'warehouse': a.warehouse.name, 'code': a.warehouse.code, 'qty': a.qty,
-                       'bin': bins.get((a.warehouse_id, item.variant_id), '')} for a in item.allocations.all()],
+                       'bin': bins.get((a.warehouse_id, item.variant_id), '')} for a in allocations],
         })
     if order.status == Order.Status.PENDING_PAYMENT:
         return Response({'detail': 'This order is not paid yet.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -249,3 +264,21 @@ def pick_list(request, order_id):
         'items': items,
     })
 
+
+
+@api_view(['GET'])
+@permission_classes([IsWarehouseTeam])
+def orders_to_pick(request):
+    """Paid orders not yet shipped that take stock from MY warehouse(s): what to pick and pack next (oldest first)."""
+    rows = for_my_warehouse(for_my_store(
+        OrderAllocation.objects.filter(item__order__status__in=[Order.Status.PLACED, Order.Status.PACKED])
+        .select_related('warehouse', 'item__order'), request.user, field='warehouse__store'), request.user)
+    orders = {}
+    for row in rows.order_by('item__order__created_at', 'item__order_id'):
+        order = row.item.order
+        entry = orders.setdefault(order.id, {
+            'order': order.id, 'created_at': order.created_at, 'status': order.status, 'status_label': order.get_status_display(),
+            'city': order.ship_city, 'pincode': order.ship_pincode, 'warehouses': set(), 'units': 0})
+        entry['warehouses'].add(row.warehouse.name)
+        entry['units'] += row.qty
+    return Response([{**entry, 'warehouses': sorted(entry['warehouses'])} for entry in list(orders.values())[:100]])

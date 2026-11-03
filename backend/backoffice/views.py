@@ -205,7 +205,11 @@ def add_staff(request):
     role = request.data.get('role') or User.Role.STAFF
     if role not in STORE_TEAM_ROLES:
         return Response({'detail': 'Choose staff or warehouse manager.'}, status=status.HTTP_400_BAD_REQUEST)
-    serializer = StoreAdminCreateSerializer(data=request.data, context={'store': store, 'role': role})
+    warehouse = None
+    if role == User.Role.WAREHOUSE and request.data.get('warehouse'):
+        # Tie the manager to ONE warehouse of the store (e.g. Chennai). Empty = all warehouses of the store.
+        warehouse = get_object_or_404(store.warehouses.filter(is_active=True), pk=request.data['warehouse'])
+    serializer = StoreAdminCreateSerializer(data=request.data, context={'store': store, 'role': role, 'warehouse': warehouse})
     serializer.is_valid(raise_exception=True)
     return Response(UserAdminSerializer(serializer.save()).data, status=status.HTTP_201_CREATED)
 
@@ -234,9 +238,22 @@ def update_user_role(request, pk):
                             status=status.HTTP_403_FORBIDDEN)
         store = None
 
-    user.role, user.store = role, store
-    user.save(update_fields=['role', 'store'])
+    user.role, user.store, user.warehouse = role, store, None
+    user.save(update_fields=['role', 'store', 'warehouse'])
     return Response(UserAdminSerializer(user).data)
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAdminRole])
+def set_manager_warehouse(request, pk):
+    """PATCH /api/manage/users/<id>/warehouse/ { warehouse: id | null } → move a warehouse manager to another location."""
+    manager = get_object_or_404(User, pk=pk, role=User.Role.WAREHOUSE)
+    if request.user.role != 'superadmin' and manager.store_id != request.user.store_id:
+        return Response({'detail': 'This manager belongs to another store.'}, status=status.HTTP_403_FORBIDDEN)
+    warehouse_id = request.data.get('warehouse')
+    manager.warehouse = get_object_or_404(manager.store.warehouses.filter(is_active=True), pk=warehouse_id) if warehouse_id else None
+    manager.save(update_fields=['warehouse'])
+    return Response(UserAdminSerializer(manager).data)
 
 
 # ---------- Reports (admin) ----------

@@ -1,6 +1,7 @@
 import { Search, UserPlus } from 'lucide-react'
 import { useState } from 'react'
-import { addStaff, getUsers, setUserRole } from '../../api/manage'
+import { getWarehouses } from '../../api/inventory'
+import { addStaff, getUsers, setManagerWarehouse, setUserRole } from '../../api/manage'
 import { adminCard, adminInput } from '../../components/admin/adminStyles'
 import PageHeader from '../../components/admin/PageHeader'
 import Spinner from '../../components/Spinner'
@@ -24,9 +25,19 @@ const Users = () => {
   const [page, setPage] = useState(1)
   const [version, setVersion] = useState(0)
   const { data, loading, error } = useApi(getUsers, { role, search, page }, version)
+  const { data: warehouses } = useApi(getWarehouses)
   const { confirm, notify, dialog } = useConfirm()
   const [adding, setAdding] = useState(false)
   const [added, setAdded] = useState('')
+
+  const moveManager = async (user, warehouse) => {
+    try {
+      await setManagerWarehouse(user.id, warehouse || null)
+      setVersion(v => v + 1)
+    } catch (error) {
+      notify(getErrorMessage(error), 'Could not change the warehouse')
+    }
+  }
 
   // Staff / store admin → normal customer (customers themselves are never turned into staff)
   const removeAccess = async user => {
@@ -71,6 +82,7 @@ const Users = () => {
           title={`New staff or warehouse-manager login for ${me.store_name}`}
           buttonLabel="Create login"
           roles={[['staff', 'Staff – handles orders'], ['warehouse', 'Warehouse manager – handles stock']]}
+          warehouses={warehouses}
           onSave={addStaff}
           onCancel={() => setAdding(false)}
           onDone={email => { setAdding(false); setAdded(`${email} can now log in to ${me.store_name}.`); setVersion(v => v + 1) }}
@@ -98,7 +110,17 @@ const Users = () => {
                   </td>
                   <td className="px-5 py-3 text-ink-600">{new Date(user.date_joined).toLocaleDateString('en-IN')}</td>
                   <td className="px-5 py-3 text-ink-600">{user.orders}</td>
-                  <td className="px-5 py-3 text-xs font-semibold text-ink-600">{user.store_name || '—'}</td>
+                  <td className="px-5 py-3 text-xs font-semibold text-ink-600">
+                    {user.store_name || '—'}
+                    {user.role === 'warehouse' && (
+                      <select value={user.warehouse || ''} onChange={e => moveManager(user, e.target.value)} aria-label={`Warehouse of ${user.email}`}
+                        disabled={me.role === 'superadmin' && !warehouses?.some(w => w.store === user.store)}
+                        className="mt-1 block max-w-[170px] rounded-lg border border-ink-300/40 bg-white px-2 py-1 text-xs font-semibold text-ink-700">
+                        <option value="">All warehouses</option>
+                        {warehouses?.filter(w => w.store === user.store).map(w => <option key={w.id} value={w.id}>{w.name}{w.city && ` – ${w.city}`}</option>)}
+                      </select>
+                    )}
+                  </td>
                   <td className="px-5 py-3">
                     <span className="flex items-center gap-2">
                       <span className={`rounded-full px-3 py-1 text-xs font-bold ${ROLE_STYLE[user.role]}`}>{ROLE_LABEL[user.role]}{user.id === me.id && ' (you)'}</span>

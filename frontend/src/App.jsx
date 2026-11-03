@@ -34,6 +34,7 @@ import Wishlist from './pages/Wishlist'
 const Adjustments = lazy(() => import('./pages/inventory/Adjustments'))
 const Movements = lazy(() => import('./pages/inventory/Movements'))
 const InventoryOverview = lazy(() => import('./pages/inventory/Overview'))
+const OrdersToPick = lazy(() => import('./pages/inventory/OrdersToPick'))
 const PickList = lazy(() => import('./pages/inventory/PickList'))
 const Receipts = lazy(() => import('./pages/inventory/Receipts'))
 const StockLevels = lazy(() => import('./pages/inventory/Stock'))
@@ -93,6 +94,7 @@ const App = () => (
     <Route element={<ProtectedRoute roles={['warehouse', 'admin', 'superadmin']} />}>
       <Route element={<AdminLayout />}>
         <Route path="/inventory" element={<Suspense fallback={<Spinner />}><InventoryOverview /></Suspense>} />
+        <Route path="/inventory/orders" element={<Suspense fallback={<Spinner />}><OrdersToPick /></Suspense>} />
         <Route path="/inventory/stock" element={<Suspense fallback={<Spinner />}><StockLevels /></Suspense>} />
         <Route path="/inventory/receipts" element={<Suspense fallback={<Spinner />}><Receipts /></Suspense>} />
         <Route path="/inventory/transfers" element={<Suspense fallback={<Spinner />}><Transfers /></Suspense>} />

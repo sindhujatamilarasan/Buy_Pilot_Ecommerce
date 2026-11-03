@@ -15,6 +15,7 @@ urlpatterns = [
     path('orders/<int:pk>/cancel/', views.order_cancel),
     path('users/', views.UserList.as_view()),
     path('users/<int:pk>/role/', views.update_user_role),
+    path('users/<int:pk>/warehouse/', views.set_manager_warehouse),
     path('staff/', views.add_staff),
     path('reports/sales/', views.sales_report_view),
 ]

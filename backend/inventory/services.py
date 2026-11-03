@@ -95,13 +95,16 @@ def add_opening_stock(variant, qty, user=None):
 # ---------- Orders ----------
 
 def allocate_order_item(item, order):
-    """Take the stock for one paid order line. Automatic: the default warehouse first; if no single
-    warehouse has enough, the line is split over several. Raises StockError if the store runs out."""
+    """Take the stock for one paid order line. Automatic: the warehouse in the customer's city first, then the
+    default one; if no single warehouse has enough, the line is split over several. Raises StockError if the store runs out."""
     ensure_stock_rows([item.variant_id])
-    rows = list(WarehouseStock.objects.select_for_update()
+    rows = list(WarehouseStock.objects.select_for_update(of=('self',)).select_related('warehouse')
                 .filter(variant_id=item.variant_id, quantity__gt=0, warehouse__is_active=True,
-                        warehouse__store_id=order.store_id)
-                .order_by('-warehouse__is_default', '-quantity', 'warehouse_id'))
+                        warehouse__store_id=order.store_id))
+    # Closest first: the warehouse in the customer's city, then the default one, then the fullest
+    city = (order.ship_city or '').strip().lower()
+    rows.sort(key=lambda r: (not (city and r.warehouse.city.strip().lower() == city),
+                             not r.warehouse.is_default, -r.quantity, r.warehouse_id))
     whole = next((r for r in rows if r.quantity >= item.qty), None)
     plan, left = ([(whole.warehouse_id, item.qty)], 0) if whole else ([], item.qty)
     for row in ([] if whole else rows):

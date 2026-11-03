@@ -13,6 +13,7 @@ urlpatterns = [
     path('export/stock.csv', views.export_stock),
     path('export/movements.csv', views.export_movements),
     path('pick-list/<int:order_id>/', views.pick_list),
+    path('orders-to-pick/', views.orders_to_pick),
     path('receipts/', operations.ReceiptList.as_view()),
     path('adjustments/', operations.AdjustmentList.as_view()),
     path('adjustments/<int:pk>/approve/', operations.approve_adjustment),

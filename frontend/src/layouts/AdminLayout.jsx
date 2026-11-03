@@ -1,5 +1,5 @@
 // Admin / staff frame: grouped sidebar + top bar. Menu items list which roles can see them.
-import { ArrowLeftRight, Boxes, ChartColumn, FolderTree, ExternalLink, FileClock, LayoutDashboard, LogOut, Megaphone, Menu, Package, PackagePlus, ReceiptText, SlidersHorizontal, Store, Tag, Users, Warehouse } from 'lucide-react'
+import { ArrowLeftRight, Boxes, ChartColumn, FolderTree, ExternalLink, FileClock, LayoutDashboard, LogOut, Megaphone, Menu, Package, PackagePlus, ClipboardList, ReceiptText, SlidersHorizontal, Store, Tag, Users, Warehouse } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
@@ -23,6 +23,7 @@ const MENU = [
   ] },
   { group: 'Inventory', items: [
     { to: '/inventory', label: 'Overview', icon: Boxes, roles: INVENTORY_ROLES },
+    { to: '/inventory/orders', label: 'Orders to pick', icon: ClipboardList, roles: INVENTORY_ROLES },
     { to: '/inventory/stock', label: 'Stock levels', icon: Package, roles: INVENTORY_ROLES },
     { to: '/inventory/receipts', label: 'Goods receipts', icon: PackagePlus, roles: INVENTORY_ROLES },
     { to: '/inventory/transfers', label: 'Transfers', icon: ArrowLeftRight, roles: INVENTORY_ROLES },
@@ -65,7 +66,7 @@ const AdminLayout = () => {
           <div>
             <p className="font-display text-lg font-extrabold leading-none text-ink-900">Buy Pilot</p>
             <p className="mt-1 max-w-[150px] truncate text-[11px] font-semibold uppercase tracking-wider text-ink-400">
-              {user.role === 'superadmin' ? 'All stores' : user.store_name || ROLE_LABEL[user.role]}
+              {user.role === 'superadmin' ? 'All stores' : (user.warehouse_name ? `${user.warehouse_name}` : user.store_name) || ROLE_LABEL[user.role]}
             </p>
           </div>
         </div>
@@ -107,7 +108,7 @@ const AdminLayout = () => {
         <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-ink-300/20 bg-white/85 px-4 py-3 backdrop-blur md:px-8">
           <button onClick={() => setMenuOpen(true)} aria-label="Open menu" className="rounded-lg p-2 text-ink-700 hover:bg-ink-300/10 md:hidden"><Menu size={22} /></button>
           <p className="min-w-0 truncate text-sm text-ink-400">
-            <span className="hidden sm:inline">{ROLE_LABEL[user.role]}{user.store_name && <span className="font-semibold text-brand-700"> · {user.store_name}</span>} <span className="mx-1">/</span></span>
+            <span className="hidden sm:inline">{ROLE_LABEL[user.role]}{user.store_name && <span className="font-semibold text-brand-700"> · {user.store_name}{user.warehouse_name && ` · ${user.warehouse_name}`}</span>} <span className="mx-1">/</span></span>
             <span className="font-semibold text-ink-800">{current?.label || 'Products'}</span>
           </p>
           <Link to="/" aria-label="View store" className="ml-auto flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold text-brand-700 ring-1 ring-brand-200 hover:bg-brand-50 sm:px-4">

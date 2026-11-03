@@ -28,7 +28,7 @@ const WarehouseForm = ({ warehouse, onSaved, onCancel }) => {
       <div className="grid gap-3 md:grid-cols-4">
         <input required maxLength={100} value={form.name} onChange={set('name')} placeholder="Name, e.g. Chennai warehouse" className={`${adminInput} md:col-span-2`} />
         <input required maxLength={12} value={form.code} onChange={set('code')} placeholder="Code, e.g. CHN-1" className={`${adminInput} uppercase`} />
-        <input maxLength={60} value={form.city} onChange={set('city')} placeholder="City" className={adminInput} />
+        <input maxLength={60} value={form.city} onChange={set('city')} placeholder="City (orders to this city ship from here)" title="Customers in this city get their orders packed from this warehouse" className={adminInput} />
         <input maxLength={200} value={form.address} onChange={set('address')} placeholder="Address (optional)" className={`${adminInput} md:col-span-3`} />
         {user.role === 'superadmin' && !warehouse && <StoreSelect value={form.store} onChange={store => setForm({ ...form, store })} />}
       </div>

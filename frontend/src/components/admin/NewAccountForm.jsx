@@ -1,5 +1,6 @@
 // Create a NEW login (name + email + temporary password): a store admin (Stores page) or staff /
-// warehouse manager (Users page). Pass `roles` = [[value, label], …] to show a role choice.
+// warehouse manager (Users page). Pass `roles` = [[value, label], …] to show a role choice and
+// `warehouses` = [{id, name, city}] to tie a warehouse manager to one location.
 import { useState } from 'react'
 import { getErrorMessage } from '../../utils/format'
 import { adminInput } from './adminStyles'
@@ -7,7 +8,7 @@ import { adminInput } from './adminStyles'
 const EMPTY = { name: '', email: '', password: '' }
 
 // onSave(form) calls the API; onDone(message) runs after it worked
-const NewAccountForm = ({ title, buttonLabel, roles, onSave, onDone, onCancel }) => {
+const NewAccountForm = ({ title, buttonLabel, roles, warehouses, onSave, onDone, onCancel }) => {
   const [form, setForm] = useState(roles ? { ...EMPTY, role: roles[0][0] } : EMPTY)
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
@@ -49,6 +50,15 @@ const NewAccountForm = ({ title, buttonLabel, roles, onSave, onDone, onCancel })
             </label>
           ))}
         </div>
+      )}
+      {warehouses && form.role === 'warehouse' && (
+        <label className="block text-xs font-semibold text-ink-600">Works in which warehouse?
+          <select name="warehouse" value={form.warehouse || ''} onChange={change} className={`${adminInput} mt-1 w-full sm:w-80`}>
+            <option value="">All warehouses of the store</option>
+            {warehouses.map(w => <option key={w.id} value={w.id}>{w.name}{w.city && ` – ${w.city}`}</option>)}
+          </select>
+          <span className="mt-1 block font-normal text-ink-500">A manager tied to one warehouse sees only its stock and the orders packed from it.</span>
+        </label>
       )}
       {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700">{error}</p>}
       <div className="flex justify-end gap-2">

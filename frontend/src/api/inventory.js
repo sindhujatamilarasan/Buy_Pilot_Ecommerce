@@ -28,6 +28,7 @@ export const createTransfer = data => post('/inventory/transfers/', data)
 export const transferAction = (id, action) => post(`/inventory/transfers/${id}/${action}/`) // approve | reject | dispatch | receive | cancel
 
 // Fulfilment
+export const getOrdersToPick = () => get('/inventory/orders-to-pick/')
 export const getPickList = orderId => get(`/inventory/pick-list/${orderId}/`)
 
 // CSV export: the API needs our login token, so download through axios and save the file

@@ -42,6 +42,17 @@ class IsFulfilmentTeam(BasePermission):
         return request.user.is_authenticated and request.user.role in FULFILMENT_ROLES
 
 
+def my_warehouse_id(user):
+    """The one warehouse a warehouse manager is tied to (None = not tied: the whole store)."""
+    return user.warehouse_id if user.role == 'warehouse' else None
+
+
+def for_my_warehouse(queryset, user, field='warehouse'):
+    """A warehouse manager tied to one warehouse (Chennai) only sees that warehouse's rows."""
+    warehouse_id = my_warehouse_id(user)
+    return queryset.filter(**{field: warehouse_id}) if warehouse_id else queryset
+
+
 def for_my_store(queryset, user, field='store'):
     """Limit any queryset to the user's store. The super admin sees everything.
 

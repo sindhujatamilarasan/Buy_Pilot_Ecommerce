@@ -10,7 +10,9 @@ from .models import StockMovement, Warehouse, WarehouseStock
 from .services import ensure_stock_rows
 
 
-class InventoryTests(APITestCase):
+class InventoryBase(APITestCase):
+    """Shop A with an admin, a warehouse manager, staff and two warehouses (Main, Bangalore)."""
+
     def setUp(self):
         self.store = Store.objects.create(name='Shop A', slug='shop-a')
         self.other_store = Store.objects.create(name='Shop B', slug='shop-b')
@@ -48,6 +50,8 @@ class InventoryTests(APITestCase):
         placed = complete_payment(Payment.objects.create(order=order, provider='mock', amount=1000))
         return order, placed
 
+
+class InventoryTests(InventoryBase):
     # ----- existing stock is kept -----
     def test_existing_stock_moves_into_main_warehouse(self):
         self.assertTrue(self.main.is_default)
@@ -166,3 +170,90 @@ class InventoryTests(APITestCase):
         self.client.force_authenticate(self.staff)
         pick = self.client.get(f'/api/inventory/pick-list/{order.id}/')
         self.assertEqual(pick.data['items'][0]['picks'], [{'warehouse': 'Main warehouse', 'code': 'MAIN', 'qty': 2, 'bin': ''}])
+
+
+class LocationWarehouseTests(InventoryBase):
+    """One login per warehouse (Chennai / Bangalore); an order is packed from the warehouse in the customer's city."""
+
+    def setUp(self):
+        super().setUp()
+        self.main.city = 'Chennai'
+        self.main.save()
+        self.second.city = 'Bangalore'
+        self.second.save()
+        WarehouseStock.objects.update_or_create(warehouse=self.second, variant=self.variant, defaults={'quantity': 6})
+        ProductVariant.objects.filter(pk=self.variant.pk).update(stock=11)  # the shop total = Main 5 + Bangalore 6
+        self.chennai = User.objects.create_user(username='chn@t.com', email='chn@t.com', password='x', role='warehouse',
+                                                store=self.store, warehouse=self.main)
+        self.bangalore = User.objects.create_user(username='blr@t.com', email='blr@t.com', password='x', role='warehouse',
+                                                  store=self.store, warehouse=self.second)
+
+    def order_to(self, city, qty):
+        order = Order.objects.create(user=self.customer, store=self.store, ship_name='C', ship_phone='9876543210',
+                                     ship_address='x', ship_city=city, ship_pincode='560001',
+                                     subtotal=1000, tax=0, shipping=0, total=1000)
+        OrderItem.objects.create(order=order, variant=self.variant, product_name='Runner', price=1000, qty=qty)
+        complete_payment(Payment.objects.create(order=order, provider='mock', amount=1000))
+        return order
+
+    def test_order_is_packed_from_the_customers_city(self):
+        self.order_to('bangalore ', 2)  # spelling / spaces / case do not matter
+        self.assertEqual((self.qty(self.main), self.qty(self.second)), (5, 4))
+        self.order_to('Chennai', 1)
+        self.assertEqual((self.qty(self.main), self.qty(self.second)), (4, 4))
+
+    def test_unknown_city_or_too_little_local_stock_falls_back(self):
+        self.order_to('Delhi', 1)  # no warehouse there → the default (Chennai / MAIN)
+        self.assertEqual(self.qty(self.main), 4)
+        self.order_to('Bangalore', 6)  # Bangalore has 6 → all from Bangalore
+        self.assertEqual(self.qty(self.second), 0)
+        self.order_to('Bangalore', 3)  # Bangalore is empty → Chennai covers it
+        self.assertEqual(self.qty(self.main), 1)
+
+    def test_manager_sees_only_their_warehouse(self):
+        self.client.force_authenticate(self.chennai)
+        self.assertEqual({w['code'] for w in self.client.get('/api/inventory/warehouses/').data}, {'MAIN'})
+        self.assertEqual({r['warehouse_name'] for r in self.client.get('/api/inventory/stock/').data['results']}, {'Main warehouse'})
+        self.client.force_authenticate(self.manager)  # not tied → the whole store
+        self.assertEqual(len(self.client.get('/api/inventory/warehouses/').data), 2)
+
+    def test_manager_cannot_act_in_the_other_warehouse(self):
+        self.client.force_authenticate(self.chennai)
+        receipt = {'warehouse': self.second.id, 'supplier': 'Nike', 'lines': [{'variant': self.variant.id, 'qty': 1}]}
+        self.assertEqual(self.client.post('/api/inventory/receipts/', receipt, format='json').status_code, 403)
+        receipt['warehouse'] = self.main.id
+        self.assertEqual(self.client.post('/api/inventory/receipts/', receipt, format='json').status_code, 201)
+        # a transfer must leave from their own warehouse
+        move = {'from_warehouse': self.second.id, 'to_warehouse': self.main.id, 'lines': [{'variant': self.variant.id, 'qty': 1}]}
+        self.assertEqual(self.client.post('/api/inventory/transfers/', move, format='json').status_code, 403)
+
+    def test_transfer_steps_belong_to_the_right_warehouse(self):
+        self.client.force_authenticate(self.admin)
+        move = {'from_warehouse': self.second.id, 'to_warehouse': self.main.id, 'lines': [{'variant': self.variant.id, 'qty': 2}]}
+        transfer = self.client.post('/api/inventory/transfers/', move, format='json').data['id']
+        self.assertEqual(self.client.post(f'/api/inventory/transfers/{transfer}/dispatch/').status_code, 200)
+        self.client.force_authenticate(self.bangalore)  # the sender cannot press Receive
+        self.assertEqual(self.client.post(f'/api/inventory/transfers/{transfer}/receive/').status_code, 403)
+        self.client.force_authenticate(self.chennai)  # the receiver can
+        self.assertEqual(self.client.post(f'/api/inventory/transfers/{transfer}/receive/').status_code, 200)
+        self.assertEqual((self.qty(self.main), self.qty(self.second)), (7, 4))
+
+    def test_orders_to_pick_and_pick_list_are_per_warehouse(self):
+        blr_order, chn_order = self.order_to('Bangalore', 2), self.order_to('Chennai', 1)
+        self.client.force_authenticate(self.bangalore)
+        self.assertEqual([o['order'] for o in self.client.get('/api/inventory/orders-to-pick/').data], [blr_order.id])
+        self.assertEqual(self.client.get(f'/api/inventory/pick-list/{blr_order.id}/').status_code, 200)
+        self.assertEqual(self.client.get(f'/api/inventory/pick-list/{chn_order.id}/').status_code, 404)
+        self.client.force_authenticate(self.chennai)
+        self.assertEqual([o['order'] for o in self.client.get('/api/inventory/orders-to-pick/').data], [chn_order.id])
+
+    def test_store_admin_creates_and_moves_a_location_manager(self):
+        self.client.force_authenticate(self.admin)
+        made = self.client.post('/api/manage/staff/', {'name': 'Priya', 'email': 'priya@t.com', 'password': 'Stock@2026x',
+                                                       'role': 'warehouse', 'warehouse': self.second.id}, format='json')
+        self.assertEqual((made.status_code, made.data['warehouse_name']), (201, 'Bangalore'))
+        moved = self.client.patch(f"/api/manage/users/{made.data['id']}/warehouse/", {'warehouse': self.main.id}, format='json')
+        self.assertEqual(moved.data['warehouse_name'], 'Main warehouse')
+        other = Warehouse.objects.create(store=self.other_store, name='X', code='X')  # another store's warehouse
+        bad = self.client.patch(f"/api/manage/users/{made.data['id']}/warehouse/", {'warehouse': other.id}, format='json')
+        self.assertEqual(bad.status_code, 404)

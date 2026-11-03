@@ -54,4 +54,5 @@ class StoreAdminCreateSerializer(serializers.Serializer):
         return User.objects.create_user(
             username=data['email'], email=data['email'], password=data['password'],
             first_name=data['name'], role=self.context.get('role', User.Role.ADMIN), store=self.context['store'],
+            warehouse=self.context.get('warehouse'),
         )

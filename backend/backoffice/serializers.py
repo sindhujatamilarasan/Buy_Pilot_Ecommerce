@@ -180,8 +180,10 @@ class UserAdminSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='first_name', read_only=True)
     orders = serializers.IntegerField(source='orders.count', read_only=True)
     store_name = serializers.CharField(source='store.name', read_only=True, default=None)
+    warehouse_name = serializers.CharField(source='warehouse.name', read_only=True, default=None)
 
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'role', 'store', 'store_name', 'is_active', 'date_joined', 'orders']
+        fields = ['id', 'name', 'email', 'role', 'store', 'store_name', 'warehouse', 'warehouse_name', 'is_active',
+                  'date_joined', 'orders']
         read_only_fields = ['email', 'date_joined']

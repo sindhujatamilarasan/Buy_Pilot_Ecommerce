@@ -29,7 +29,7 @@ const Overview = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Inventory" subtitle={user.role === 'superadmin' ? 'All stores' : `Warehouses of ${user.store_name}`}>
+      <PageHeader title="Inventory" subtitle={user.role === 'superadmin' ? 'All stores' : user.warehouse_name ? `${user.warehouse_name} · ${user.store_name}` : `Warehouses of ${user.store_name}`}>
         <Link to="/inventory/receipts?new=1" className="bg-brand flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-md"><PackagePlus size={16} /> Receive goods</Link>
         <Link to="/inventory/transfers?new=1" className="flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-bold text-ink-700 ring-1 ring-ink-300/30"><ArrowLeftRight size={16} /> Transfer</Link>
       </PageHeader>

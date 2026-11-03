@@ -150,6 +150,21 @@ class TransferList(generics.ListCreateAPIView):
         return Response(TransferSerializer(transfer).data, status=status.HTTP_201_CREATED)
 
 
+@api_view(['GET'])
+@permission_classes([IsWarehouseTeam])
+def transfer_counts(request):
+    """How many transfers wait in each tab FOR ME: to approve, to dispatch (leaving my warehouse), to receive (arriving)."""
+    rows = StockTransfer.objects.all()
+    rows = my_transfers(for_my_store(rows, request.user, field='from_warehouse__store'), request.user)
+    mine = my_warehouse_id(request.user)
+    status = StockTransfer.Status
+    return Response({
+        'requested': rows.filter(status=status.REQUESTED).count(),
+        'approved': rows.filter(status=status.APPROVED, **({'from_warehouse': mine} if mine else {})).count(),
+        'in_transit': rows.filter(status=status.IN_TRANSIT, **({'to_warehouse': mine} if mine else {})).count(),
+    })
+
+
 def transfer_action(action, side=None):
     """POST /api/inventory/transfers/<id>/<action>/ → run the service, return the updated transfer.
 

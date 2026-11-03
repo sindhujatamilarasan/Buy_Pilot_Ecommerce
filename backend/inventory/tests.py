@@ -226,6 +226,16 @@ class LocationWarehouseTests(InventoryBase):
         self.client.force_authenticate(self.bangalore)
         self.assertEqual(len(self.client.get('/api/inventory/transfers/').data['results']), 1)
 
+    def test_transfer_counts_are_for_my_side(self):
+        self.client.force_authenticate(self.admin)
+        move = {'from_warehouse': self.second.id, 'to_warehouse': self.main.id, 'lines': [{'variant': self.variant.id, 'qty': 1}]}
+        transfer = self.client.post('/api/inventory/transfers/', move, format='json').data['id']
+        self.client.post(f'/api/inventory/transfers/{transfer}/dispatch/')
+        counts = lambda user: (self.client.force_authenticate(user), self.client.get('/api/inventory/transfers/counts/').data)[1]
+        self.assertEqual(counts(self.chennai)['in_transit'], 1)  # arriving in Chennai → Chennai has to receive
+        self.assertEqual(counts(self.bangalore)['in_transit'], 0)  # Bangalore sent it
+        self.assertEqual(counts(self.admin)['in_transit'], 1)
+
     def test_manager_cannot_act_in_the_other_warehouse(self):
         self.client.force_authenticate(self.chennai)
         receipt = {'warehouse': self.second.id, 'supplier': 'Nike', 'lines': [{'variant': self.variant.id, 'qty': 1}]}

@@ -23,6 +23,7 @@ export const createReceipt = data => post('/inventory/receipts/', data)
 export const getAdjustments = params => get('/inventory/adjustments/', params)
 export const createAdjustment = data => post('/inventory/adjustments/', data)
 export const decideAdjustment = (id, action) => post(`/inventory/adjustments/${id}/${action}/`) // approve | reject
+export const getTransferCounts = () => get('/inventory/transfers/counts/')
 export const getTransfers = params => get('/inventory/transfers/', params)
 export const createTransfer = data => post('/inventory/transfers/', data)
 export const transferAction = (id, action) => post(`/inventory/transfers/${id}/${action}/`) // approve | reject | dispatch | receive | cancel

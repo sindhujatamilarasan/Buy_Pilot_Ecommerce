@@ -19,6 +19,7 @@ urlpatterns = [
     path('adjustments/<int:pk>/approve/', operations.approve_adjustment),
     path('adjustments/<int:pk>/reject/', operations.reject_adjustment),
     path('transfers/', operations.TransferList.as_view()),
+    path('transfers/counts/', operations.transfer_counts),
     path('transfers/<int:pk>/approve/', operations.approve_transfer),
     path('transfers/<int:pk>/reject/', operations.reject_transfer),
     path('transfers/<int:pk>/dispatch/', operations.dispatch_transfer),

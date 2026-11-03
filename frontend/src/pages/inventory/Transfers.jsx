@@ -2,7 +2,7 @@
 import { ArrowLeftRight, ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { getTransfers, getWarehouses, transferAction } from '../../api/inventory'
+import { getTransferCounts, getTransfers, getWarehouses, transferAction } from '../../api/inventory'
 import { adminCard } from '../../components/admin/adminStyles'
 import PageHeader from '../../components/admin/PageHeader'
 import Pagination from '../../components/admin/Pagination'
@@ -16,6 +16,8 @@ import { useConfirm } from '../../hooks/useConfirm'
 import { getErrorMessage } from '../../utils/format'
 
 const TABS = [['requested', 'To approve'], ['approved', 'To dispatch'], ['in_transit', 'In transit'], ['received', 'Received'], ['', 'All']]
+// Waits (does nothing) until we know which tab to open
+const loadTransfers = params => (params ? getTransfers(params) : Promise.resolve(null))
 const date = iso => iso && new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
 
 const Transfers = () => {
@@ -24,12 +26,17 @@ const Transfers = () => {
   // A manager tied to one warehouse: dispatch / cancel belong to the sending warehouse, receive to the receiving one
   const ownsSide = (t, side) => !user.warehouse || user.warehouse === t[`${side}_warehouse`]
   const [params] = useSearchParams()
-  const [status, setStatus] = useState(params.get('status') ?? 'requested')
+  const [picked, setPicked] = useState(params.get('status'))  // the tab the user clicked (none yet → the one that needs them)
   const [adding, setAdding] = useState(params.get('new') === '1')
   const [page, setPage] = useState(1)
   const [version, setVersion] = useState(0)
   const warehouses = useApi(getWarehouses, { targets: 1 }) // every warehouse of the store (the "To" list)
-  const { data, loading, error } = useApi(getTransfers, { status, page }, version)
+  const counts = useApi(getTransferCounts, undefined, version)
+  // Open on the tab with work waiting: a warehouse manager → stock to receive, then to dispatch; an admin → to approve first
+  const order = isAdmin ? ['requested', 'in_transit', 'approved'] : ['in_transit', 'approved', 'requested']
+  const status = picked ?? (counts.data ? order.find(tab => counts.data[tab] > 0) ?? '' : null)
+  const setStatus = value => setPicked(value)
+  const { data, loading, error } = useApi(loadTransfers, status === null ? null : { status, page }, version)
   const { confirm, notify, dialog } = useConfirm()
 
   const act = async (transfer, action, question) => {
@@ -63,11 +70,14 @@ const Transfers = () => {
 
       <div className="flex gap-2 overflow-x-auto pb-1">
         {TABS.map(([value, label]) => (
-          <button key={value} onClick={() => { setStatus(value); setPage(1) }} className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold ${status === value ? 'bg-ink-900 text-white' : 'bg-white text-ink-600 ring-1 ring-ink-300/30'}`}>{label}</button>
+          <button key={value} onClick={() => { setStatus(value); setPage(1) }} className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ${status === value ? 'bg-ink-900 text-white' : 'bg-white text-ink-600 ring-1 ring-ink-300/30'}`}>
+            {label}
+            {counts.data?.[value] > 0 && <span className="rounded-full bg-mango-500 px-2 py-0.5 text-[11px] font-bold leading-none text-white">{counts.data[value]}</span>}
+          </button>
         ))}
       </div>
 
-      {loading ? <Spinner /> : error ? <LoadError what="transfers" onRetry={() => setVersion(v => v + 1)} /> : (
+      {loading || status === null ? <Spinner /> : error ? <LoadError what="transfers" onRetry={() => setVersion(v => v + 1)} /> : (
         <>
           {data.results.length === 0 && <p className={`${adminCard} p-10 text-center text-sm text-ink-400`}>No transfers here.</p>}
           {data.results.map(t => (

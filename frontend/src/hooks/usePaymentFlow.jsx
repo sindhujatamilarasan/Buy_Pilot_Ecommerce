@@ -42,7 +42,7 @@ export const usePaymentFlow = ({ onSuccess, onFailure }) => {
       amount: payment.amount, // in paise
       currency: payment.currency,
       order_id: payment.razorpay_order_id,
-      name: 'ShopKart',
+      name: 'Shopora',
       description: `Order #${order.id}`,
       prefill: { name: user.name, email: user.email },
       theme: { color: shade(theme, 500) }, // popup matches the shop theme

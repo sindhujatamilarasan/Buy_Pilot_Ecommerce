@@ -1,5 +1,5 @@
 // Admin / staff frame: grouped sidebar + top bar. Menu items list which roles can see them.
-import { ArrowLeftRight, Boxes, ChartColumn, FolderTree, ExternalLink, FileClock, LayoutDashboard, LogOut, Megaphone, Menu, Package, PackagePlus, ReceiptText, ShoppingBag, SlidersHorizontal, Store, Tag, Users, Warehouse } from 'lucide-react'
+import { ArrowLeftRight, Boxes, ChartColumn, FolderTree, ExternalLink, FileClock, LayoutDashboard, LogOut, Megaphone, Menu, Package, PackagePlus, ReceiptText, SlidersHorizontal, Store, Tag, Users, Warehouse } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
@@ -61,9 +61,9 @@ const AdminLayout = () => {
       {/* Sidebar (slides in on mobile) */}
       <aside className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-ink-300/20 bg-white transition-transform md:sticky md:top-0 md:h-screen md:translate-x-0 ${menuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}`}>
         <div className="flex items-center gap-2 px-5 py-5">
-          <span className="bg-brand flex h-9 w-9 items-center justify-center rounded-xl text-white"><ShoppingBag size={19} /></span>
+          <img src="/logo-mark.png" alt="" className="h-9 w-9 rounded-xl shadow-sm" />
           <div>
-            <p className="font-display text-lg font-extrabold leading-none text-ink-900">ShopKart</p>
+            <p className="font-display text-lg font-extrabold leading-none text-ink-900">Shopora</p>
             <p className="mt-1 max-w-[150px] truncate text-[11px] font-semibold uppercase tracking-wider text-ink-400">
               {user.role === 'superadmin' ? 'All stores' : user.store_name || ROLE_LABEL[user.role]}
             </p>

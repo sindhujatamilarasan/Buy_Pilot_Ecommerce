@@ -6,7 +6,7 @@ variant type → 'clothes' (S–XL), 'women' (XS–L), 'shoes' (UK 6–10), or N
 
 STORES = [
     # slug, name, description, admin email, admin name, categories
-    ('shopkart-official', 'ShopKart Official', 'Gadgets, watches and everyday accessories.', 'admin@shopkart.test', 'Admin User',
+    ('shopkart-official', 'Shopora Official', 'Gadgets, watches and everyday accessories.', 'admin@shopkart.test', 'Admin User',
      ['electronics', 'watches-accessories']),
     ('urban-threads', 'Urban Threads', 'Clothing for men and women.', 'urban@shopkart.test', 'Urban Admin',
      ['mens-clothing', 'womens-clothing']),

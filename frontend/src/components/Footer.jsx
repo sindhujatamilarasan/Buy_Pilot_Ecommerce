@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useSite } from '../hooks/useSite'
+import Logo from './Logo'
 
 // Footer links come from Super admin → Site content; links with the same "group" form one column
 const groupLinks = links =>
@@ -27,7 +28,7 @@ const Footer = () => {
     <footer className="mt-20 bg-gradient-to-br from-brand-50 via-brand-50 to-mango-100">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 md:grid-cols-4">
         <div>
-          <p className="font-display text-2xl font-extrabold">🛍️ <span className="text-brand">ShopKart</span></p>
+          <Logo />
           {site.footer_tagline && <p className="mt-3 text-sm leading-relaxed text-ink-500">{site.footer_tagline}</p>}
         </div>
         {groupLinks(site.footer_links).map(column => (
@@ -42,7 +43,7 @@ const Footer = () => {
         ))}
       </div>
       <div className="border-t border-brand-100 py-5 text-center text-xs text-ink-500">
-        © 2026 ShopKart · Made with 💖 using React + Django · Product photos: <a href="https://www.pexels.com" target="_blank" rel="noreferrer" className="underline hover:text-brand-700">Pexels</a>
+        © 2026 Shopora · Made with 💖 using React + Django · Product photos: <a href="https://www.pexels.com" target="_blank" rel="noreferrer" className="underline hover:text-brand-700">Pexels</a>
       </div>
     </footer>
   )

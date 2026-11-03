@@ -44,4 +44,4 @@ class SiteContentTests(APITestCase):
     def test_only_known_themes_are_allowed(self):
         self.client.force_authenticate(self.boss)
         self.assertEqual(self.client.put('/api/manage/site/', {**VALID, 'theme': 'neon'}, format='json').status_code, 400)
-        self.assertEqual(self.client.get('/api/site/').data['theme'], 'emerald')
+        self.assertEqual(self.client.get('/api/site/').data['theme'], 'shopora')

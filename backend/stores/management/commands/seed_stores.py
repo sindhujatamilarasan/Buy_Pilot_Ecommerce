@@ -2,7 +2,7 @@
 
 Usage:  python manage.py seed_stores
 Creates "Urban Threads" (fashion) and moves the clothing + footwear products into it.
-Everything else stays in "ShopKart Official". Safe to run again.
+Everything else stays in "Shopora Official". Safe to run again.
 """
 from django.core.management.base import BaseCommand
 
@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         official = Store.objects.get(pk=default_store_id())
-        official.description = 'Electronics, home, beauty, sports and more – sold by ShopKart.'
+        official.description = 'Electronics, home, beauty, sports and more – sold by Shopora.'
         official.save()
 
         urban, _ = Store.objects.get_or_create(

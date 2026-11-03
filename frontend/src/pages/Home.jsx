@@ -59,7 +59,7 @@ const Home = () => {
                 className="flex items-center gap-2 rounded-full border-2 border-brand-400 bg-white px-6 py-3.5 font-bold text-brand-700 shadow-sm transition hover:bg-brand-50 hover:scale-105"
               >
                 <Bot className="h-5 w-5 text-brand-600" />
-                Ask KartBot
+                Ask ShopBot
               </button>
             </div>
           </div>
@@ -80,7 +80,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* KartBot Interactive Assistant Showcase Banner */}
+      {/* ShopBot Interactive Assistant Showcase Banner */}
       <section className="relative overflow-hidden rounded-[2rem] border border-brand-200 bg-gradient-to-br from-white via-brand-50/50 to-brand-100/40 p-6 md:p-8 shadow-sm">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
@@ -90,14 +90,14 @@ const Home = () => {
             <div>
               <div className="flex items-center gap-2">
                 <span className="inline-flex items-center gap-1 rounded-full bg-brand-100 px-2.5 py-0.5 text-xs font-bold text-brand-700">
-                  <Sparkles className="h-3 w-3 text-brand-600" /> ShopKart Assistant
+                  <Sparkles className="h-3 w-3 text-brand-600" /> Shopora Assistant
                 </span>
                 <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-600">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> 24/7 Online
                 </span>
               </div>
               <h2 className="mt-1 font-display text-xl md:text-2xl font-extrabold text-ink-900">
-                {user ? `Welcome back, ${user.first_name || user.username}! How can KartBot help today?` : 'Meet KartBot – Your Smart Shopping Assistant'}
+                {user ? `Welcome back, ${user.first_name || user.username}! How can ShopBot help today?` : 'Meet ShopBot – Your Smart Shopping Assistant'}
               </h2>
               <p className="mt-1 text-sm text-ink-600 max-w-xl">
                 {user
@@ -138,7 +138,7 @@ const Home = () => {
               className="flex items-center gap-1.5 rounded-full bg-brand px-5 py-2 text-xs font-bold text-white shadow-md shadow-brand-500/20 transition hover:opacity-95 hover:scale-105 active:scale-95"
             >
               <MessageSquare className="h-4 w-4" />
-              Chat with KartBot
+              Chat with ShopBot
             </button>
           </div>
         </div>

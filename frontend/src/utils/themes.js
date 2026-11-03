@@ -3,6 +3,11 @@
 const SHADES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
 
 export const THEMES = {
+  // Shopora: forest green from the logo badge, gold accent, warm cream page. Gradient buttons go dark → light.
+  shopora: {
+    label: 'Shopora', alt: '#2f7a5b', blush: '#fdf8f0', from: '#174b38',
+    brand: ['#eff6f2', '#dcebe2', '#b9d7c6', '#8bbba1', '#559b7c', '#2f7a5b', '#1f6049', '#174b38', '#123a2c', '#0d2b20'],
+  },
   emerald: {
     label: 'Emerald', alt: '#0d9488', blush: '#f7fcf9',
     brand: ['#ecfdf5', '#d1fae5', '#a7f3d0', '#6ee7b7', '#34d399', '#10b981', '#059669', '#047857', '#065f46', '#064e3b'],
@@ -26,7 +31,7 @@ export const THEMES = {
 }
 
 // Unknown key (old data, server down) → the default theme
-export const themeOf = key => THEMES[key] || THEMES.emerald
+export const themeOf = key => THEMES[key] || THEMES.shopora
 
 // shade(theme, 500) → '#10b981'
 export const shade = (theme, value) => theme.brand[SHADES.indexOf(value)]
@@ -36,6 +41,7 @@ export const applyTheme = key => {
   const theme = themeOf(key)
   const root = document.documentElement.style
   SHADES.forEach((value, i) => root.setProperty(`--color-brand-${value}`, theme.brand[i]))
-  root.setProperty('--color-brand-alt', theme.alt)
+  root.setProperty('--brand-from', theme.from || shade(theme, 500)) // button gradient: start → end
+  root.setProperty('--brand-to', theme.alt)
   root.setProperty('--color-blush', theme.blush)
 }

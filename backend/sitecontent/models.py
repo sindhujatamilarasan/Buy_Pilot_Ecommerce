@@ -17,6 +17,7 @@ def validate_link(value):
 
 class Theme(models.TextChoices):
     # The colours of each theme live in frontend/src/utils/themes.js (same keys)
+    SHOPORA = 'shopora', 'Shopora'
     EMERALD = 'emerald', 'Emerald'
     OCEAN = 'ocean', 'Ocean blue'
     ROSE = 'rose', 'Rose'
@@ -27,7 +28,7 @@ class Theme(models.TextChoices):
 class SiteSettings(models.Model):
     """Exactly one row (pk=1) – use SiteSettings.load()."""
 
-    theme = models.CharField(max_length=20, choices=Theme.choices, default=Theme.EMERALD)
+    theme = models.CharField(max_length=20, choices=Theme.choices, default=Theme.SHOPORA)
     announcement_enabled = models.BooleanField(default=True)
     announcement_text = models.CharField(max_length=160, blank=True)
     hero_badge = models.CharField(max_length=60, blank=True)

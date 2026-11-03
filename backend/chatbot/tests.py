@@ -79,7 +79,7 @@ class ChatbotTests(APITestCase):
     def test_guest_greeting_and_faq(self):
         res = self.client.post('/api/chat/', {'message': 'Hello'})
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertIn('KartBot', res.data['reply'])
+        self.assertIn('ShopBot', res.data['reply'])
         self.assertEqual(res.data['type'], 'greeting')
 
     def test_guest_coupons(self):

@@ -392,7 +392,7 @@ def handle_chat(message='', action=None, user=None, client_cart=None):
     # 6. SHIPPING & DELIVERY POLICY INTENT
     if action == 'shipping_policy' or any(k in msg_lower for k in ['shipping charges', 'shipping fee', 'delivery fee', 'shipping cost', 'free shipping', 'when will i receive']):
         return {
-            'reply': "🚚 **ShopKart Delivery Policy**:\n\n• **FREE Delivery**: On all orders of **₹500 or more**.\n• **Standard Shipping**: ₹49 flat fee for orders under ₹500.\n• **Delivery Speed**: 2 to 4 business days with end-to-end status tracking.\n• **Taxes**: All prices include 18% GST.",
+            'reply': "🚚 **Shopora Delivery Policy**:\n\n• **FREE Delivery**: On all orders of **₹500 or more**.\n• **Standard Shipping**: ₹49 flat fee for orders under ₹500.\n• **Delivery Speed**: 2 to 4 business days with end-to-end status tracking.\n• **Taxes**: All prices include 18% GST.",
             'type': 'faq',
             'data': {},
             'quick_replies': ['Active Coupons', 'Trending Products', 'Track My Order']
@@ -419,7 +419,7 @@ def handle_chat(message='', action=None, user=None, client_cart=None):
     # 9. MULTI-STORE / SELLER INTENT
     if any(k in msg_lower for k in ['seller', 'store', 'urban threads', 'shopkart official', 'multi-vendor', 'who is selling']):
         return {
-            'reply': "🏪 **Marketplace Sellers**:\n\nShopKart hosts verified marketplace stores including **ShopKart Official** and **Urban Threads**.\n\n*Note*: To ensure smooth packing and shipping, checkout is completed for **one store per order**. Any items from another store can be saved for later with 1 click!",
+            'reply': "🏪 **Marketplace Sellers**:\n\nShopora hosts verified marketplace stores including **Shopora Official** and **Urban Threads**.\n\n*Note*: To ensure smooth packing and shipping, checkout is completed for **one store per order**. Any items from another store can be saved for later with 1 click!",
             'type': 'faq',
             'data': {},
             'quick_replies': ['Browse Products', 'Active Coupons', 'Check My Cart']
@@ -451,7 +451,7 @@ def handle_chat(message='', action=None, user=None, client_cart=None):
     # 11. GREETINGS & DEFAULT FALLBACK
     greeting_prefix = f"Hello {user_name}! 👋" if is_auth else "Hello there! 👋"
     return {
-        'reply': f"{greeting_prefix} I am **KartBot**, your personal ShopKart assistant. How can I help you today?",
+        'reply': f"{greeting_prefix} I am **ShopBot**, your personal Shopora assistant. How can I help you today?",
         'type': 'greeting',
         'data': {
             'is_authenticated': is_auth,

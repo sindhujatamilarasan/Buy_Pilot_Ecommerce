@@ -1,4 +1,4 @@
-# Database Design – ShopKart
+# Database Design – Shopora
 
 Database: **PostgreSQL 16** (Docker, port 5434). Every table below is a **Django model**;
 Django creates and changes the tables with `makemigrations` + `migrate`.

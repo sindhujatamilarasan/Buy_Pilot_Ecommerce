@@ -2,6 +2,7 @@ import { LayoutDashboard } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import Logo from './Logo'
 import { useCart } from '../hooks/useCart'
 import { useSite } from '../hooks/useSite'
 import { useWishlist } from '../hooks/useWishlist'
@@ -30,14 +31,12 @@ const Navbar = () => {
     <header className="sticky top-0 z-20">
       {/* Text comes from Super admin → Site content */}
       {site.announcement_enabled && site.announcement_text && (
-        <div className="bg-brand-soft px-4 py-2 text-center text-xs font-bold tracking-wide text-brand-800">{site.announcement_text}</div>
+        <div className="bg-brand-900 px-4 py-2 text-center text-xs font-bold tracking-wide text-mango-400">{site.announcement_text}</div>
       )}
 
       <div className="border-b border-brand-100 bg-blush/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-4 py-3">
-          <Link to="/" className="font-display text-2xl font-extrabold">
-            🛍️ <span className="text-brand">ShopKart</span>
-          </Link>
+          <Logo />
 
           <form onSubmit={handleSearch} className="order-last w-full sm:order-none sm:flex-1">
             <input

@@ -5,8 +5,8 @@ import { SiteContext } from './SiteContext'
 
 // Used while loading (or if the server is down) so the shop never shows a broken header
 const FALLBACK = {
-  theme: 'emerald',
-  announcement_enabled: false, announcement_text: '', hero_badge: '', hero_title: 'Welcome to ShopKart',
+  theme: 'shopora',
+  announcement_enabled: false, announcement_text: '', hero_badge: '', hero_title: 'Welcome to Shopora',
   hero_highlight: '', hero_subtitle: '', footer_tagline: '', perks: [], footer_links: [],
 }
 

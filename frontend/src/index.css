@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
 @import 'tailwindcss';
 
-/* ===== ShopKart design tokens =====
+/* ===== Shopora design tokens =====
    Tailwind v4 turns these into classes: text-ink-900, bg-blush, font-display…
    Bright colours (pink, orange, violet…) come from Tailwind's built-in palette. */
 @theme {
@@ -18,27 +18,28 @@
   --color-ink-800: #252838;
   --color-ink-900: #1a1c2b;
 
-  /* Brand – emerald green by default. The super admin's theme (utils/themes.js) overwrites these at runtime. */
-  --color-brand-50: #ecfdf5;
-  --color-brand-100: #d1fae5;
-  --color-brand-200: #a7f3d0;
-  --color-brand-300: #6ee7b7;
-  --color-brand-400: #34d399;
-  --color-brand-500: #10b981;
-  --color-brand-600: #059669;
-  --color-brand-700: #047857;
-  --color-brand-800: #065f46;
-  --color-brand-900: #064e3b;
-  --color-brand-alt: #0d9488; /* 2nd colour of the gradients */
+  /* Brand – Shopora forest green (from the logo badge). The theme (utils/themes.js) overwrites these at runtime. */
+  --color-brand-50: #eff6f2;
+  --color-brand-100: #dcebe2;
+  --color-brand-200: #b9d7c6;
+  --color-brand-300: #8bbba1;
+  --color-brand-400: #559b7c;
+  --color-brand-500: #2f7a5b;
+  --color-brand-600: #1f6049;
+  --color-brand-700: #174b38;
+  --color-brand-800: #123a2c;
+  --color-brand-900: #0d2b20;
+  --brand-from: #174b38; /* button gradient: dark → light */
+  --brand-to: #2f7a5b;
 
-  /* Mango – warm accent for offers, badges and ratings */
-  --color-mango-100: #fef3c7;
-  --color-mango-400: #fbbf24;
-  --color-mango-500: #f59e0b;
-  --color-mango-600: #d97706;
+  /* Mango – the logo's gold, for offers, badges and ratings */
+  --color-mango-100: #fcefd8;
+  --color-mango-400: #f0b466;
+  --color-mango-500: #e8a03c;
+  --color-mango-600: #b8741a;
 
-  /* Very light mint page background (not plain white) */
-  --color-blush: #f7fcf9;
+  /* Warm cream page background (not plain white) */
+  --color-blush: #fdf8f0;
 }
 
 @layer base {
@@ -54,9 +55,9 @@
 }
 
 /* The gradients use the variables too, so they follow the chosen theme */
-/* Bright brand → alt: ONLY for small things (buttons, active menu, logo) */
+/* Dark → light brand green: ONLY for small things (buttons, active menu, logo) */
 @utility bg-brand {
-  background-image: linear-gradient(120deg, var(--color-brand-500) 0%, var(--color-brand-alt) 100%);
+  background-image: linear-gradient(120deg, var(--brand-from) 0%, var(--brand-to) 100%);
 }
 
 /* Soft brand → mango cream: for BIG areas (hero, top strip, sidebar, banners) */
@@ -65,7 +66,7 @@
 }
 
 @utility text-brand {
-  background-image: linear-gradient(120deg, var(--color-brand-600) 0%, var(--color-brand-alt) 100%);
+  background-image: linear-gradient(120deg, var(--color-brand-700) 0%, var(--color-brand-500) 100%);
   background-clip: text;
   color: transparent;
 }

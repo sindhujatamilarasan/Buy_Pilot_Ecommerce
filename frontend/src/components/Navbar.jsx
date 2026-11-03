@@ -36,7 +36,7 @@ const Navbar = () => {
 
       <div className="border-b border-brand-100 bg-blush/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-4 px-4 py-3">
-          <Logo />
+          <Logo className="text-3xl" />
 
           <form onSubmit={handleSearch} className="order-last w-full sm:order-none sm:flex-1">
             <input

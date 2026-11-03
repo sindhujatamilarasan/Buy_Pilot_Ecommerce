@@ -48,7 +48,7 @@ const ChatBot = () => {
 
   // Initial welcome message
   useEffect(() => {
-    const userName = user?.first_name || user?.username
+    const userName = user?.name
     const welcomeText = user
       ? `Hi ${userName}! 👋 I am **PilotBot**, your Buy Pilot personal assistant. I can track your orders, check your cart, find active coupon codes, and recommend products.`
       : 'Hello! 👋 Welcome to Buy Pilot. I am **PilotBot**, your personal shopping assistant. Ask me about our products, deals, shipping policies, or track an order!'
@@ -232,7 +232,7 @@ const ChatBot = () => {
           <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-brand-100 text-lg">🤖</span>
           <div className="flex-1 cursor-pointer" onClick={() => { setIsOpen(true); setShowTeaser(false) }}>
             <p className="text-xs font-bold text-ink-900">
-              {user ? `Hi ${user.first_name || user.username}! Need help?` : 'Need shopping assistance?'}
+              {user ? `Hi ${user.name}! Need help?` : 'Need shopping assistance?'}
             </p>
             <p className="text-[11px] text-ink-500">Track orders, check cart or get coupons!</p>
           </div>
@@ -278,7 +278,7 @@ const ChatBot = () => {
                 </div>
                 <p className="flex items-center gap-1 text-[11px] text-brand-100">
                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-300" />
-                  {user ? `Helping ${user.first_name || user.username}` : 'Instant Support & Deals'}
+                  {user ? `Helping ${user.name}` : 'Instant Support & Deals'}
                 </p>
               </div>
             </div>

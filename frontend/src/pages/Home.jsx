@@ -97,7 +97,7 @@ const Home = () => {
                 </span>
               </div>
               <h2 className="mt-1 font-display text-xl md:text-2xl font-extrabold text-ink-900">
-                {user ? `Welcome back, ${user.first_name || user.username}! How can PilotBot help today?` : 'Meet PilotBot – Your Smart Shopping Assistant'}
+                {user ? `Welcome back, ${user.name}! How can PilotBot help today?` : 'Meet PilotBot – Your Smart Shopping Assistant'}
               </h2>
               <p className="mt-1 text-sm text-ink-600 max-w-xl">
                 {user

@@ -1,8 +1,8 @@
-# 🛍️ Shopora – Multi-store E-commerce with Admin Panel
+# 🛍️ Buy Pilot – Multi-store E-commerce with Admin Panel
 
 ## 1. Project overview
 
-**Shopora** is a small Amazon / Flipkart-style online marketplace.
+**Buy Pilot** is a small Amazon / Flipkart-style online marketplace.
 
 - **Customers** browse products from several stores, filter and search, add to a cart or wishlist,
   apply coupons, pay with Razorpay (test mode) and track or cancel their orders.
@@ -75,7 +75,7 @@ Check: http://127.0.0.1:8000/api/health/ → `{"status": "ok"}`
 | Seed command | What it creates |
 |---|---|
 | `seed_products` | 8 categories and 100 products with variants and real photos (from `catalog/seed/products.json`) |
-| `seed_stores` | The demo stores (*Shopora Official*, *Urban Threads*) |
+| `seed_stores` | The demo stores (*Buy Pilot Official*, *Urban Threads*) |
 | `seed_users` | One demo account per role (below) |
 | `seed_orders` | Optional: 150 **fake** orders to try the dashboard and reports (`--clear` removes them) |
 
@@ -103,9 +103,9 @@ Open http://localhost:5173
 | Role | Email | Sees |
 |---|---|---|
 | Super admin | superadmin@shopkart.test | All stores · stores, coupons, categories, site content |
-| Store admin | admin@shopkart.test | Shopora Official only |
+| Store admin | admin@shopkart.test | Buy Pilot Official only |
 | Store admin | urban@shopkart.test | Urban Threads only |
-| Staff | staff@shopkart.test | Shopora Official orders |
+| Staff | staff@shopkart.test | Buy Pilot Official orders |
 | Customer | customer@shopkart.test | The shop |
 
 ### 3.5 Tests

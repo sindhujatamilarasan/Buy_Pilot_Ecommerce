@@ -47,7 +47,7 @@ const Users = () => {
   return (
     <div className="space-y-6">
       {dialog}
-      <PageHeader title="Users" subtitle={me.role === 'superadmin' ? 'Everyone on Shopora – add store admins on the Stores page' : `Customers and the team of ${me.store_name} – add staff for orders and warehouse managers for stock`}>
+      <PageHeader title="Users" subtitle={me.role === 'superadmin' ? 'Everyone on Buy Pilot – add store admins on the Stores page' : `Customers and the team of ${me.store_name} – add staff for orders and warehouse managers for stock`}>
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
           <input value={search} onChange={e => { setSearch(e.target.value); setPage(1) }} placeholder="Name or email…" className={`${adminInput} pl-9`} />

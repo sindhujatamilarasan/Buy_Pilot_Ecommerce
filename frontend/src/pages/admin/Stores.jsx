@@ -48,7 +48,7 @@ const Stores = () => {
   return (
     <div className="space-y-6">
       {dialog}
-      <PageHeader title="Stores" subtitle="Every seller on Shopora. Each store admin manages only their own store.">
+      <PageHeader title="Stores" subtitle="Every seller on Buy Pilot. Each store admin manages only their own store.">
         <button onClick={() => setCreating(c => !c)} className="bg-brand flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-md"><Plus size={16} /> New store</button>
       </PageHeader>
 

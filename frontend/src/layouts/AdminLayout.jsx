@@ -63,7 +63,7 @@ const AdminLayout = () => {
         <div className="flex items-center gap-2 px-5 py-5">
           <img src="/logo-mark.png" alt="" className="h-9 w-9 rounded-xl shadow-sm" />
           <div>
-            <p className="font-display text-lg font-extrabold leading-none text-ink-900">Shopora</p>
+            <p className="font-display text-lg font-extrabold leading-none text-ink-900">Buy Pilot</p>
             <p className="mt-1 max-w-[150px] truncate text-[11px] font-semibold uppercase tracking-wider text-ink-400">
               {user.role === 'superadmin' ? 'All stores' : user.store_name || ROLE_LABEL[user.role]}
             </p>

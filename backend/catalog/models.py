@@ -17,7 +17,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    # Which seller this product belongs to (existing products → "Shopora Official")
+    # Which seller this product belongs to (existing products → "Buy Pilot Official")
     store = models.ForeignKey('stores.Store', on_delete=models.PROTECT, related_name='products', default=default_store_id)
     # PROTECT: a category that still has products cannot be deleted
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')

@@ -21,5 +21,5 @@ class Store(models.Model):
 
 def default_store_id():
     """The store used when none is given (existing products / orders, and old code paths)."""
-    store, _ = Store.objects.get_or_create(slug=DEFAULT_STORE_SLUG, defaults={'name': 'Shopora Official'})
+    store, _ = Store.objects.get_or_create(slug=DEFAULT_STORE_SLUG, defaults={'name': 'Buy Pilot Official'})
     return store.pk

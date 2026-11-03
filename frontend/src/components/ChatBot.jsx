@@ -50,8 +50,8 @@ const ChatBot = () => {
   useEffect(() => {
     const userName = user?.first_name || user?.username
     const welcomeText = user
-      ? `Hi ${userName}! 👋 I am **ShopBot**, your Shopora personal assistant. I can track your orders, check your cart, find active coupon codes, and recommend products.`
-      : 'Hello! 👋 Welcome to Shopora. I am **ShopBot**, your personal shopping assistant. Ask me about our products, deals, shipping policies, or track an order!'
+      ? `Hi ${userName}! 👋 I am **PilotBot**, your Buy Pilot personal assistant. I can track your orders, check your cart, find active coupon codes, and recommend products.`
+      : 'Hello! 👋 Welcome to Buy Pilot. I am **PilotBot**, your personal shopping assistant. Ask me about our products, deals, shipping policies, or track an order!'
 
     setMessages([
       {
@@ -167,7 +167,7 @@ const ChatBot = () => {
       stock: 10,
       image: product.image,
       storeId: product.store_id || 1,
-      storeName: product.store || 'Shopora Official',
+      storeName: product.store || 'Buy Pilot Official',
     })
     setAddedItem(product.id)
     setTimeout(() => setAddedItem(null), 2000)
@@ -251,7 +251,7 @@ const ChatBot = () => {
         <button
           onClick={() => { setIsOpen(true); setShowTeaser(false) }}
           className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-tr from-brand-600 via-brand-500 to-brand-400 text-white shadow-xl shadow-brand-500/35 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-brand-500/50"
-          aria-label="Open ShopBot Shopping Assistant"
+          aria-label="Open PilotBot Shopping Assistant"
         >
           <Bot className="h-7 w-7 transition-transform group-hover:rotate-12" />
           <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4">
@@ -273,7 +273,7 @@ const ChatBot = () => {
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="font-display text-sm font-bold tracking-tight">ShopBot Assistant</h3>
+                  <h3 className="font-display text-sm font-bold tracking-tight">PilotBot Assistant</h3>
                   <Sparkles className="h-3.5 w-3.5 text-amber-300" />
                 </div>
                 <p className="flex items-center gap-1 text-[11px] text-brand-100">
@@ -580,7 +580,7 @@ const ChatBot = () => {
               </button>
             </div>
             <div className="mt-1.5 flex items-center justify-between px-1 text-[10px] text-ink-400">
-              <span>ShopBot AI • Real-time customer data</span>
+              <span>PilotBot AI • Real-time customer data</span>
               <span>Press Enter ↵</span>
             </div>
           </form>

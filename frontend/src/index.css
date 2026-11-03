@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
 @import 'tailwindcss';
 
-/* ===== Shopora design tokens =====
+/* ===== Buy Pilot design tokens =====
    Tailwind v4 turns these into classes: text-ink-900, bg-blush, font-display…
    Bright colours (pink, orange, violet…) come from Tailwind's built-in palette. */
 @theme {
@@ -18,7 +18,7 @@
   --color-ink-800: #252838;
   --color-ink-900: #1a1c2b;
 
-  /* Brand – Shopora forest green (from the logo badge). The theme (utils/themes.js) overwrites these at runtime. */
+  /* Brand – Buy Pilot forest green (from the logo badge). The theme (utils/themes.js) overwrites these at runtime. */
   --color-brand-50: #eff6f2;
   --color-brand-100: #dcebe2;
   --color-brand-200: #b9d7c6;

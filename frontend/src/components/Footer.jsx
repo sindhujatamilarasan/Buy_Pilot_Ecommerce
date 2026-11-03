@@ -43,7 +43,7 @@ const Footer = () => {
         ))}
       </div>
       <div className="border-t border-brand-100 py-5 text-center text-xs text-ink-500">
-        © 2026 Shopora · Made with 💖 using React + Django · Product photos: <a href="https://www.pexels.com" target="_blank" rel="noreferrer" className="underline hover:text-brand-700">Pexels</a>
+        © 2026 Buy Pilot · Made with 💖 using React + Django · Product photos: <a href="https://www.pexels.com" target="_blank" rel="noreferrer" className="underline hover:text-brand-700">Pexels</a>
       </div>
     </footer>
   )

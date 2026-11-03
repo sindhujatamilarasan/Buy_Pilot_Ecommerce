@@ -7,7 +7,7 @@ const post = async (url, data) => (await client.post(url, data)).data
 export const getInventoryOverview = () => get('/inventory/overview/')
 
 // Warehouses
-export const getWarehouses = () => get('/inventory/warehouses/')
+export const getWarehouses = params => get('/inventory/warehouses/', params)
 export const createWarehouse = data => post('/inventory/warehouses/', data)
 export const updateWarehouse = async (id, data) => (await client.patch(`/inventory/warehouses/${id}/`, data)).data
 

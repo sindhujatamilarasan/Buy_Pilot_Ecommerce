@@ -26,7 +26,7 @@ const Transfers = () => {
   const [adding, setAdding] = useState(params.get('new') === '1')
   const [page, setPage] = useState(1)
   const [version, setVersion] = useState(0)
-  const warehouses = useApi(getWarehouses)
+  const warehouses = useApi(getWarehouses, { targets: 1 }) // every warehouse of the store (the "To" list)
   const { data, loading, error } = useApi(getTransfers, { status, page }, version)
   const { confirm, notify, dialog } = useConfirm()
 

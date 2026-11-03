@@ -15,8 +15,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'role', 'store_name', 'warehouse_name', 'date_joined']
-        read_only_fields = ['email', 'role', 'date_joined']  # only the name can be edited
+        fields = ['id', 'name', 'email', 'role', 'store_name', 'warehouse', 'warehouse_name', 'date_joined']
+        read_only_fields = ['email', 'role', 'warehouse', 'date_joined']  # only the name can be edited
 
 
 class ChangePasswordSerializer(serializers.Serializer):

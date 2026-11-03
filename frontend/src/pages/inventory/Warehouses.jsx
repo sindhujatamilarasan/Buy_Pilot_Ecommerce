@@ -17,7 +17,7 @@ const Warehouses = () => {
   const isAdmin = user.role !== 'warehouse'
   const [editing, setEditing] = useState(null) // 'new' | warehouse id
   const [version, setVersion] = useState(0)
-  const { data, loading, error } = useApi(getWarehouses, version)
+  const { data, loading, error } = useApi(getWarehouses, undefined, version)
   const { confirm, notify, dialog } = useConfirm()
   const reload = () => { setEditing(null); setVersion(v => v + 1) }
 

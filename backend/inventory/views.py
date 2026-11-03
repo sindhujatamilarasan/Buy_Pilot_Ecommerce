@@ -34,9 +34,10 @@ def my_transfers(queryset, user):
     return queryset.filter(Q(from_warehouse=warehouse_id) | Q(to_warehouse=warehouse_id)) if warehouse_id else queryset
 
 
-def warehouses_with_numbers(user):
+def warehouses_with_numbers(user, all_of_store=False):
     low = Q(stock__quantity__lte=F('stock__reorder_level'))
-    mine = for_my_warehouse(Warehouse.objects.select_related('store'), user, field='pk')  # a Chennai manager sees only Chennai
+    everything = Warehouse.objects.select_related('store')
+    mine = everything if all_of_store else for_my_warehouse(everything, user, field='pk')  # a Chennai manager sees only Chennai
     return for_my_store(mine, user).annotate(
         units=Sum('stock__quantity', default=0),
         skus=Count('stock', filter=Q(stock__quantity__gt=0)),
@@ -53,6 +54,9 @@ class WarehouseList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         ensure_store_stock(my_store(self.request.user))  # first visit: stores get their "Main warehouse"
+        if self.request.query_params.get('targets') == '1':
+            # Transfer form: a manager tied to one warehouse can send stock to ANY warehouse of the store
+            return warehouses_with_numbers(self.request.user, all_of_store=True)
         return warehouses_with_numbers(self.request.user)
 
     def perform_create(self, serializer):

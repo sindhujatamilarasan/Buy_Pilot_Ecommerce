@@ -2,13 +2,17 @@
 import { ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import { createTransfer } from '../../api/inventory'
+import { useAuth } from '../../hooks/useAuth'
 import { getErrorMessage } from '../../utils/format'
 import { adminInput } from '../admin/adminStyles'
 import LinesEditor from './LinesEditor'
 import WarehouseSelect from './WarehouseSelect'
 
 const TransferForm = ({ warehouses, needsApproval, onDone, onCancel }) => {
-  const [from, setFrom] = useState('')
+  const { user } = useAuth()
+  // A manager tied to one warehouse can only send FROM it, but TO any warehouse of the store
+  const sources = user.warehouse ? warehouses.filter(w => w.id === user.warehouse) : warehouses
+  const [from, setFrom] = useState(user.warehouse ? String(user.warehouse) : '')
   const [to, setTo] = useState('')
   const [note, setNote] = useState('')
   const [lines, setLines] = useState([])
@@ -35,7 +39,7 @@ const TransferForm = ({ warehouses, needsApproval, onDone, onCancel }) => {
         <p className="text-sm text-ink-500">{needsApproval ? 'A store admin approves it, then you dispatch it.' : 'Approved straight away – dispatch it when it leaves.'}</p>
       </div>
       <div className="grid items-end gap-3 md:grid-cols-[1fr_auto_1fr]">
-        <label className="text-xs font-semibold text-ink-600">From<div className="mt-1"><WarehouseSelect warehouses={warehouses} value={from} onChange={setFrom} exclude={to} /></div></label>
+        <label className="text-xs font-semibold text-ink-600">From<div className="mt-1"><WarehouseSelect warehouses={sources} value={from} onChange={setFrom} exclude={to} /></div></label>
         <ArrowRight className="mx-auto mb-2 hidden text-ink-400 md:block" size={20} />
         <label className="text-xs font-semibold text-ink-600">To<div className="mt-1"><WarehouseSelect warehouses={warehouses} value={to} onChange={setTo} exclude={from} /></div></label>
       </div>

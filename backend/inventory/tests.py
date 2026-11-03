@@ -217,6 +217,15 @@ class LocationWarehouseTests(InventoryBase):
         self.client.force_authenticate(self.manager)  # not tied → the whole store
         self.assertEqual(len(self.client.get('/api/inventory/warehouses/').data), 2)
 
+    def test_manager_can_pick_any_warehouse_as_transfer_destination(self):
+        self.client.force_authenticate(self.chennai)
+        self.assertEqual({w['code'] for w in self.client.get('/api/inventory/warehouses/', {'targets': 1}).data}, {'MAIN', 'BLR'})
+        move = {'from_warehouse': self.main.id, 'to_warehouse': self.second.id, 'lines': [{'variant': self.variant.id, 'qty': 1}]}
+        self.assertEqual(self.client.post('/api/inventory/transfers/', move, format='json').status_code, 201)
+        # the receiving manager sees it too
+        self.client.force_authenticate(self.bangalore)
+        self.assertEqual(len(self.client.get('/api/inventory/transfers/').data['results']), 1)
+
     def test_manager_cannot_act_in_the_other_warehouse(self):
         self.client.force_authenticate(self.chennai)
         receipt = {'warehouse': self.second.id, 'supplier': 'Nike', 'lines': [{'variant': self.variant.id, 'qty': 1}]}

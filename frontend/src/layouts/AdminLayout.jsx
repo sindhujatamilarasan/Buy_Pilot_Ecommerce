@@ -61,7 +61,7 @@ const AdminLayout = () => {
       {/* Sidebar (slides in on mobile) */}
       <aside className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-ink-300/20 bg-white transition-transform md:sticky md:top-0 md:h-screen md:translate-x-0 ${menuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}`}>
         <div className="flex items-center gap-2 px-5 py-5">
-          <img src="/logo-mark.png" alt="" className="h-9 w-9 rounded-xl shadow-sm" />
+          <img src="/logo-mark.png" alt="" className="h-9 w-auto" />
           <div>
             <p className="font-display text-lg font-extrabold leading-none text-ink-900">Buy Pilot</p>
             <p className="mt-1 max-w-[150px] truncate text-[11px] font-semibold uppercase tracking-wider text-ink-400">

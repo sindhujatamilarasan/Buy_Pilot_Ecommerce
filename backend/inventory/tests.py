@@ -118,6 +118,7 @@ class InventoryTests(APITestCase):
                                                                'change': -9, 'reason': 'lost'}, format='json')
         self.assertEqual(res.status_code, 400)  # only 5 in stock
         self.assertEqual(self.total(), 5)
+        self.assertEqual(self.client.get('/api/inventory/adjustments/').data['count'], 0)  # no leftover "pending" row
 
     # ----- transfers: requested → approved → in transit → received -----
     def test_transfer_flow(self):

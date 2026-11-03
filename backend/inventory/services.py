@@ -147,6 +147,7 @@ def receive_goods(warehouse, lines, supplier, reference='', note='', user=None):
 
 # ---------- Adjustments (approval for warehouse managers) ----------
 
+@transaction.atomic  # an admin's adjustment that fails (not enough stock) must not stay behind as "pending"
 def request_adjustment(warehouse, variant, change, reason, note, user):
     adjustment = StockAdjustment.objects.create(warehouse=warehouse, variant=variant, change=change,
                                                 reason=reason, note=note, requested_by=user)

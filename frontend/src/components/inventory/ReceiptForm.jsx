@@ -7,7 +7,7 @@ import LinesEditor from './LinesEditor'
 import WarehouseSelect from './WarehouseSelect'
 
 const ReceiptForm = ({ warehouses, onDone, onCancel }) => {
-  const [form, setForm] = useState({ warehouse: warehouses.find(w => w.is_default)?.id ?? '', supplier: '', reference: '', note: '' })
+  const [form, setForm] = useState({ warehouse: (warehouses.find(w => w.is_default) ?? warehouses[0])?.id ?? '', supplier: '', reference: '', note: '' })
   const [lines, setLines] = useState([])
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)

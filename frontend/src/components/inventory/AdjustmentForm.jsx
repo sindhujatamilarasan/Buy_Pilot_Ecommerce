@@ -9,7 +9,7 @@ import WarehouseSelect from './WarehouseSelect'
 const REASONS = [['damaged', 'Damaged'], ['lost', 'Lost / missing'], ['found', 'Found'], ['count', 'Stock-count correction'], ['other', 'Other']]
 
 const AdjustmentForm = ({ warehouses, needsApproval, onDone, onCancel }) => {
-  const [warehouse, setWarehouse] = useState(warehouses.find(w => w.is_default)?.id ?? '')
+  const [warehouse, setWarehouse] = useState((warehouses.find(w => w.is_default) ?? warehouses[0])?.id ?? '')
   const [variant, setVariant] = useState(null)
   const [direction, setDirection] = useState(-1) // -1 remove, +1 add
   const [qty, setQty] = useState(1)

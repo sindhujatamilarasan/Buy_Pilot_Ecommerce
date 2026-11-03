@@ -226,6 +226,24 @@ class LocationWarehouseTests(InventoryBase):
         self.client.force_authenticate(self.bangalore)
         self.assertEqual(len(self.client.get('/api/inventory/transfers/').data['results']), 1)
 
+    def test_manager_adds_a_new_product_while_receiving(self):
+        category = Category.objects.get(slug='shoes')
+        self.client.force_authenticate(self.chennai)
+        made = self.client.post('/api/inventory/new-product/', {'name': 'Cloud Slides', 'category': category.id, 'price': '499',
+                                                                 'size': '9', 'color': 'Blue'}, format='json')
+        self.assertEqual(made.status_code, 201)
+        product = Product.objects.get(name='Cloud Slides')
+        self.assertEqual((product.store, product.is_active), (self.store, False))  # a draft in MY store, hidden from the shop
+        self.assertEqual(self.client.get(f'/api/products/{product.slug}/').status_code, 404)
+        receipt = {'warehouse': self.main.id, 'supplier': 'Nike', 'lines': [{'variant': made.data['id'], 'qty': 12}]}
+        self.assertEqual(self.client.post('/api/inventory/receipts/', receipt, format='json').status_code, 201)
+        self.assertEqual(self.qty(self.main, product.variants.get()), 12)
+        again = self.client.post('/api/inventory/new-product/', {'name': 'Other', 'category': category.id, 'price': '5',
+                                                                  'sku': made.data['sku']}, format='json')
+        self.assertEqual(again.status_code, 400)  # the SKU is taken
+        self.client.force_authenticate(self.customer)
+        self.assertEqual(self.client.post('/api/inventory/new-product/', {}, format='json').status_code, 403)
+
     def test_transfer_counts_are_for_my_side(self):
         self.client.force_authenticate(self.admin)
         move = {'from_warehouse': self.second.id, 'to_warehouse': self.main.id, 'lines': [{'variant': self.variant.id, 'qty': 1}]}

@@ -4,11 +4,13 @@ import { createReceipt } from '../../api/inventory'
 import { getErrorMessage } from '../../utils/format'
 import { adminInput } from '../admin/adminStyles'
 import LinesEditor from './LinesEditor'
+import NewProductForm from './NewProductForm'
 import WarehouseSelect from './WarehouseSelect'
 
 const ReceiptForm = ({ warehouses, onDone, onCancel }) => {
   const [form, setForm] = useState({ warehouse: (warehouses.find(w => w.is_default) ?? warehouses[0])?.id ?? '', supplier: '', reference: '', note: '' })
   const [lines, setLines] = useState([])
+  const [newProduct, setNewProduct] = useState(false)
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
   const set = field => e => setForm({ ...form, [field]: e.target.value })
@@ -42,6 +44,9 @@ const ReceiptForm = ({ warehouses, onDone, onCancel }) => {
         </label>
       </div>
       <LinesEditor lines={lines} onChange={setLines} warehouseId={form.warehouse} />
+      {newProduct
+        ? <NewProductForm onCancel={() => setNewProduct(false)} onCreated={variant => { setLines(l => [...l, { variant, qty: 1 }]); setNewProduct(false) }} />
+        : <button type="button" onClick={() => setNewProduct(true)} className="text-sm font-bold text-brand-700 hover:underline">Not in the list? + New product</button>}
       <input maxLength={200} value={form.note} onChange={set('note')} placeholder="Note (optional)" className={`${adminInput} w-full`} />
       {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700">{error}</p>}
       <div className="flex justify-end gap-2">

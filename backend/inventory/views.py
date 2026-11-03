@@ -6,21 +6,25 @@ Creating / editing warehouses is for store admins and the super admin only.
 import csv
 from datetime import date
 
+from django.db import transaction
 from django.db.models import Count, F, Q, Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.utils.text import slugify
 from rest_framework import generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from accounts.permissions import ADMIN_ROLES, IsFulfilmentTeam, IsWarehouseTeam, for_my_store, for_my_warehouse, my_warehouse_id
-from catalog.models import ProductVariant
+from catalog.models import Category, Product, ProductVariant
 from orders.models import Order
 from stores.models import Store
 
 from .models import OrderAllocation, StockAdjustment, StockMovement, StockTransfer, Warehouse, WarehouseStock
-from .serializers import MovementSerializer, StockRowSerializer, VariantPickSerializer, WarehouseSerializer
+from .serializers import (
+    MovementSerializer, NewProductInput, StockRowSerializer, VariantPickSerializer, WarehouseSerializer,
+)
 from .services import ensure_store_stock
 
 
@@ -142,6 +146,38 @@ def variant_search(request):
     if search:
         variants = variants.filter(Q(sku__icontains=search) | Q(product__name__icontains=search))
     return Response(VariantPickSerializer(variants.order_by('product__name', 'sku')[:20], many=True).data)
+
+
+@api_view(['POST'])
+@permission_classes([IsWarehouseTeam])
+@transaction.atomic
+def new_product(request):
+    """POST /api/inventory/new-product/ → a product that is not in the system yet, so goods can be received.
+
+    It is created as a DRAFT (hidden from the shop, no photos yet): the store admin adds the photos and
+    description and publishes it from the Products page. Stock starts at 0; the goods receipt adds the quantity.
+    """
+    user = request.user
+    data = NewProductInput(data=request.data)
+    data.is_valid(raise_exception=True)
+    d = data.validated_data
+    store = user.store if user.role != 'superadmin' else get_object_or_404(Store, pk=request.data.get('store'))
+    if store is None:
+        raise ValidationError({'detail': 'Your account has no store.'})
+    category = get_object_or_404(Category, pk=d['category'])
+    base = slug = slugify(d['name']) or 'product'
+    number = 2
+    while Product.objects.filter(slug=slug).exists():
+        slug, number = f'{base}-{number}', number + 1
+    sku = (d.get('sku') or slug.upper()[:40]).strip().upper()
+    if ProductVariant.objects.filter(sku=sku).exists():
+        raise ValidationError({'sku': 'This SKU is already used – type another one.'})
+    product = Product.objects.create(store=store, category=category, name=d['name'], slug=slug, is_active=False)
+    variant = ProductVariant.objects.create(product=product, sku=sku, price=d['price'], size=d.get('size', ''),
+                                            color=d.get('color', ''), stock=0)
+    ensure_store_stock(store)
+    variant = ProductVariant.objects.select_related('product').prefetch_related('warehouse_stock').get(pk=variant.pk)
+    return Response(VariantPickSerializer(variant).data, status=status.HTTP_201_CREATED)
 
 
 # ---------- Stock history ----------

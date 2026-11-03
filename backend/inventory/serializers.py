@@ -80,6 +80,16 @@ class VariantPickSerializer(serializers.ModelSerializer):
 
 # ---------- Operations (input) ----------
 
+class NewProductInput(serializers.Serializer):
+    name = serializers.CharField(max_length=200)
+    category = serializers.IntegerField()
+    price = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=1)
+    sku = serializers.CharField(max_length=64, required=False, allow_blank=True)
+    size = serializers.CharField(max_length=20, required=False, allow_blank=True)
+    color = serializers.CharField(max_length=30, required=False, allow_blank=True)
+
+
+
 class LineInput(serializers.Serializer):
     variant = serializers.IntegerField()
     qty = serializers.IntegerField(min_value=1, max_value=100000)

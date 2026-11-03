@@ -14,6 +14,7 @@ export const updateWarehouse = async (id, data) => (await client.patch(`/invento
 // Stock levels + history
 export const getStock = params => get('/inventory/stock/', params)
 export const updateStockRow = async (id, data) => (await client.patch(`/inventory/stock/${id}/`, data)).data
+export const createDraftProduct = data => post('/inventory/new-product/', data) // a product that is not in the system yet
 export const searchVariants = search => get('/inventory/variants/', { search })
 export const getMovements = params => get('/inventory/movements/', params)
 

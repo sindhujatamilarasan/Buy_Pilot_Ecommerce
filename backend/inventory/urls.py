@@ -9,6 +9,7 @@ urlpatterns = [
     path('stock/', views.StockList.as_view()),
     path('stock/<int:pk>/', views.StockDetail.as_view()),
     path('variants/', views.variant_search),
+    path('new-product/', views.new_product),
     path('movements/', views.MovementList.as_view()),
     path('export/stock.csv', views.export_stock),
     path('export/movements.csv', views.export_movements),

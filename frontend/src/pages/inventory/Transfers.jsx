@@ -21,6 +21,8 @@ const date = iso => iso && new Date(iso).toLocaleDateString('en-IN', { day: 'num
 const Transfers = () => {
   const { user } = useAuth()
   const isAdmin = user.role !== 'warehouse'
+  // A manager tied to one warehouse: dispatch / cancel belong to the sending warehouse, receive to the receiving one
+  const ownsSide = (t, side) => !user.warehouse || user.warehouse === t[`${side}_warehouse`]
   const [params] = useSearchParams()
   const [status, setStatus] = useState(params.get('status') ?? 'requested')
   const [adding, setAdding] = useState(params.get('new') === '1')
@@ -43,9 +45,9 @@ const Transfers = () => {
   const buttons = t => [
     t.status === 'requested' && isAdmin && ['approve', 'Approve', null, true],
     t.status === 'requested' && isAdmin && ['reject', 'Reject', `Reject ${t.number}?`],
-    t.status === 'approved' && ['dispatch', 'Dispatch', `Dispatch ${t.number}? Stock leaves ${t.from_name} now.`, true],
-    t.status === 'in_transit' && ['receive', 'Receive', `Mark ${t.number} as received in ${t.to_name}?`, true],
-    ['requested', 'approved'].includes(t.status) && ['cancel', 'Cancel', `Cancel ${t.number}?`],
+    t.status === 'approved' && ownsSide(t, 'from') && ['dispatch', 'Dispatch', `Dispatch ${t.number}? Stock leaves ${t.from_name} now.`, true],
+    t.status === 'in_transit' && ownsSide(t, 'to') && ['receive', 'Receive', `Mark ${t.number} as received in ${t.to_name}?`, true],
+    ['requested', 'approved'].includes(t.status) && ownsSide(t, 'from') && ['cancel', 'Cancel', `Cancel ${t.number}?`],
   ].filter(Boolean)
 
   return (

@@ -28,7 +28,7 @@ const Footer = () => {
     <footer className="mt-20 bg-gradient-to-br from-brand-50 via-brand-50 to-mango-100">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 md:grid-cols-4">
         <div>
-          <Logo />
+          <Logo className="h-14" />
           {site.footer_tagline && <p className="mt-3 text-sm leading-relaxed text-ink-500">{site.footer_tagline}</p>}
         </div>
         {groupLinks(site.footer_links).map(column => (

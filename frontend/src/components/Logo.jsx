@@ -1,14 +1,10 @@
-// Brand lockup: the Buy Pilot bag-and-plane mark + the name stacked in italics (green "Buy", gold "Pilot").
-// Used in the shop header, footer and login pages. `className` sets the size (text-*).
+// Brand logo (bag + plane + "Buy Pilot", emerald green and gold). Used in the shop header, footer and login pages.
+// `className` sets the height (h-*); the image keeps its shape.
 import { Link } from 'react-router-dom'
 
-const Logo = ({ className = 'text-2xl' }) => (
-  <Link to="/" className={`inline-flex items-center gap-2 font-display font-extrabold italic ${className}`}>
-    <img src="/logo-mark.svg" alt="" className="h-[1.9em] w-auto" />
-    <span className="flex flex-col leading-[0.85] tracking-tight">
-      <span className="text-brand-700">Buy</span>
-      <span className="text-mango-500">Pilot</span>
-    </span>
+const Logo = ({ className = 'h-11' }) => (
+  <Link to="/" className="inline-flex items-center" aria-label="Buy Pilot – home">
+    <img src="/logo-full.png" alt="Buy Pilot" className={`${className} w-auto`} />
   </Link>
 )
 

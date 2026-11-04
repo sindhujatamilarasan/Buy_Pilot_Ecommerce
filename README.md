@@ -6,14 +6,18 @@
 
 - **Customers** browse products from several stores, filter and search, add to a cart or wishlist,
   apply coupons, pay with Razorpay (test mode) and track or cancel their orders.
-- **Store admins** run one store: products, variants, stock, photos, orders, staff, dashboard and reports.
+- **Store admins** run one store: products, variants, photos, warehouses, orders, staff, dashboard and reports,
+  and approve stock adjustments and transfers.
 - **Staff** pack, ship and deliver the orders of their store.
+- **Warehouse managers** look after one warehouse (location) of a store: receive goods, pick orders,
+  move stock between warehouses and keep stock counts right.
 - **The super admin** owns the marketplace: creates stores and store admins, and manages coupons,
   categories and the shop's texts.
 
 **Purpose.** A training project that solves the hard parts of a real shop correctly:
 the cart stays right across guest / login, tabs and refresh; prices are always recalculated on the server;
-payments are verified on the server; and when two people buy the last item at the same time, only one succeeds.
+payments are verified on the server; when two people buy the last item at the same time, only one succeeds;
+and every stock change is recorded per warehouse.
 
 ---
 
@@ -75,7 +79,7 @@ Check: http://127.0.0.1:8000/api/health/ → `{"status": "ok"}`
 | Seed command | What it creates |
 |---|---|
 | `seed_products` | 8 categories and 100 products with variants and real photos (from `catalog/seed/products.json`) |
-| `seed_stores` | The demo stores (*Buy Pilot Official*, *Urban Threads*) |
+| `seed_stores` | 4 demo stores (*Buy Pilot Official*, *Urban Threads*, *StepUp Sports*, *HomeNest*) with 40 products each |
 | `seed_users` | One demo account per role (below) |
 | `seed_orders` | Optional: 150 **fake** orders to try the dashboard and reports (`--clear` removes them) |
 
@@ -106,6 +110,7 @@ Open http://localhost:5173
 | Store admin | admin@shopkart.test | Buy Pilot Official only |
 | Store admin | urban@shopkart.test | Urban Threads only |
 | Staff | staff@shopkart.test | Buy Pilot Official orders |
+| Warehouse manager | warehouse@shopkart.test | Inventory of Buy Pilot Official (the store admin can tie the account to one warehouse) |
 | Customer | customer@shopkart.test | The shop |
 
 ### 3.5 Tests
@@ -113,8 +118,9 @@ Open http://localhost:5173
 cd backend
 .venv\Scripts\python manage.py test
 ```
-69 backend tests: price rules, coupons, payments and signatures, stock, the "last item" race
-(a real two-thread test on PostgreSQL), store isolation and role permissions.
+104 backend tests: price rules, coupons, payments and signatures, stock, the "last item" race
+(a real two-thread test on PostgreSQL), store isolation, role permissions and warehouse management
+(allocation by city, receipts, approvals, transfers, per-warehouse access).
 
 ---
 
@@ -142,7 +148,10 @@ flowchart LR
 | The browser sends only **variant ids and quantities**; the server recalculates every price (`cart/services.py`) | Users can change anything in their browser |
 | Payments are trusted only after the **HMAC signature** check (`orders/payments.py`) | A "success" from the browser can be faked |
 | Stock is reduced **only after payment**, with a row lock + conditional update (`orders/services.py`) | Two buyers of the last item → only one succeeds; stock never goes negative |
-| Every admin query goes through `for_my_store()` (`accounts/permissions.py`) | A store admin or staff member never sees another store's data |
+| Stock lives **per warehouse**; `inventory/services.apply_change()` is the only code that changes it and writes a history row. `ProductVariant.stock` stays the total | One place for stock rules; the shop still reads a single number |
+| A paid order takes stock from the **warehouse in the customer's city**, then the default one, then splits | Faster delivery; a cancel returns stock to the same warehouse |
+| A warehouse manager's adjustment or transfer needs **admin approval** | Stock cannot be changed quietly |
+| Every admin query goes through `for_my_store()` (and `for_my_warehouse()` for a manager tied to one warehouse) (`accounts/permissions.py`) | A store admin or staff member never sees another store's data; a manager sees only their warehouse |
 | Roles are checked **in the API** (permission classes); React routes only hide pages | Hiding a page is not security |
 | One store per order | Each store ships its own orders |
 | Order items **copy** the name, price and image | Old orders stay correct when a product changes |
@@ -168,6 +177,8 @@ ecommerce-shop/
 │   ├── coupons/                  coupon model and rules
 │   ├── orders/                   addresses, orders, status log, payments, stock, cancel
 │   ├── backoffice/               admin panel APIs: products, uploads, categories, coupons, orders, users, reports
+│   ├── inventory/                warehouses, stock per warehouse, receipts, adjustments, transfers, history, pick lists
+│   ├── chatbot/                  shop chat assistant (PilotBot)
 │   ├── dashboard/                admin dashboard API
 │   ├── sitecontent/              announcement, hero, perks and footer texts
 │   ├── media/                    uploaded product photos (not in Git)
@@ -176,11 +187,12 @@ ecommerce-shop/
     └── src/
         ├── api/                  one file per area; all axios calls live here
         ├── components/           reusable UI (ProductCard, PriceSummary, ProtectedRoute, …)
-        │   └── admin/            admin-only UI (SalesChart, VariantsEditor, reports/, …)
+        │   ├── admin/            admin-only UI (SalesChart, VariantsEditor, reports/, …)
+        │   └── inventory/        inventory forms (ReceiptForm, TransferForm, AdjustmentForm, NewProductForm, …)
         ├── context/              Auth, Cart (useReducer), Wishlist, Site providers
         ├── hooks/                custom hooks: useApi, useCart, useProducts, usePaymentFlow, useDebounce, …
         ├── layouts/              CustomerLayout, AdminLayout
-        ├── pages/                shop pages, account/ and admin/ pages
+        ├── pages/                shop pages, account/, admin/ and inventory/ pages
         └── utils/                formatting, pricing, roles, Razorpay loader
 ```
 
@@ -208,13 +220,25 @@ Database tables and relations: [`docs/database-design.md`](docs/database-design.
 |---|---|
 | **Dashboard** | KPIs, 7-day revenue chart, stock health, recent orders, low-stock list, products per category |
 | **Reports** | Daily revenue, top products, revenue by category for 7 / 30 / 90 days (Recharts) |
-| **Products** | List with category tabs and search; create / edit with photo upload (JPG / PNG / WEBP, max 3 MB) or URL, variants table (SKU, price, stock), show / hide; delete |
+| **Products** | List with category tabs and search; create / edit with photo upload (JPG / PNG / WEBP, max 3 MB) or URL, variants table (SKU, price, opening stock for a new variant), show / hide; delete |
 | **Categories** | Store admins add a category; the super admin renames or deletes (only when empty) |
 | **Orders** | Status tabs, search, expandable details; move status forward; admins cancel before shipping |
-| **Users** | Store admin: customers and own staff, create staff logins, remove staff access. Super admin: everyone, admin ⇄ staff, remove access |
+| **Users** | Store admin: customers and own team, create staff and warehouse manager logins (choosing the manager's warehouse), move a manager to another warehouse, remove access. Super admin: everyone, admin / staff / warehouse role, remove access |
 | **Coupons** | Flat / % coupons with minimum order, expiry, pause / activate, usage count (one use per customer) |
 | **Stores** | Create stores, activate / deactivate, create store admin logins |
 | **Site content** | Announcement strip, hero texts, perks, footer links |
+
+### Inventory (warehouse managers, store admins, super admin – `/inventory`)
+| Module | Functionality |
+|---|---|
+| **Overview** | Warehouses, units in stock, low / out of stock, work waiting (approvals, transfers to dispatch / receive), reorder alerts |
+| **Orders to pick** | Paid orders that take stock from my warehouse, oldest first, with a printable **pick list** (warehouse + bin per item) |
+| **Stock** | Stock per warehouse and variant; edit reorder level and bin; low-stock filter; CSV export |
+| **Goods receipts** | Stock arriving from a supplier (GR-00001 …). A product that is not in the system yet can be added as a hidden **draft** for the store admin to finish |
+| **Adjustments** | Damaged / lost / found / count correction. A manager's request waits for admin approval; an admin's own is applied at once; stock never goes below 0 |
+| **Transfers** | requested → approved → in transit → received (T-00001 …). Sent from my warehouse to any warehouse of the store; the sender dispatches or cancels, the receiver receives. Tabs show how many wait for me |
+| **Stock history** | Every change: who, when, why, balance after; CSV export |
+| **Warehouses** | Admins add / edit warehouses (code, city, default); deactivate only when empty |
 
 ---
 
@@ -225,12 +249,13 @@ Database tables and relations: [`docs/database-design.md`](docs/database-design.
 | **Guest** | Browse, search, filter, keep a cart in the browser | Public data | Shop |
 | **Customer** | Shop, wishlist, check out and pay, track / cancel own orders, manage own profile and addresses | Own records only | Shop |
 | **Staff** | Pack, ship and deliver orders (move status forward) | Orders of their store | `/staff/orders` |
-| **Store admin** | Products, stock, photos, orders (incl. cancel), staff, categories (add), dashboard, reports | Their own store | `/admin` |
+| **Warehouse manager** | Pick orders, receive goods (add a new product as a draft), request adjustments and transfers, dispatch / receive transfers, reorder levels and bins, stock exports | Their own warehouse (or the whole store if not tied to one) | `/inventory` |
+| **Store admin** | Products, photos, warehouses and stock (approves adjustments and transfers), orders (incl. cancel), staff and warehouse managers, categories (add), dashboard, reports | Their own store | `/admin` |
 | **Super admin** | Stores and store admins, coupons, categories, site content, all stores' data, Django admin site | All stores | `/admin` |
 
-- New sign-ups are **always customers**. Staff are always **new** logins created by a store admin;
+- New sign-ups are **always customers**. Staff and warehouse managers are always **new** logins created by a store admin;
   store admins are created by the super admin. A customer account is never promoted, and nobody can change their own role.
-- Staff and admins can also shop with their own account.
+- Staff, warehouse managers and admins can also shop with their own account.
 
 ### User Access Matrix
 
@@ -239,7 +264,8 @@ where each rule is enforced in the code: **[`docs/User_Access_Matrix.xlsx`](docs
 
 ![User Access Matrix](docs/user-access-matrix.png)
 
-> **Approve** and **Export** are not implemented for any role (there is no approval workflow and no data export yet).
+> **Approve:** stock adjustments and transfers requested by a warehouse manager are approved or rejected by the store admin
+> or the super admin (never by the manager). **Export:** stock levels and stock history as CSV.
 > To update the matrix after a permission change: `pip install openpyxl`, edit the data in
 > [`docs/generate_access_matrix.py`](docs/generate_access_matrix.py) and run it.
 
@@ -304,6 +330,16 @@ where each rule is enforced in the code: **[`docs/User_Access_Matrix.xlsx`](docs
 | CRUD | `/api/manage/coupons/` | Super admin |
 | GET / POST · PATCH · POST | `/api/manage/stores/` · `/api/manage/stores/<id>/` · `/api/manage/stores/<id>/admins/` | Super admin |
 | GET / PUT | `/api/manage/site/` | Super admin |
+| PATCH | `/api/manage/users/<id>/warehouse/` – move a warehouse manager | Store admin (own store), super admin |
+| GET | `/api/inventory/overview/`, `/orders-to-pick/`, `/movements/`, `/variants/?search=` | Warehouse manager (own warehouse), store admin, super admin |
+| GET / POST · PATCH | `/api/inventory/warehouses/` · `/api/inventory/warehouses/<id>/` | View: inventory team · create / edit: admins |
+| GET · PATCH | `/api/inventory/stock/` · `/api/inventory/stock/<id>/` (reorder level, bin) | Inventory team |
+| GET | `/api/inventory/export/stock.csv`, `/api/inventory/export/movements.csv` | Inventory team |
+| POST | `/api/inventory/new-product/` – draft product while receiving | Inventory team |
+| GET / POST | `/api/inventory/receipts/`, `/api/inventory/adjustments/`, `/api/inventory/transfers/` (`?status=`) | Inventory team |
+| POST | `/api/inventory/adjustments/<id>/approve/` · `/reject/` · `/api/inventory/transfers/<id>/approve/` · `/reject/` | Store admin (own store), super admin |
+| GET · POST | `/api/inventory/transfers/counts/` · `/api/inventory/transfers/<id>/dispatch/`, `/cancel/` (sender), `/receive/` (receiver) | Inventory team |
+| GET | `/api/inventory/pick-list/<order_id>/` | Staff, inventory team |
 
 ---
 
@@ -329,6 +365,7 @@ All pages were also checked at phone width (390px).
 
 ## 11. Known limitations
 
-- No **Approve** workflow and no **Export** (CSV / Excel) of reports or lists yet.
+- Approval exists only for stock adjustments and transfers; Export only for stock levels and stock history (CSV). Sales reports and orders cannot be exported yet.
+- Purchase orders and supplier management are not built – goods receipts record the supplier name only.
 - Razorpay runs in **test mode** only; refunds for cancelled paid orders are marked *Refund pending* and are not sent to Razorpay.
 - No emails are sent (for example, order confirmations).

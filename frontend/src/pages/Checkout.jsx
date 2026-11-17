@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { quoteCart } from '../api/cart'
-import { createOrder, getAddresses } from '../api/orders'
+import { createOrder, getAddresses, getPaymentOptions } from '../api/orders'
 import AddressPicker from '../components/AddressPicker'
 import CouponBox from '../components/CouponBox'
 import Message from '../components/Message'
@@ -19,6 +19,8 @@ const Checkout = () => {
   const navigate = useNavigate()
   const { cartItems, count, clearCart } = useCart()
   const saved = useApi(getAddresses)
+  const options = useApi(getPaymentOptions)
+  const [method, setMethod] = useState('online') // 'online' | 'cod'
   const [newAddresses, setNewAddresses] = useState([])
   const [selectedId, setSelectedId] = useState(null)
   const [coupon, setCoupon] = useState('')
@@ -60,7 +62,13 @@ const Checkout = () => {
         address_id: addressId,
         items: payload.items,
         coupon_code: quote.data?.coupon?.code || '',
+        payment_method: method,
       })
+      if (payment.mode === 'cod') {
+        clearCart()
+        navigate(`/orders/${order.id}`, { state: { placed: true } })
+        return
+      }
       await startPayment(order, payment)
     } catch (err) {
       setError(getErrorMessage(err))
@@ -70,6 +78,9 @@ const Checkout = () => {
   }
 
   const problems = quote.data?.problems || []
+  const total = quote.data?.summary.total
+  const codOk = options.data?.cod && total <= options.data.cod_max
+  const cod = method === 'cod' && codOk
   const canPay = addressId && quote.data && problems.length === 0 && !placing && !paying
 
   return (
@@ -118,10 +129,23 @@ const Checkout = () => {
           <Spinner />
         ) : (
           <PriceSummary summary={toSummary(quote.data.summary)} itemCount={count}>
+            <fieldset className="mt-4 space-y-2">
+              <legend className="mb-1 text-sm font-bold text-ink-900">Payment method</legend>
+              {[
+                ['online', 'Pay online', 'UPI, cards, net banking, wallets'],
+                ...(options.data?.cod ? [['cod', 'Cash on delivery', codOk ? 'Pay in cash when it arrives' : `Only for orders up to ${formatPrice(options.data.cod_max)}`]] : []),
+              ].map(([key, title, hint]) => (
+                <label key={key} className={`flex cursor-pointer items-start gap-3 rounded-2xl px-4 py-3 ring-1 transition ${(key === 'cod' ? cod : !cod) ? 'bg-brand-50 ring-brand-400' : 'ring-ink-300/30'} ${key === 'cod' && !codOk ? 'cursor-not-allowed opacity-60' : ''}`}>
+                  <input type="radio" name="method" className="mt-1 accent-emerald-600" disabled={key === 'cod' && !codOk}
+                    checked={key === 'cod' ? cod : !cod} onChange={() => setMethod(key)} />
+                  <span><span className="block text-sm font-bold text-ink-900">{title}</span><span className="block text-xs text-ink-500">{hint}</span></span>
+                </label>
+              ))}
+            </fieldset>
             <p className="mt-4 rounded-2xl bg-brand-50 px-4 py-3 text-xs font-semibold text-brand-800">🔒 Safe and secure payment</p>
             {error && <p className="mt-3 text-sm font-semibold text-rose-600">{error}</p>}
             <button onClick={placeOrder} disabled={!canPay} className="bg-brand mt-4 w-full rounded-full py-3.5 font-bold text-white shadow-lg shadow-brand-200 transition hover:scale-[1.02] disabled:opacity-50">
-              {placing || paying ? 'Processing…' : `Pay ${formatPrice(quote.data.summary.total)}`}
+              {placing || paying ? 'Processing…' : cod ? `Place order · ${formatPrice(total)}` : `Pay ${formatPrice(total)}`}
             </button>
             {!addressId && <p className="mt-2 text-center text-xs text-ink-500">Add a delivery address to continue.</p>}
           </PriceSummary>

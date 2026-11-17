@@ -14,3 +14,4 @@ export const markPaymentFailed = async (orderId, reason) => client.post(`/orders
 export const getMyOrders = async () => (await client.get('/orders/')).data
 export const getOrder = async id => (await client.get(`/orders/${id}/`)).data
 export const cancelOrder = async id => (await client.post(`/orders/${id}/cancel/`)).data
+export const getPaymentOptions = async () => (await client.get('/payments/options/')).data

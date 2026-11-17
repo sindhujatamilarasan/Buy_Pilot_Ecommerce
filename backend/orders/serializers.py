@@ -57,7 +57,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = [
-            'id', 'customer', 'store_name', 'status', 'status_label', 'payment_status', 'payment_status_label',
+            'id', 'customer', 'store_name', 'status', 'status_label', 'payment_status', 'payment_status_label', 'payment_method',
             'subtotal', 'discount', 'tax', 'shipping', 'total', 'coupon_code',
             'ship_name', 'ship_phone', 'ship_address', 'ship_city', 'ship_pincode',
             'items', 'logs', 'can_cancel', 'created_at',
@@ -71,6 +71,7 @@ class CreateOrderSerializer(serializers.Serializer):
     address_id = serializers.IntegerField()
     items = QuoteItemSerializer(many=True, min_length=1, max_length=50)
     coupon_code = serializers.CharField(required=False, allow_blank=True, max_length=30)
+    payment_method = serializers.ChoiceField(choices=Order.Method.choices, default=Order.Method.ONLINE)
 
 
 class VerifyPaymentSerializer(serializers.Serializer):

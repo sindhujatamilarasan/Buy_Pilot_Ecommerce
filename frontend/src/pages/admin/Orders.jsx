@@ -2,7 +2,7 @@
 import { ChevronDown, ClipboardList, ReceiptText, Search } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Fragment, useState } from 'react'
-import { adminCancelOrder, getManageOrders, nextOrderStatus } from '../../api/manage'
+import { adminCancelOrder, adminRefundOrder, getManageOrders, nextOrderStatus } from '../../api/manage'
 import { adminCard, adminInput } from '../../components/admin/adminStyles'
 import PageHeader from '../../components/admin/PageHeader'
 import OrderStatusBadge from '../../components/OrderStatusBadge'
@@ -20,7 +20,7 @@ const TABS = [
 ]
 const NEXT_LABEL = { placed: 'Mark packed', packed: 'Mark shipped', shipped: 'Mark delivered' }
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`
-const PAYMENT_STYLE = { paid: 'text-brand-700', failed: 'text-rose-600', refund_pending: 'text-mango-600', pending: 'text-ink-400' }
+const PAYMENT_STYLE = { paid: 'text-brand-700', failed: 'text-rose-600', refund_pending: 'text-mango-600', refunded: 'text-ink-500', cod: 'text-mango-600', none_due: 'text-ink-400', pending: 'text-ink-400' }
 
 const Orders = () => {
   const { user } = useAuth()
@@ -99,8 +99,11 @@ const Orders = () => {
                         {NEXT_LABEL[order.status] && (
                           <button onClick={() => act(() => nextOrderStatus(order.id))} className="bg-brand rounded-full px-4 py-2 text-xs font-bold text-white">{NEXT_LABEL[order.status]}</button>
                         )}
+                        {['admin', 'superadmin'].includes(user.role) && order.payment_status === 'refund_pending' && (
+                          <button onClick={() => act(() => adminRefundOrder(order.id))} className="rounded-full bg-mango-100 px-4 py-2 text-xs font-bold text-mango-600">Send refund</button>
+                        )}
                         {['admin', 'superadmin'].includes(user.role) && order.can_cancel && (
-                          <button onClick={async () => (await confirm({ title: `Cancel order #${order.id}?`, message: `The customer’s ${formatPrice(order.total)} will be marked for refund and the items go back into stock.`, confirmLabel: 'Cancel order', cancelLabel: 'Keep order' })) && act(() => adminCancelOrder(order.id))} className="ml-3 text-xs font-semibold text-ink-400 hover:text-rose-600">Cancel</button>
+                          <button onClick={async () => (await confirm({ title: `Cancel order #${order.id}?`, message: order.payment_status === 'paid' ? `The customer’s ${formatPrice(order.total)} will be refunded and the items go back into stock.` : 'The items go back into stock. Nothing was paid, so no refund is needed.', confirmLabel: 'Cancel order', cancelLabel: 'Keep order' })) && act(() => adminCancelOrder(order.id))} className="ml-3 text-xs font-semibold text-ink-400 hover:text-rose-600">Cancel</button>
                         )}
                       </td>
                     </tr>

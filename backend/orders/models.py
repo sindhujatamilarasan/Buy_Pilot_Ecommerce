@@ -34,6 +34,13 @@ class Order(models.Model):
         PAID = 'paid', 'Paid'
         FAILED = 'failed', 'Failed'
         REFUND_PENDING = 'refund_pending', 'Refund pending'
+        REFUNDED = 'refunded', 'Refunded'
+        NONE_DUE = 'none_due', 'No payment due'  # a cash-on-delivery order that was cancelled
+        COD = 'cod', 'Pay on delivery'  # cash on delivery: placed now, paid when it is delivered
+
+    class Method(models.TextChoices):
+        ONLINE = 'online', 'Pay online'
+        COD = 'cod', 'Cash on delivery'
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='orders')
     # One order = one store (the cart only holds one store's items), so that store manages it
@@ -54,6 +61,7 @@ class Order(models.Model):
 
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING_PAYMENT)
     payment_status = models.CharField(max_length=20, choices=PaymentStatus.choices, default=PaymentStatus.PENDING)
+    payment_method = models.CharField(max_length=10, choices=Method.choices, default=Method.ONLINE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -96,11 +104,13 @@ class Payment(models.Model):
         CREATED = 'created', 'Created'
         SUCCESS = 'success', 'Success'
         FAILED = 'failed', 'Failed'
+        REFUNDED = 'refunded', 'Refunded'
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='payments')
-    provider = models.CharField(max_length=20)  # 'razorpay' or 'mock'
+    provider = models.CharField(max_length=20)  # 'razorpay', 'mock' or 'cod'
     razorpay_order_id = models.CharField(max_length=100, blank=True)
     razorpay_payment_id = models.CharField(max_length=100, blank=True)
+    razorpay_refund_id = models.CharField(max_length=100, blank=True)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.CREATED)
     created_at = models.DateTimeField(auto_now_add=True)

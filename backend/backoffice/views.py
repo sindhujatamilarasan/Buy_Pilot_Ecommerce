@@ -17,7 +17,7 @@ from catalog.models import Category, Product
 from coupons.models import Coupon
 from orders.models import Order
 from orders.serializers import OrderSerializer
-from orders.services import advance_status, cancel_order
+from orders.services import advance_status, cancel_order, log, refund_order
 from stores.models import Store
 from stores.serializers import StoreAdminCreateSerializer
 
@@ -166,6 +166,24 @@ def order_cancel(request, pk):
     if not cancel_order(order, request.user, 'Cancelled by admin'):
         return Response({'detail': 'Only orders that are not shipped yet can be cancelled.'},
                         status=status.HTTP_400_BAD_REQUEST)
+    order.refresh_from_db()
+    return Response(OrderSerializer(order, context={'request': request}).data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAdminRole])
+def order_refund(request, pk):
+    """Admin: send a pending refund again (it failed the first time), or settle a mock / manual one."""
+    order = get_object_or_404(for_my_store(Order.objects.all(), request.user), pk=pk)
+    if order.payment_status != Order.PaymentStatus.REFUND_PENDING:
+        return Response({'detail': 'This order has no refund waiting.'}, status=status.HTTP_400_BAD_REQUEST)
+    if not refund_order(order, request.user):
+        if order.payments.filter(provider='razorpay', status='success').exists():
+            return Response({'detail': 'Razorpay could not refund it right now. Try again in a minute.'},
+                            status=status.HTTP_502_BAD_GATEWAY)
+        # a test (mock) payment has nothing to send back – just record that it is settled
+        Order.objects.filter(pk=order.pk).update(payment_status=Order.PaymentStatus.REFUNDED)
+        log(order, order.status, 'Refund settled by admin', request.user)
     order.refresh_from_db()
     return Response(OrderSerializer(order, context={'request': request}).data)
 

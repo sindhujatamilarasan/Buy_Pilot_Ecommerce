@@ -13,6 +13,7 @@ urlpatterns = [
     path('orders/', views.OrderManageList.as_view()),
     path('orders/<int:pk>/next-status/', views.order_next_status),
     path('orders/<int:pk>/cancel/', views.order_cancel),
+    path('orders/<int:pk>/refund/', views.order_refund),
     path('users/', views.UserList.as_view()),
     path('users/<int:pk>/role/', views.update_user_role),
     path('users/<int:pk>/warehouse/', views.set_manager_warehouse),

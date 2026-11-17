@@ -30,6 +30,7 @@ export const deleteCoupon = async id => client.delete(`/manage/coupons/${id}/`)
 // Orders (staff + admin)
 export const getManageOrders = params => get('/manage/orders/', params)
 export const nextOrderStatus = async id => (await client.post(`/manage/orders/${id}/next-status/`)).data
+export const adminRefundOrder = async id => (await client.post(`/manage/orders/${id}/refund/`)).data
 export const adminCancelOrder = async id => (await client.post(`/manage/orders/${id}/cancel/`)).data
 
 // Users

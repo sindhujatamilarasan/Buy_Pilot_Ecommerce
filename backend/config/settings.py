@@ -190,6 +190,12 @@ REST_FRAMEWORK = {
 # Razorpay TEST keys (free account → Settings → API Keys). Empty = mock payment mode.
 RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID', '')
 RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET', '')
+# Razorpay → Settings → Webhooks: URL https://<your-domain>/api/payments/webhook/ and the secret you type there
+RAZORPAY_WEBHOOK_SECRET = os.getenv('RAZORPAY_WEBHOOK_SECRET', '')
+
+# Cash on delivery: on/off, and the biggest order value allowed (₹)
+COD_ENABLED = os.getenv('COD_ENABLED', 'true').lower() == 'true'
+COD_MAX_AMOUNT = int(os.getenv('COD_MAX_AMOUNT', '20000'))
 
 
 # CORS: allow the React dev server (a different port) to call this API

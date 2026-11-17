@@ -172,3 +172,123 @@ class DashboardSalesTests(APITestCase):
         self.assertEqual(data['sales'][-1]['orders'], 1)  # last entry = today
         self.assertEqual(Decimal(data['sales'][-1]['revenue']), Decimal('167'))
         self.assertEqual(data['recent_orders'][0]['customer'], 'A')
+
+
+KEYS = dict(RAZORPAY_KEY_ID='rzp_test_x', RAZORPAY_KEY_SECRET='secret', RAZORPAY_WEBHOOK_SECRET='hook')
+
+
+class PaymentBase(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='c@t.com', email='c@t.com', password='x', role='customer')
+        cat = Category.objects.create(name='Shoes', slug='shoes')
+        product = Product.objects.create(category=cat, name='Shoe', slug='shoe')
+        self.variant = ProductVariant.objects.create(product=product, sku='S-1', price=400, stock=5)
+        self.big = ProductVariant.objects.create(product=product, sku='S-9', price=30000, stock=5)
+        self.client.force_authenticate(self.user)
+        self.address_id = self.client.post('/api/addresses/', {
+            'name': 'Sindhu', 'phone': '9876543210', 'address': '1 Main St', 'city': 'Chennai', 'pincode': '600001'}).data['id']
+
+    def buy(self, variant, qty=1, method='cod'):
+        return self.client.post('/api/orders/', {'address_id': self.address_id, 'payment_method': method,
+                                                  'items': [{'variant_id': variant.id, 'qty': qty}]}, format='json')
+
+
+class CashOnDeliveryTests(PaymentBase):
+    def test_cod_order_is_placed_at_once_and_takes_stock(self):
+        res = self.buy(self.variant, 2)
+        self.assertEqual(res.status_code, 201)
+        self.assertEqual((res.data['order']['status'], res.data['order']['payment_status'], res.data['payment']['mode']),
+                         ('placed', 'cod', 'cod'))
+        self.variant.refresh_from_db()
+        self.assertEqual(self.variant.stock, 3)
+
+    def test_cod_is_paid_only_when_delivered(self):
+        order = Order.objects.get(pk=self.buy(self.variant).data['order']['id'])
+        admin = User.objects.create_user(username='a@t.com', email='a@t.com', password='x', role='admin', store=order.store)
+        self.client.force_authenticate(admin)
+        for _ in range(3):
+            self.client.post(f'/api/manage/orders/{order.id}/next-status/')
+        order.refresh_from_db()
+        self.assertEqual((order.status, order.payment_status), ('delivered', 'paid'))
+        self.assertEqual(order.payments.get().status, 'success')
+
+    def test_cancelling_a_cod_order_needs_no_refund_and_restores_stock(self):
+        res = self.buy(self.variant, 2)
+        out = self.client.post(f"/api/orders/{res.data['order']['id']}/cancel/")
+        self.assertEqual((out.data['status'], out.data['payment_status']), ('cancelled', 'none_due'))
+        self.variant.refresh_from_db()
+        self.assertEqual(self.variant.stock, 5)
+
+    def test_cod_limit_and_switch(self):
+        self.assertEqual(self.buy(self.big).status_code, 400)  # ₹30,000 > ₹20,000 limit
+        with override_settings(COD_ENABLED=False):
+            self.assertEqual(self.buy(self.variant).status_code, 400)
+            self.assertFalse(self.client.get('/api/payments/options/').data['cod'])
+        self.assertTrue(self.client.get('/api/payments/options/').data['cod'])
+
+    def test_cod_order_cannot_be_paid_online_later(self):
+        order_id = self.buy(self.variant).data['order']['id']
+        self.assertEqual(self.client.post(f'/api/orders/{order_id}/pay/').status_code, 400)
+
+
+@override_settings(**KEYS)
+class RazorpayTests(PaymentBase):
+    """Real Razorpay mode – the Razorpay API itself is replaced by a fake."""
+
+    def online(self):
+        with patch('orders.services.create_razorpay_order', return_value='order_R1'):
+            return self.buy(self.variant, 1, 'online')
+
+    def hook(self, event, order_id='order_R1', payment_id='pay_R1', secret='hook'):
+        import json
+        body = json.dumps({'event': event, 'payload': {'payment': {'entity': {'id': payment_id, 'order_id': order_id}}}})
+        sig = hmac.new(secret.encode(), body.encode(), hashlib.sha256).hexdigest()
+        self.client.force_authenticate(None)
+        return self.client.post('/api/payments/webhook/', body, content_type='application/json', HTTP_X_RAZORPAY_SIGNATURE=sig)
+
+    def test_webhook_places_the_order_when_the_browser_never_came_back(self):
+        res = self.online()
+        order_id = res.data['order']['id']
+        self.assertEqual(self.hook('payment.captured').status_code, 200)
+        order = Order.objects.get(pk=order_id)
+        self.assertEqual((order.status, order.payment_status), ('placed', 'paid'))
+        self.variant.refresh_from_db()
+        self.assertEqual(self.variant.stock, 4)
+        self.hook('payment.captured')  # Razorpay retries – nothing is done twice
+        self.variant.refresh_from_db()
+        self.assertEqual(self.variant.stock, 4)
+
+    def test_webhook_with_a_wrong_signature_is_refused(self):
+        self.online()
+        self.assertEqual(self.hook('payment.captured', secret='wrong').status_code, 400)
+        self.assertEqual(Order.objects.get().status, 'pending_payment')
+
+    def test_webhook_failed_event_marks_payment_failed(self):
+        self.online()
+        self.hook('payment.failed')
+        self.assertEqual(Order.objects.get().payment_status, 'failed')
+
+    def test_cancel_refunds_through_razorpay(self):
+        order_id = self.online().data['order']['id']
+        self.hook('payment.captured')
+        self.client.force_authenticate(self.user)
+        with patch('orders.services.refund_razorpay_payment', return_value='rfnd_1') as refund:
+            res = self.client.post(f'/api/orders/{order_id}/cancel/')
+        refund.assert_called_once_with('pay_R1', Order.objects.get(pk=order_id).total)
+        self.assertEqual(res.data['payment_status'], 'refunded')
+        self.assertEqual(Order.objects.get(pk=order_id).payments.get().razorpay_refund_id, 'rfnd_1')
+
+    def test_failed_refund_stays_pending_and_admin_can_retry(self):
+        order_id = self.online().data['order']['id']
+        self.hook('payment.captured')
+        self.client.force_authenticate(self.user)
+        with patch('orders.services.refund_razorpay_payment', side_effect=OSError('down')):
+            res = self.client.post(f'/api/orders/{order_id}/cancel/')
+        self.assertEqual((res.status_code, res.data['status'], res.data['payment_status']), (200, 'cancelled', 'refund_pending'))
+        admin = User.objects.create_user(username='a@t.com', email='a@t.com', password='x', role='admin',
+                                         store=Order.objects.get(pk=order_id).store)
+        self.client.force_authenticate(admin)
+        with patch('orders.services.refund_razorpay_payment', return_value='rfnd_2'):
+            again = self.client.post(f'/api/manage/orders/{order_id}/refund/')
+        self.assertEqual(again.data['payment_status'], 'refunded')
+        self.assertEqual(self.client.post(f'/api/manage/orders/{order_id}/refund/').status_code, 400)
